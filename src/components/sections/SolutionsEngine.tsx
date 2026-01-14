@@ -723,7 +723,8 @@ const codeTypeConfig = {
 export const SolutionsEngine = () => {
   const [activeUseCase, setActiveUseCase] = useState(useCases[0].id);
   const [activePattern, setActivePattern] = useState(useCases[0].patterns[0].id);
-  const [activeCodeType, setActiveCodeType] = useState<CodeType>('sdk');
+  const [activeCodeType, setActiveCodeType] = useState<CodeType>('python');
+  const [hoveredCardIndex, setHoveredCardIndex] = useState<number | null>(null);
   const [imagesLoaded, setImagesLoaded] = useState<Record<string, boolean>>({});
 
   const currentUseCase = useCases.find(uc => uc.id === activeUseCase) || useCases[0];
@@ -836,7 +837,7 @@ export const SolutionsEngine = () => {
                 </motion.p>
               )}
 
-              <div className="space-y-2">
+              <div className="relative h-[320px]">
                 {(['python', 'api', 'sdk'] as CodeType[]).map((type, index) => {
                   const config = codeTypeConfig[type];
                   const example = getCodeExample(type);
@@ -854,6 +855,9 @@ export const SolutionsEngine = () => {
                       isActive={activeCodeType === type}
                       onClick={() => setActiveCodeType(type)}
                       index={index}
+                      totalCards={3}
+                      hoveredIndex={hoveredCardIndex}
+                      onHover={setHoveredCardIndex}
                     />
                   );
                 })}
@@ -865,15 +869,8 @@ export const SolutionsEngine = () => {
             </div>
 
             <div className="lg:col-span-7 relative">
-              <div className="relative h-[600px] lg:h-[700px]">
-                <div
-                  className="absolute inset-0 rounded-lg"
-                  style={{
-                    boxShadow: '0 0 80px 20px rgba(59, 130, 246, 0.12), 0 0 120px 40px rgba(59, 130, 246, 0.06)'
-                  }}
-                />
-
-                <div className="absolute inset-0 w-[140%] lg:w-[160%] -right-[40%] lg:-right-[60%]">
+              <div className="relative h-[500px] lg:h-[600px]">
+                <div className="absolute inset-0 w-[180%] -right-[80%]">
                   {useCases.map((uc) => (
                     <motion.div
                       key={uc.id}
@@ -899,10 +896,8 @@ export const SolutionsEngine = () => {
                   ))}
                 </div>
 
-                <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/80 via-20% to-transparent pointer-events-none rounded-lg z-10" />
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent from-50% to-[#050505] pointer-events-none rounded-lg z-10" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/60 via-transparent to-transparent pointer-events-none rounded-lg z-10" />
-                <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/30 via-transparent to-transparent pointer-events-none rounded-lg z-10" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/60 via-15% to-transparent pointer-events-none z-10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent pointer-events-none z-10" />
               </div>
             </div>
           </div>

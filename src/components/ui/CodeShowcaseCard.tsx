@@ -13,6 +13,9 @@ interface CodeShowcaseCardProps {
   isActive: boolean;
   onClick: () => void;
   index: number;
+  totalCards: number;
+  hoveredIndex: number | null;
+  onHover: (index: number | null) => void;
 }
 
 const languageLabels = {
@@ -22,9 +25,9 @@ const languageLabels = {
 };
 
 const languageColors = {
-  java: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
-  python: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
-  rest: 'bg-green-500/20 text-green-400 border-green-500/30'
+  java: 'text-orange-400',
+  python: 'text-yellow-400',
+  rest: 'text-green-400'
 };
 
 const JavaSyntaxHighlighter = ({ code }: { code: string }) => {
@@ -91,11 +94,11 @@ const JavaSyntaxHighlighter = ({ code }: { code: string }) => {
   const lines = code.split('\n');
 
   return (
-    <pre className="text-xs leading-relaxed">
+    <pre className="text-[11px] leading-relaxed">
       <code className="font-mono text-white/90">
         {lines.map((line, i) => (
-          <div key={i} className="flex hover:bg-white/5">
-            <span className="text-white/30 select-none mr-3 text-right min-w-[1.5rem]">{i + 1}</span>
+          <div key={i} className="flex">
+            <span className="text-white/20 select-none mr-2 text-right min-w-[1.25rem]">{i + 1}</span>
             <span className="whitespace-pre">{highlightLine(line)}</span>
           </div>
         ))}
@@ -112,7 +115,7 @@ const PythonSyntaxHighlighter = ({ code }: { code: string }) => {
   ]);
 
   const builtins = new Set([
-    'print', 'len', 'range', 'str', 'int', 'float', 'list', 'dict', 'set', 'tuple'
+    'print', 'len', 'range', 'str', 'int', 'float', 'list', 'dict', 'set', 'tuple', 'sum', 'max', 'min'
   ]);
 
   const highlightLine = (line: string) => {
@@ -166,11 +169,11 @@ const PythonSyntaxHighlighter = ({ code }: { code: string }) => {
   const lines = code.split('\n');
 
   return (
-    <pre className="text-xs leading-relaxed">
+    <pre className="text-[11px] leading-relaxed">
       <code className="font-mono text-white/90">
         {lines.map((line, i) => (
-          <div key={i} className="flex hover:bg-white/5">
-            <span className="text-white/30 select-none mr-3 text-right min-w-[1.5rem]">{i + 1}</span>
+          <div key={i} className="flex">
+            <span className="text-white/20 select-none mr-2 text-right min-w-[1.25rem]">{i + 1}</span>
             <span className="whitespace-pre">{highlightLine(line)}</span>
           </div>
         ))}
@@ -180,10 +183,7 @@ const PythonSyntaxHighlighter = ({ code }: { code: string }) => {
 };
 
 const RestSyntaxHighlighter = ({ code }: { code: string }) => {
-  const methods = new Set(['GET', 'POST', 'PUT', 'DELETE', 'PATCH']);
-
   const highlightLine = (line: string) => {
-    const tokens: JSX.Element[] = [];
     let tokenId = 0;
 
     if (line.startsWith('#')) {
@@ -231,11 +231,11 @@ const RestSyntaxHighlighter = ({ code }: { code: string }) => {
   const lines = code.split('\n');
 
   return (
-    <pre className="text-xs leading-relaxed">
+    <pre className="text-[11px] leading-relaxed">
       <code className="font-mono text-white/90">
         {lines.map((line, i) => (
-          <div key={i} className="flex hover:bg-white/5">
-            <span className="text-white/30 select-none mr-3 text-right min-w-[1.5rem]">{i + 1}</span>
+          <div key={i} className="flex">
+            <span className="text-white/20 select-none mr-2 text-right min-w-[1.25rem]">{i + 1}</span>
             <span className="whitespace-pre">{highlightLine(line)}</span>
           </div>
         ))}
@@ -245,7 +245,6 @@ const RestSyntaxHighlighter = ({ code }: { code: string }) => {
 };
 
 export const CodeShowcaseCard = ({
-  title,
   icon,
   code,
   language,
@@ -254,7 +253,10 @@ export const CodeShowcaseCard = ({
   docTooltip = 'View documentation',
   isActive,
   onClick,
-  index
+  index,
+  totalCards,
+  hoveredIndex,
+  onHover
 }: CodeShowcaseCardProps) => {
   const [copied, setCopied] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -272,64 +274,106 @@ export const CodeShowcaseCard = ({
       ? RestSyntaxHighlighter
       : JavaSyntaxHighlighter;
 
+  const isHovered = hoveredIndex === index;
+  const isAnyHovered = hoveredIndex !== null;
+  const shouldExpand = isActive || isHovered;
+
+  const baseX = index * 60;
+  const baseY = index * 12;
+  const baseZ = totalCards - index;
+
+  const getTransform = () => {
+    if (shouldExpand) {
+      return {
+        x: baseX + 20,
+        y: baseY - 5,
+        scale: 1,
+        zIndex: 50
+      };
+    }
+    if (isAnyHovered && !isHovered) {
+      return {
+        x: baseX - 10,
+        y: baseY,
+        scale: 0.98,
+        zIndex: baseZ
+      };
+    }
+    return {
+      x: baseX,
+      y: baseY,
+      scale: 1,
+      zIndex: isActive ? 40 : baseZ
+    };
+  };
+
+  const transform = getTransform();
+
   return (
     <motion.div
-      initial={{ opacity: 0, x: -20, y: index * 10 }}
+      initial={{ opacity: 0, x: -30, y: baseY }}
       animate={{
         opacity: 1,
-        x: 0,
-        y: 0,
-        scale: isActive ? 1 : 0.98,
-        zIndex: isActive ? 30 : 20 - index
+        x: transform.x,
+        y: transform.y,
+        scale: transform.scale,
+        zIndex: transform.zIndex
       }}
       transition={{
-        duration: 0.3,
-        delay: index * 0.1,
-        scale: { duration: 0.2 }
+        type: 'spring',
+        stiffness: 400,
+        damping: 30,
+        mass: 0.8
       }}
       onClick={onClick}
-      className={`
-        relative cursor-pointer transition-all duration-300
-        ${isActive
-          ? 'ring-2 ring-blue-500/50 shadow-lg shadow-blue-500/20'
-          : 'hover:ring-1 hover:ring-white/20'
-        }
-      `}
+      onMouseEnter={() => onHover(index)}
+      onMouseLeave={() => onHover(null)}
+      className="absolute cursor-pointer"
       style={{
-        marginTop: index > 0 ? '-8px' : '0'
+        width: 'calc(100% - 120px)',
+        maxWidth: '420px'
       }}
     >
-      <div className={`
-        bg-[#0a0a0a]/95 backdrop-blur-sm border border-white/10 overflow-hidden
-        transition-all duration-300
-        ${isActive ? 'border-blue-500/30' : ''}
-      `}>
-        <div className="bg-white/5 px-4 py-2.5 border-b border-white/10 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-red-500/60"></div>
-              <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60"></div>
-              <div className="w-2.5 h-2.5 rounded-full bg-green-500/60"></div>
+      <div
+        className={`
+          bg-[#0a0a0a]/90 backdrop-blur-md border overflow-hidden transition-colors duration-200
+          ${shouldExpand
+            ? 'border-white/20 shadow-2xl shadow-black/50'
+            : 'border-white/[0.06]'
+          }
+        `}
+      >
+        <div className="px-3 py-2 border-b border-white/[0.06] flex items-center justify-between bg-white/[0.02]">
+          <div className="flex items-center gap-2">
+            <div className="flex gap-1">
+              <div className="w-2 h-2 rounded-full bg-white/10"></div>
+              <div className="w-2 h-2 rounded-full bg-white/10"></div>
+              <div className="w-2 h-2 rounded-full bg-white/10"></div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               {icon}
-              <span className="text-xs text-white/70 font-medium">{title}</span>
+              <span className={`text-[11px] font-medium ${languageColors[language]}`}>
+                {languageLabels[language]}
+              </span>
             </div>
-            <span className={`text-[10px] px-2 py-0.5 border ${languageColors[language]}`}>
-              {languageLabels[language]}
-            </span>
+            <span className="text-[10px] text-white/30 font-mono">{filename}</span>
           </div>
 
-          <div className="flex items-center gap-2">
+          <motion.div
+            className="flex items-center gap-1"
+            initial={false}
+            animate={{ opacity: shouldExpand ? 1 : 0 }}
+            transition={{ duration: 0.15 }}
+          >
             <button
               onClick={handleCopy}
-              className="p-1.5 hover:bg-white/10 transition-colors rounded"
+              className="p-1 hover:bg-white/10 transition-colors rounded"
               title="Copy code"
             >
               {copied ? (
-                <Check size={14} className="text-green-400" />
+                <Check size={12} className="text-green-400" />
               ) : (
-                <Copy size={14} className="text-white/50 hover:text-white/80" />
+                <Copy size={12} className="text-white/40 hover:text-white/70" />
               )}
             </button>
 
@@ -343,45 +387,40 @@ export const CodeShowcaseCard = ({
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="p-1.5 hover:bg-white/10 transition-colors rounded flex items-center"
+                className="p-1 hover:bg-white/10 transition-colors rounded flex items-center"
               >
-                <ExternalLink size={14} className="text-white/50 hover:text-blue-400" />
+                <ExternalLink size={12} className="text-white/40 hover:text-blue-400" />
               </a>
 
               {showTooltip && (
                 <motion.div
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="absolute right-0 top-full mt-2 px-3 py-1.5 bg-white/10 backdrop-blur-md border border-white/20 text-xs text-white/80 whitespace-nowrap z-50 rounded"
+                  className="absolute right-0 top-full mt-2 px-2 py-1 bg-white/10 backdrop-blur-md border border-white/20 text-[10px] text-white/70 whitespace-nowrap z-50 rounded"
                 >
                   {docTooltip}
-                  <div className="absolute -top-1 right-3 w-2 h-2 bg-white/10 border-l border-t border-white/20 transform rotate-45"></div>
                 </motion.div>
               )}
             </div>
-          </div>
-        </div>
-
-        <div className="px-4 py-1 bg-white/[0.02] border-b border-white/5">
-          <span className="text-[10px] text-white/40 font-mono">{filename}</span>
+          </motion.div>
         </div>
 
         <motion.div
           className="overflow-hidden"
           initial={false}
           animate={{
-            height: isActive ? 'auto' : '120px',
-            opacity: isActive ? 1 : 0.7
+            height: shouldExpand ? 'auto' : '80px',
+            opacity: shouldExpand ? 1 : 0.5
           }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.2 }}
         >
-          <div className={`p-4 overflow-x-auto ${!isActive ? 'mask-gradient-bottom' : ''}`}>
+          <div className="p-3 overflow-x-auto">
             <SyntaxHighlighter code={code} />
           </div>
         </motion.div>
 
-        {!isActive && (
-          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#0a0a0a] to-transparent pointer-events-none"></div>
+        {!shouldExpand && (
+          <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0a0a0a] to-transparent pointer-events-none"></div>
         )}
       </div>
     </motion.div>
