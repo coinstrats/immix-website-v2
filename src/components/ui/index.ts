@@ -7,3 +7,4 @@ export { StrategyCodeCard } from './StrategyCodeCard';
 export { HeroVisualStack } from './HeroVisualStack';
 export { WebSocketTerminal } from './WebSocketTerminal';
 export { DataFlowLines } from './DataFlowLines';
+export { CodeShowcaseCard } from './CodeShowcaseCard';
