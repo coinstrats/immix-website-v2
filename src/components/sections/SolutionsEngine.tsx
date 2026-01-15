@@ -850,7 +850,7 @@ export const SolutionsEngine = () => {
             </div>
 
             <div className="lg:col-span-7 relative hidden lg:block">
-              <div className="relative h-[540px]">
+              <div className="relative h-[560px]">
                 <div className="absolute inset-0 w-[200%] -right-[100%]">
                   {useCases.map((uc) => (
                     <motion.div
