@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef, useLayoutEffect, forwardRef } from 'react';
+import { useState, useCallback, useEffect, useRef, useLayoutEffect } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Copy, Check, ExternalLink, Code2, Terminal, Zap } from 'lucide-react';
 
@@ -244,7 +244,7 @@ const SIDE_OVERLAP_PERCENT = 0.55;
 const LABEL_GUTTER = 16;
 const LABEL_Y_OFFSET = -28;
 
-const DeckCard = forwardRef<HTMLDivElement, CardProps>(({
+const DeckCard = ({
   example,
   position,
   isActive,
@@ -252,7 +252,7 @@ const DeckCard = forwardRef<HTMLDivElement, CardProps>(({
   onCopy,
   copied,
   reducedMotion
-}, ref) => {
+}: CardProps) => {
   const SyntaxHighlighter = getSyntaxHighlighter(example.language);
   const colors = languageColors[example.language];
 
@@ -284,7 +284,6 @@ const DeckCard = forwardRef<HTMLDivElement, CardProps>(({
 
   return (
     <motion.div
-      ref={ref}
       initial={false}
       animate={{
         x: transform.x,
@@ -374,7 +373,7 @@ const DeckCard = forwardRef<HTMLDivElement, CardProps>(({
       </div>
     </motion.div>
   );
-});
+};
 
 interface LabelPosition {
   x: number;
@@ -396,8 +395,6 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
   });
   const reducedMotion = useReducedMotion() ?? false;
 
-  const deckWrapRef = useRef<HTMLDivElement>(null);
-  const activeCardRef = useRef<HTMLDivElement>(null);
   const leftLabelRef = useRef<HTMLButtonElement>(null);
   const rightLabelRef = useRef<HTMLButtonElement>(null);
 
@@ -484,58 +481,45 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
   const adjacentCards = getAdjacentCards();
 
   const calculateLabelPositions = useCallback(() => {
-    const deckEl = deckWrapRef.current;
-    const cardEl = activeCardRef.current;
     const leftLabelEl = leftLabelRef.current;
     const rightLabelEl = rightLabelRef.current;
 
-    if (!deckEl || !cardEl || !leftLabelEl || !rightLabelEl) return;
+    if (!leftLabelEl || !rightLabelEl) return;
 
-    const deckRect = deckEl.getBoundingClientRect();
-    const cardRect = cardEl.getBoundingClientRect();
     const leftLabelWidth = leftLabelEl.offsetWidth;
+    const rightLabelWidth = rightLabelEl.offsetWidth;
 
-    const cardLeftX = cardRect.left - deckRect.left;
-    const cardRightX = cardRect.right - deckRect.left;
-    const topY = cardRect.top - deckRect.top + LABEL_Y_OFFSET;
+    const cardLeftX = (deckWidth - CENTER_CARD_WIDTH) / 2;
+    const cardRightX = cardLeftX + CENTER_CARD_WIDTH;
 
     const leftX = Math.max(0, cardLeftX - LABEL_GUTTER - leftLabelWidth);
-    const rightX = Math.min(deckRect.width - rightLabelEl.offsetWidth, cardRightX + LABEL_GUTTER);
+    const rightX = Math.min(deckWidth - rightLabelWidth, cardRightX + LABEL_GUTTER);
 
     setLabelPositions({
-      left: { x: leftX, y: topY, visible: true },
-      right: { x: rightX, y: topY, visible: true }
+      left: { x: leftX, y: LABEL_Y_OFFSET, visible: true },
+      right: { x: rightX, y: LABEL_Y_OFFSET, visible: true }
     });
-  }, []);
+  }, [deckWidth]);
 
   useLayoutEffect(() => {
-    const timeout = setTimeout(calculateLabelPositions, 50);
-    return () => clearTimeout(timeout);
-  }, [activeId, calculateLabelPositions]);
+    calculateLabelPositions();
+  }, [adjacentCards, calculateLabelPositions]);
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 640);
-      calculateLabelPositions();
     };
 
     handleResize();
     window.addEventListener('resize', handleResize);
 
-    const observer = new ResizeObserver(calculateLabelPositions);
-    if (deckWrapRef.current) {
-      observer.observe(deckWrapRef.current);
-    }
-
     return () => {
       window.removeEventListener('resize', handleResize);
-      observer.disconnect();
     };
-  }, [calculateLabelPositions]);
+  }, []);
 
   return (
     <div
-      ref={deckWrapRef}
       className="relative"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
@@ -585,7 +569,6 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
           {orderedExamples.map((example) => (
             <DeckCard
               key={example.id}
-              ref={activeId === example.id ? activeCardRef : undefined}
               example={example}
               position={getCircularPosition(example)}
               isActive={activeId === example.id}
