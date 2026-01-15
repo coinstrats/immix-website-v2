@@ -1,6 +1,6 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef, useLayoutEffect, forwardRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Copy, Check, ExternalLink, Code2, Terminal, Zap, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Copy, Check, ExternalLink, Code2, Terminal, Zap } from 'lucide-react';
 
 export interface IntegrationExample {
   id: string;
@@ -241,8 +241,10 @@ const CARD_WIDTH = 320;
 const CENTER_CARD_WIDTH = 380;
 const CARD_HEIGHT = 460;
 const SIDE_OVERLAP_PERCENT = 0.55;
+const LABEL_GUTTER = 16;
+const LABEL_Y_OFFSET = -28;
 
-const DeckCard = ({
+const DeckCard = forwardRef<HTMLDivElement, CardProps>(({
   example,
   position,
   isActive,
@@ -250,7 +252,7 @@ const DeckCard = ({
   onCopy,
   copied,
   reducedMotion
-}: CardProps) => {
+}, ref) => {
   const SyntaxHighlighter = getSyntaxHighlighter(example.language);
   const colors = languageColors[example.language];
 
@@ -282,6 +284,7 @@ const DeckCard = ({
 
   return (
     <motion.div
+      ref={ref}
       initial={false}
       animate={{
         x: transform.x,
@@ -371,13 +374,32 @@ const DeckCard = ({
       </div>
     </motion.div>
   );
-};
+});
+
+interface LabelPosition {
+  x: number;
+  y: number;
+  visible: boolean;
+}
 
 export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProps) => {
   const [activeId, setActiveId] = useState(defaultActive || examples[1]?.id || examples[0]?.id);
   const [copied, setCopied] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [labelPositions, setLabelPositions] = useState<{
+    left: LabelPosition;
+    right: LabelPosition;
+  }>({
+    left: { x: 0, y: 0, visible: false },
+    right: { x: 0, y: 0, visible: false }
+  });
   const reducedMotion = useReducedMotion() ?? false;
+
+  const deckWrapRef = useRef<HTMLDivElement>(null);
+  const activeCardRef = useRef<HTMLDivElement>(null);
+  const leftLabelRef = useRef<HTMLButtonElement>(null);
+  const rightLabelRef = useRef<HTMLButtonElement>(null);
 
   const activeExample = examples.find(e => e.id === activeId);
 
@@ -461,8 +483,59 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
 
   const adjacentCards = getAdjacentCards();
 
+  const calculateLabelPositions = useCallback(() => {
+    const deckEl = deckWrapRef.current;
+    const cardEl = activeCardRef.current;
+    const leftLabelEl = leftLabelRef.current;
+    const rightLabelEl = rightLabelRef.current;
+
+    if (!deckEl || !cardEl || !leftLabelEl || !rightLabelEl) return;
+
+    const deckRect = deckEl.getBoundingClientRect();
+    const cardRect = cardEl.getBoundingClientRect();
+    const leftLabelWidth = leftLabelEl.offsetWidth;
+
+    const cardLeftX = cardRect.left - deckRect.left;
+    const cardRightX = cardRect.right - deckRect.left;
+    const topY = cardRect.top - deckRect.top + LABEL_Y_OFFSET;
+
+    const leftX = Math.max(0, cardLeftX - LABEL_GUTTER - leftLabelWidth);
+    const rightX = Math.min(deckRect.width - rightLabelEl.offsetWidth, cardRightX + LABEL_GUTTER);
+
+    setLabelPositions({
+      left: { x: leftX, y: topY, visible: true },
+      right: { x: rightX, y: topY, visible: true }
+    });
+  }, []);
+
+  useLayoutEffect(() => {
+    const timeout = setTimeout(calculateLabelPositions, 50);
+    return () => clearTimeout(timeout);
+  }, [activeId, calculateLabelPositions]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+      calculateLabelPositions();
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    const observer = new ResizeObserver(calculateLabelPositions);
+    if (deckWrapRef.current) {
+      observer.observe(deckWrapRef.current);
+    }
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      observer.disconnect();
+    };
+  }, [calculateLabelPositions]);
+
   return (
     <div
+      ref={deckWrapRef}
       className="relative"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
@@ -472,40 +545,47 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
         className="relative overflow-visible"
         style={{ height: CARD_HEIGHT, width: deckWidth }}
       >
-        <motion.button
-          onClick={navigateLeft}
-          className="absolute z-40 flex items-center gap-1 text-blue-400 hover:text-blue-300 transition-colors cursor-pointer group"
-          style={{
-            left: (deckWidth - CENTER_CARD_WIDTH) / 2,
-            top: -24,
-          }}
-          whileHover={{ x: -2 }}
-        >
-          <ChevronLeft size={12} className="text-blue-400 group-hover:text-blue-300" />
-          <span className="text-[11px] font-bold">
-            {adjacentCards.left?.label}
-          </span>
-        </motion.button>
+        {!isMobile && (
+          <>
+            <button
+              ref={leftLabelRef}
+              onClick={navigateLeft}
+              className="absolute z-40 flex items-center gap-1 text-blue-400 hover:text-blue-300 transition-all cursor-pointer group whitespace-nowrap"
+              style={{
+                left: labelPositions.left.x,
+                top: labelPositions.left.y,
+                opacity: labelPositions.left.visible ? 1 : 0,
+              }}
+            >
+              <span className="text-blue-400 group-hover:text-blue-300">&lsaquo;</span>
+              <span className="text-[11px] font-bold">
+                {adjacentCards.left?.label}
+              </span>
+            </button>
 
-        <motion.button
-          onClick={navigateRight}
-          className="absolute z-40 flex items-center gap-1 text-blue-400 hover:text-blue-300 transition-colors cursor-pointer group"
-          style={{
-            right: (deckWidth - CENTER_CARD_WIDTH) / 2,
-            top: -24,
-          }}
-          whileHover={{ x: 2 }}
-        >
-          <span className="text-[11px] font-bold">
-            {adjacentCards.right?.label}
-          </span>
-          <ChevronRight size={12} className="text-blue-400 group-hover:text-blue-300" />
-        </motion.button>
+            <button
+              ref={rightLabelRef}
+              onClick={navigateRight}
+              className="absolute z-40 flex items-center gap-1 text-blue-400 hover:text-blue-300 transition-all cursor-pointer group whitespace-nowrap"
+              style={{
+                left: labelPositions.right.x,
+                top: labelPositions.right.y,
+                opacity: labelPositions.right.visible ? 1 : 0,
+              }}
+            >
+              <span className="text-[11px] font-bold">
+                {adjacentCards.right?.label}
+              </span>
+              <span className="text-blue-400 group-hover:text-blue-300">&rsaquo;</span>
+            </button>
+          </>
+        )}
 
         <AnimatePresence mode="sync">
           {orderedExamples.map((example) => (
             <DeckCard
               key={example.id}
+              ref={activeId === example.id ? activeCardRef : undefined}
               example={example}
               position={getCircularPosition(example)}
               isActive={activeId === example.id}
@@ -537,6 +617,26 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
           />
         ))}
       </div>
+
+      {isMobile && (
+        <div
+          className="flex items-center justify-between mt-3 px-4"
+          style={{ marginLeft: leftShift * -1 }}
+        >
+          <button
+            onClick={navigateLeft}
+            className="text-[11px] text-blue-400 hover:text-blue-300 transition-colors"
+          >
+            &lsaquo; {adjacentCards.left?.label}
+          </button>
+          <button
+            onClick={navigateRight}
+            className="text-[11px] text-blue-400 hover:text-blue-300 transition-colors"
+          >
+            {adjacentCards.right?.label} &rsaquo;
+          </button>
+        </div>
+      )}
 
       <p className="text-[10px] text-white/30 text-center mt-2" style={{ marginLeft: leftShift * -1 }}>
         Click cards or swipe to navigate
