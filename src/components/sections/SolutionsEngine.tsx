@@ -1,9 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Code2, Terminal, Globe } from 'lucide-react';
-import { AnimatedElement, CodeShowcaseCard } from '../ui';
-
-type CodeType = 'sdk' | 'api' | 'python';
+import { AnimatedElement, IntegrationDeck, IntegrationExample } from '../ui';
 
 interface CodeExample {
   code: string;
@@ -59,33 +56,28 @@ public void onTick(MarketData spot, MarketData perp) {
           docTooltip: 'View SDK Trading Guide'
         },
         api: {
-          code: `# Create atomic order pair
-POST /v1/orders/atomic
+          code: `// Connect to streaming market data
+-> { "op": "subscribe", "channel": "ticker",
+     "symbols": ["BTC-USDT", "BTC-USDT-PERP"] }
 
-{
-  "strategy": "basis_trade",
-  "legs": [
-    {
-      "venue": "BINANCE",
-      "symbol": "BTC-USDT",
-      "side": "BUY",
-      "size": 0.1,
-      "type": "LIMIT",
-      "price": 42150.00
-    },
-    {
-      "venue": "BINANCE",
-      "symbol": "BTC-USDT-PERP",
-      "side": "SELL",
-      "size": 0.1,
-      "type": "LIMIT",
-      "price": 42200.00
-    }
-  ]
-}`,
-          filename: 'trading-api.http',
-          docUrl: '#api-trading',
-          docTooltip: 'View Trading API Reference'
+<- { "channel": "ticker", "symbol": "BTC-USDT",
+     "bid": 42150.00, "ask": 42152.50, "ts": 1705312800 }
+
+<- { "channel": "ticker", "symbol": "BTC-USDT-PERP",
+     "bid": 42198.00, "ask": 42200.50, "ts": 1705312800 }
+
+// Execute atomic trade when spread triggers
+-> { "op": "order", "type": "atomic_pair",
+     "legs": [
+       { "symbol": "BTC-USDT", "side": "BUY", "size": 0.1 },
+       { "symbol": "BTC-USDT-PERP", "side": "SELL", "size": 0.1 }
+     ]}
+
+<- { "op": "order_ack", "order_id": "ord_abc123",
+     "status": "FILLED", "fill_price": 42151.25 }`,
+          filename: 'ws-trading.json',
+          docUrl: '#ws-trading',
+          docTooltip: 'View WebSocket Streaming Guide'
         },
         python: {
           code: `from immix import Client
@@ -131,28 +123,26 @@ public void quote() {
           docTooltip: 'View Market Making Guide'
         },
         api: {
-          code: `# Update quotes across venues
-POST /v1/quotes/batch
+          code: `// Subscribe to orderbook updates
+-> { "op": "subscribe", "channel": "orderbook",
+     "symbol": "BTC-USDT", "depth": 10 }
 
-{
-  "symbol": "BTC-USDT",
-  "quotes": [
-    {
-      "venue": "BINANCE",
-      "bid": { "price": 42100, "size": 0.5 },
-      "ask": { "price": 42150, "size": 0.5 }
-    },
-    {
-      "venue": "COINBASE",
-      "bid": { "price": 42095, "size": 0.5 },
-      "ask": { "price": 42155, "size": 0.5 }
-    }
-  ],
-  "ttl_ms": 1000
-}`,
-          filename: 'quoting-api.http',
-          docUrl: '#api-quoting',
-          docTooltip: 'View Quoting API Reference'
+<- { "channel": "orderbook", "symbol": "BTC-USDT",
+     "bids": [[42100, 1.5], [42095, 2.0]],
+     "asks": [[42105, 1.2], [42110, 1.8]] }
+
+// Update quotes in real-time
+-> { "op": "quote_update",
+     "quotes": [
+       { "venue": "BINANCE", "bid": 42100, "ask": 42105 },
+       { "venue": "COINBASE", "bid": 42098, "ask": 42107 }
+     ],
+     "ttl_ms": 500 }
+
+<- { "op": "quote_ack", "active_quotes": 2 }`,
+          filename: 'ws-quoting.json',
+          docUrl: '#ws-quoting',
+          docTooltip: 'View WebSocket Quoting Guide'
         },
         python: {
           code: `from immix import Client
@@ -198,21 +188,25 @@ if (coinbase.bid > binance.ask + fees) {
           docTooltip: 'View Arbitrage Guide'
         },
         api: {
-          code: `# Execute cross-venue arbitrage
-POST /v1/execution/smart-route
+          code: `// Multi-venue price stream
+-> { "op": "subscribe", "channel": "ticker",
+     "venues": ["BINANCE", "COINBASE"],
+     "symbol": "BTC-USDT" }
 
-{
-  "symbol": "BTC-USDT",
-  "strategy": "ARBITRAGE",
-  "legs": [
-    { "venue": "BINANCE", "side": "BUY", "size": 0.1 },
-    { "venue": "COINBASE", "side": "SELL", "size": 0.1 }
-  ],
-  "max_slippage_bps": 5
-}`,
-          filename: 'execution-api.http',
-          docUrl: '#api-execution',
-          docTooltip: 'View Execution API Reference'
+<- { "venue": "BINANCE", "bid": 42100, "ask": 42102 }
+<- { "venue": "COINBASE", "bid": 42115, "ask": 42118 }
+
+// Arb detected! Execute immediately
+-> { "op": "arb_execute",
+     "buy": { "venue": "BINANCE", "size": 0.1 },
+     "sell": { "venue": "COINBASE", "size": 0.1 },
+     "max_slippage_bps": 5 }
+
+<- { "op": "arb_filled", "profit_usd": 12.50,
+     "latency_ms": 45 }`,
+          filename: 'ws-arbitrage.json',
+          docUrl: '#ws-arbitrage',
+          docTooltip: 'View WebSocket Arb Guide'
         },
         python: {
           code: `from immix import Client
@@ -274,29 +268,27 @@ public void rebalance() {
           docTooltip: 'View Treasury SDK Guide'
         },
         api: {
-          code: `# Get all venue balances
-GET /v1/treasury/balances
+          code: `// Subscribe to balance updates
+-> { "op": "subscribe", "channel": "balances",
+     "venues": ["BINANCE", "COINBASE", "FIREBLOCKS"] }
 
-# Response:
-{
-  "balances": [
-    { "venue": "BINANCE", "asset": "BTC", "free": 2.5 },
-    { "venue": "COINBASE", "asset": "BTC", "free": 1.8 },
-    { "venue": "FIREBLOCKS", "asset": "BTC", "free": 10.0 }
-  ]
-}
+<- { "channel": "balances",
+     "data": [
+       { "venue": "BINANCE", "asset": "BTC", "free": 2.5 },
+       { "venue": "COINBASE", "asset": "BTC", "free": 1.8 },
+       { "venue": "FIREBLOCKS", "asset": "BTC", "free": 10.0 }
+     ]}
 
-# Execute rebalance transfer
-POST /v1/treasury/transfer
-{
-  "from": "BINANCE",
-  "to": "COINBASE",
-  "asset": "BTC",
-  "amount": 0.35
-}`,
-          filename: 'treasury-api.http',
-          docUrl: '#api-treasury',
-          docTooltip: 'View Treasury API Reference'
+// Execute rebalance transfer
+-> { "op": "transfer",
+     "from": "BINANCE", "to": "COINBASE",
+     "asset": "BTC", "amount": 0.35 }
+
+<- { "op": "transfer_ack", "tx_id": "tx_xyz789",
+     "status": "PENDING", "eta_seconds": 300 }`,
+          filename: 'ws-treasury.json',
+          docUrl: '#ws-treasury',
+          docTooltip: 'View WebSocket Treasury Guide'
         },
         python: {
           code: `from immix import Client
@@ -345,28 +337,26 @@ if (aaveRate > compRate + minDiff) {
           docTooltip: 'View Yield SDK Guide'
         },
         api: {
-          code: `# Get current yield rates
-GET /v1/market-data/yields?asset=USDC
+          code: `// Subscribe to yield rate updates
+-> { "op": "subscribe", "channel": "yields",
+     "asset": "USDC" }
 
-# Response:
-{
-  "yields": [
-    { "protocol": "AAVE", "apy": 4.52 },
-    { "protocol": "COMPOUND", "apy": 3.89 }
-  ]
-}
+<- { "channel": "yields",
+     "rates": [
+       { "protocol": "AAVE", "apy": 4.52, "tvl": "2.1B" },
+       { "protocol": "COMPOUND", "apy": 3.89, "tvl": "1.8B" }
+     ]}
 
-# Move funds to higher yield
-POST /v1/treasury/yield-swap
-{
-  "asset": "USDC",
-  "from_protocol": "COMPOUND",
-  "to_protocol": "AAVE",
-  "amount": 100000
-}`,
-          filename: 'yield-api.http',
-          docUrl: '#api-yield',
-          docTooltip: 'View Market Data API Reference'
+// Move funds to higher yield
+-> { "op": "yield_swap",
+     "asset": "USDC", "amount": 100000,
+     "from": "COMPOUND", "to": "AAVE" }
+
+<- { "op": "yield_swap_ack", "tx_id": "ys_123",
+     "new_apy": 4.52, "gas_cost_usd": 2.50 }`,
+          filename: 'ws-yields.json',
+          docUrl: '#ws-yields',
+          docTooltip: 'View WebSocket Yield Guide'
         },
         python: {
           code: `from immix import Client
@@ -417,24 +407,26 @@ public void dailySweep() {
           docTooltip: 'View Treasury SDK Guide'
         },
         api: {
-          code: `# Configure automated sweep rule
-POST /v1/treasury/sweep-rules
+          code: `// Subscribe to sweep rule events
+-> { "op": "subscribe", "channel": "sweep_rules" }
 
-{
-  "name": "daily_cold_storage",
-  "schedule": "59 23 * * *",
-  "from_venue": "HOT_WALLET",
-  "to_venue": "FIREBLOCKS_VAULT",
-  "asset": "USDC",
-  "keep_balance": 50000,
-  "enabled": true
-}
+// Configure automated sweep
+-> { "op": "create_sweep_rule",
+     "name": "daily_cold_storage",
+     "schedule": "59 23 * * *",
+     "from": "HOT_WALLET", "to": "FIREBLOCKS_VAULT",
+     "asset": "USDC", "keep_balance": 50000 }
 
-# Check sweep rule status
-GET /v1/treasury/sweep-rules/daily_cold_storage`,
-          filename: 'sweep-api.http',
-          docUrl: '#api-sweep',
-          docTooltip: 'View Treasury API Reference'
+<- { "op": "rule_created", "rule_id": "sr_abc",
+     "next_run": "2024-01-15T23:59:00Z" }
+
+// Sweep execution notification
+<- { "channel": "sweep_executed",
+     "rule_id": "sr_abc", "amount": 125000,
+     "tx_id": "tx_sweep_456" }`,
+          filename: 'ws-sweep.json',
+          docUrl: '#ws-sweep',
+          docTooltip: 'View WebSocket Sweep Guide'
         },
         python: {
           code: `from immix import Client
@@ -499,31 +491,29 @@ public void onPaymentRequest(Payment p) {
           docTooltip: 'View Payments SDK Guide'
         },
         api: {
-          code: `# Execute cross-border payment
-POST /v1/payments/cross-border
+          code: `// Subscribe to payment status updates
+-> { "op": "subscribe", "channel": "payments",
+     "payment_id": "pay_abc123" }
 
-{
-  "source_currency": "SGD",
-  "destination_currency": "MXN",
-  "amount": 10000,
-  "corridor": "SG_MX",
-  "beneficiary": {
-    "name": "Acme Corp MX",
-    "account": "MX12345678"
-  },
-  "reference": "INV-2024-001"
-}
+// Initiate cross-border payment
+-> { "op": "payment_create",
+     "source": "SGD", "destination": "MXN",
+     "amount": 10000,
+     "beneficiary": { "name": "Acme Corp MX" }}
 
-# Response:
-{
-  "payment_id": "pay_abc123",
-  "status": "COMPLETED",
-  "fx_rate": 13.45,
-  "fees": { "total": 12.50 }
-}`,
-          filename: 'payments-api.http',
-          docUrl: '#api-payments',
-          docTooltip: 'View Payments API Reference'
+<- { "channel": "payment_status",
+     "payment_id": "pay_abc123",
+     "step": 1, "status": "SGD_TO_USDC_COMPLETE" }
+
+<- { "channel": "payment_status",
+     "step": 2, "status": "USDC_TRANSFERRED" }
+
+<- { "channel": "payment_status",
+     "step": 3, "status": "COMPLETED",
+     "fx_rate": 13.45, "fees": 12.50 }`,
+          filename: 'ws-payments.json',
+          docUrl: '#ws-payments',
+          docTooltip: 'View WebSocket Payments Guide'
         },
         python: {
           code: `from immix import Client
@@ -575,28 +565,26 @@ quote.execute();`,
           docTooltip: 'View Routing SDK Guide'
         },
         api: {
-          code: `# Get optimal route quote
-POST /v1/routing/quote
+          code: `// Request optimal route quote
+-> { "op": "quote_request",
+     "source": "EUR", "destination": "USD",
+     "amount": 50000, "strategy": "MIN_SLIPPAGE" }
 
-{
-  "source": "EUR",
-  "destination": "USD",
-  "amount": 50000,
-  "strategy": "MIN_SLIPPAGE"
-}
+<- { "op": "quote_response",
+     "quote_id": "qt_xyz789",
+     "path": ["EUR", "USDT", "USD"],
+     "venues": ["KRAKEN", "BINANCE"],
+     "rate": 1.0845, "fees_bps": 8,
+     "expires_in_ms": 5000 }
 
-# Response:
-{
-  "quote_id": "qt_xyz789",
-  "path": ["EUR", "USDT", "USD"],
-  "venues": ["KRAKEN", "BINANCE"],
-  "rate": 1.0845,
-  "fees_bps": 8,
-  "expires_at": "2024-01-15T10:30:00Z"
-}`,
-          filename: 'routing-api.http',
-          docUrl: '#api-routing',
-          docTooltip: 'View Routing API Reference'
+// Execute the quote
+-> { "op": "quote_execute", "quote_id": "qt_xyz789" }
+
+<- { "op": "execution_complete",
+     "filled_rate": 1.0843, "amount_usd": 54215 }`,
+          filename: 'ws-routing.json',
+          docUrl: '#ws-routing',
+          docTooltip: 'View WebSocket Routing Guide'
         },
         python: {
           code: `from immix import Client
@@ -646,27 +634,29 @@ public void onReceive(Payment p) {
           docTooltip: 'View Hedging SDK Guide'
         },
         api: {
-          code: `# Configure auto-hedge webhook
-POST /v1/webhooks/auto-hedge
+          code: `// Subscribe to incoming payments
+-> { "op": "subscribe", "channel": "payments_incoming",
+     "currencies": ["BTC", "ETH"] }
 
-{
-  "trigger": "PAYMENT_RECEIVED",
-  "conditions": {
-    "currency": "BTC",
-    "min_amount": 0.01
-  },
-  "action": {
-    "type": "SELL_TO_USD",
-    "strategy": "TWAP_5MIN",
-    "slippage_limit_bps": 10
-  }
-}
+// Incoming payment detected
+<- { "channel": "payment_received",
+     "currency": "BTC", "amount": 0.5,
+     "from": "customer_wallet_abc" }
 
-# Check hedge status
-GET /v1/hedges?payment_id=pay_123`,
-          filename: 'hedging-api.http',
-          docUrl: '#api-hedging',
-          docTooltip: 'View Hedging API Reference'
+// Auto-hedge triggered
+-> { "op": "hedge_execute",
+     "asset": "BTC", "amount": 0.5,
+     "target": "USD", "strategy": "TWAP_5MIN" }
+
+<- { "channel": "hedge_progress",
+     "filled": 0.3, "remaining": 0.2,
+     "avg_price": 42150.00 }
+
+<- { "channel": "hedge_complete",
+     "total_usd": 21075.00, "avg_price": 42150.00 }`,
+          filename: 'ws-hedging.json',
+          docUrl: '#ws-hedging',
+          docTooltip: 'View WebSocket Hedging Guide'
         },
         python: {
           code: `from immix import Client
@@ -702,40 +692,10 @@ print(f"Hedged {btc_received} BTC @ \${hedge.avg_price:,.2f}")`,
   }
 ];
 
-const codeTypeConfig = {
-  sdk: {
-    icon: <Code2 size={14} className="text-orange-400" />,
-    title: 'Java SDK',
-    language: 'java' as const
-  },
-  api: {
-    icon: <Globe size={14} className="text-green-400" />,
-    title: 'REST API',
-    language: 'rest' as const
-  },
-  python: {
-    icon: <Terminal size={14} className="text-yellow-400" />,
-    title: 'Python',
-    language: 'python' as const
-  }
-};
-
 export const SolutionsEngine = () => {
   const [activeUseCase, setActiveUseCase] = useState(useCases[0].id);
   const [activePattern, setActivePattern] = useState(useCases[0].patterns[0].id);
-  const [activeCodeType, setActiveCodeType] = useState<CodeType>('python');
   const [imagesLoaded, setImagesLoaded] = useState<Record<string, boolean>>({});
-
-  const codeTypes: CodeType[] = ['sdk', 'python', 'api'];
-
-  const getCardPosition = (type: CodeType): 'left' | 'center' | 'right' => {
-    const activeIndex = codeTypes.indexOf(activeCodeType);
-    const typeIndex = codeTypes.indexOf(type);
-    const diff = typeIndex - activeIndex;
-    if (diff === 0) return 'center';
-    if (diff === -1 || diff === 2) return 'left';
-    return 'right';
-  };
 
   const currentUseCase = useCases.find(uc => uc.id === activeUseCase) || useCases[0];
   const currentPattern = currentUseCase.patterns.find(p => p.id === activePattern) || currentUseCase.patterns[0];
@@ -758,9 +718,38 @@ export const SolutionsEngine = () => {
     }
   };
 
-  const getCodeExample = (type: CodeType) => {
-    return currentPattern[type];
-  };
+  const integrationExamples: IntegrationExample[] = useMemo(() => [
+    {
+      id: 'api',
+      label: 'WebSocket API',
+      subtitle: 'Streaming',
+      code: currentPattern.api.code,
+      filename: currentPattern.api.filename,
+      docUrl: currentPattern.api.docUrl,
+      docTooltip: currentPattern.api.docTooltip,
+      language: 'websocket' as const
+    },
+    {
+      id: 'python',
+      label: 'Python',
+      subtitle: 'Quickstart',
+      code: currentPattern.python.code,
+      filename: currentPattern.python.filename,
+      docUrl: currentPattern.python.docUrl,
+      docTooltip: currentPattern.python.docTooltip,
+      language: 'python' as const
+    },
+    {
+      id: 'sdk',
+      label: 'Java SDK',
+      subtitle: 'Full SDK',
+      code: currentPattern.sdk.code,
+      filename: currentPattern.sdk.filename,
+      docUrl: currentPattern.sdk.docUrl,
+      docTooltip: currentPattern.sdk.docTooltip,
+      language: 'java' as const
+    }
+  ], [currentPattern]);
 
   return (
     <section id="solutions" className="section-wrapper overflow-hidden">
@@ -783,7 +772,7 @@ export const SolutionsEngine = () => {
                 key={useCase.id}
                 onClick={() => handleUseCaseChange(useCase.id)}
                 className={`
-                  px-8 py-3 font-semibold text-lg transition-all
+                  px-8 py-3 font-semibold text-lg transition-all rounded-lg
                   ${activeUseCase === useCase.id
                     ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
                     : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'
@@ -812,7 +801,7 @@ export const SolutionsEngine = () => {
 
         <div className="relative">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <div className="lg:col-span-5 space-y-6 relative z-30">
+            <div className="lg:col-span-7 space-y-6 relative z-30">
               <div className="space-y-3">
                 <h4 className="text-sm font-semibold text-white/50 uppercase tracking-wider">Use Cases</h4>
                 <div className="flex flex-wrap gap-2">
@@ -821,7 +810,7 @@ export const SolutionsEngine = () => {
                       key={pattern.id}
                       onClick={() => setActivePattern(pattern.id)}
                       className={`
-                        px-4 py-2 text-sm font-medium transition-all
+                        px-4 py-2 text-sm font-medium transition-all rounded-md
                         ${activePattern === pattern.id
                           ? 'bg-blue-500/20 text-blue-400 border border-blue-500/50'
                           : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10 hover:text-white'
@@ -841,43 +830,28 @@ export const SolutionsEngine = () => {
                   key={`${activeUseCase}-${activePattern}-context`}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  className="text-sm text-white/60 leading-relaxed"
+                  className="text-sm text-white/60 leading-relaxed max-w-xl"
                 >
                   {currentPattern.context}
                 </motion.p>
               )}
 
-              <div className="relative h-[320px] overflow-visible" style={{ perspective: '1000px' }}>
-                {codeTypes.map((type) => {
-                  const config = codeTypeConfig[type];
-                  const example = getCodeExample(type);
-
-                  return (
-                    <CodeShowcaseCard
-                      key={`${activeUseCase}-${activePattern}-${type}`}
-                      title={config.title}
-                      icon={config.icon}
-                      code={example.code}
-                      language={config.language}
-                      filename={example.filename}
-                      docUrl={example.docUrl}
-                      docTooltip={example.docTooltip}
-                      isActive={activeCodeType === type}
-                      onClick={() => setActiveCodeType(type)}
-                      position={getCardPosition(type)}
-                    />
-                  );
-                })}
-              </div>
-
-              <p className="text-xs text-white/40 font-mono pt-2">
-                SDKs: Java &bull; APIs: REST, WebSocket &bull; Cookbooks: Python
-              </p>
+              <motion.div
+                key={`${activeUseCase}-${activePattern}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <IntegrationDeck
+                  examples={integrationExamples}
+                  defaultActive="python"
+                />
+              </motion.div>
             </div>
 
-            <div className="lg:col-span-7 relative">
-              <div className="relative h-[500px] lg:h-[600px]">
-                <div className="absolute inset-0 w-[180%] -right-[80%]">
+            <div className="lg:col-span-5 relative hidden lg:block">
+              <div className="relative h-[600px]">
+                <div className="absolute inset-0 w-[200%] -right-[100%]">
                   {useCases.map((uc) => (
                     <motion.div
                       key={uc.id}
@@ -903,7 +877,7 @@ export const SolutionsEngine = () => {
                   ))}
                 </div>
 
-                <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/80 via-25% to-transparent pointer-events-none z-10" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/70 via-20% to-transparent pointer-events-none z-10" />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent pointer-events-none z-10" />
               </div>
             </div>
