@@ -238,6 +238,7 @@ interface CardProps {
 }
 
 const CARD_WIDTH = 320;
+const CENTER_CARD_WIDTH = 380;
 const CARD_HEIGHT = 460;
 const SIDE_OVERLAP_PERCENT = 0.70;
 
@@ -276,6 +277,7 @@ const DeckCard = ({
   };
 
   const transform = getTransform();
+  const cardWidth = position === 'center' ? CENTER_CARD_WIDTH : CARD_WIDTH;
 
   return (
     <motion.div
@@ -283,19 +285,20 @@ const DeckCard = ({
       animate={{
         x: transform.x,
         scale: transform.scale,
-        opacity: transform.opacity
+        opacity: transform.opacity,
+        width: cardWidth
       }}
       transition={reducedMotion ? { duration: 0 } : {
         type: 'spring',
         stiffness: 300,
         damping: 30
       }}
-      style={{ zIndex: transform.zIndex }}
+      style={{ zIndex: transform.zIndex, width: cardWidth }}
       onClick={onClick}
       className="absolute left-1/2 top-0 -translate-x-1/2 cursor-pointer"
     >
       <div
-        style={{ width: CARD_WIDTH, height: CARD_HEIGHT }}
+        style={{ width: '100%', height: CARD_HEIGHT }}
         className={`
           bg-[#0a0a0a]/98 backdrop-blur-xl rounded-xl overflow-hidden
           border transition-all duration-200
@@ -378,7 +381,7 @@ const ARROW_GAP = 10;
 
 const ArrowButton = ({ side, onClick }: ArrowButtonProps) => {
   const isLeft = side === 'left';
-  const offset = CARD_WIDTH / 2 + ARROW_GAP;
+  const offset = CENTER_CARD_WIDTH / 2 + ARROW_GAP;
 
   return (
     <motion.button
@@ -514,7 +517,7 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
 
       <div
         className="flex justify-center gap-2 mt-4"
-        style={{ marginLeft: visibleSideWidth, width: CARD_WIDTH }}
+        style={{ marginLeft: visibleSideWidth - (CENTER_CARD_WIDTH - CARD_WIDTH) / 2, width: CENTER_CARD_WIDTH }}
       >
         {orderedExamples.map((example) => (
           <button
