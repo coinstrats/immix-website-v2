@@ -378,18 +378,20 @@ interface ArrowButtonProps {
   onClick: () => void;
 }
 
-const ARROW_GAP = 10;
+const ARROW_GAP = 8;
 
 const ArrowButton = ({ side, onClick }: ArrowButtonProps) => {
   const isLeft = side === 'left';
-  const offset = CENTER_CARD_WIDTH / 2 + ARROW_GAP;
+  const edgeOffset = CENTER_CARD_WIDTH / 2;
 
   return (
     <motion.button
       onClick={onClick}
-      className={`absolute top-1/2 -translate-y-1/2 z-40 group ${isLeft ? '-translate-x-full' : ''}`}
+      className="absolute z-40 group"
       style={{
-        left: isLeft ? `calc(50% - ${offset}px)` : `calc(50% + ${offset}px)`
+        top: '50%',
+        left: isLeft ? `calc(50% - ${edgeOffset}px - ${ARROW_GAP}px)` : `calc(50% + ${edgeOffset}px + ${ARROW_GAP}px)`,
+        transform: isLeft ? 'translateY(-50%) translateX(-100%)' : 'translateY(-50%)'
       }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
