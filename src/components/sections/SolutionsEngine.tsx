@@ -800,8 +800,8 @@ export const SolutionsEngine = () => {
         </motion.div>
 
         <div className="relative">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <div className="lg:col-span-7 space-y-6 relative z-30">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <div className="lg:col-span-5 space-y-5 relative z-30">
               <div className="space-y-3">
                 <h4 className="text-sm font-semibold text-white/50 uppercase tracking-wider">Use Cases</h4>
                 <div className="flex flex-wrap gap-2">
@@ -849,8 +849,8 @@ export const SolutionsEngine = () => {
               </motion.div>
             </div>
 
-            <div className="lg:col-span-5 relative hidden lg:block">
-              <div className="relative h-[600px]">
+            <div className="lg:col-span-7 relative hidden lg:block">
+              <div className="relative h-[540px]">
                 <div className="absolute inset-0 w-[200%] -right-[100%]">
                   {useCases.map((uc) => (
                     <motion.div
