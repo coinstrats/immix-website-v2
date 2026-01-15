@@ -380,9 +380,12 @@ interface ArrowButtonProps {
 
 const ARROW_GAP = 8;
 
-const ArrowButton = ({ side, onClick }: ArrowButtonProps) => {
+const ArrowButton = ({ side, onClick, containerCenter }: ArrowButtonProps & { containerCenter: number }) => {
   const isLeft = side === 'left';
-  const edgeOffset = CENTER_CARD_WIDTH / 2;
+  const cardHalfWidth = CENTER_CARD_WIDTH / 2;
+  const cardEdge = isLeft
+    ? containerCenter - cardHalfWidth
+    : containerCenter + cardHalfWidth;
 
   return (
     <motion.button
@@ -390,7 +393,7 @@ const ArrowButton = ({ side, onClick }: ArrowButtonProps) => {
       className="absolute z-40 group"
       style={{
         top: '50%',
-        left: isLeft ? `calc(50% - ${edgeOffset}px - ${ARROW_GAP}px)` : `calc(50% + ${edgeOffset}px + ${ARROW_GAP}px)`,
+        left: isLeft ? cardEdge - ARROW_GAP : cardEdge + ARROW_GAP,
         transform: isLeft ? 'translateY(-50%) translateX(-100%)' : 'translateY(-50%)'
       }}
       whileHover={{ scale: 1.1 }}
@@ -481,6 +484,7 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
   const visibleSideWidth = CARD_WIDTH * (1 - SIDE_OVERLAP_PERCENT);
   const deckWidth = CENTER_CARD_WIDTH + visibleSideWidth;
   const leftShift = -180;
+  const containerCenter = deckWidth / 2;
 
   return (
     <div
@@ -496,11 +500,13 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
         <ArrowButton
           side="left"
           onClick={navigateLeft}
+          containerCenter={containerCenter}
         />
 
         <ArrowButton
           side="right"
           onClick={navigateRight}
+          containerCenter={containerCenter}
         />
 
         <AnimatePresence mode="sync">
@@ -521,7 +527,10 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
 
       <div
         className="flex justify-center gap-2 mt-4"
-        style={{ width: CENTER_CARD_WIDTH }}
+        style={{
+          width: CENTER_CARD_WIDTH,
+          marginLeft: containerCenter - CENTER_CARD_WIDTH / 2
+        }}
       >
         {orderedExamples.map((example) => (
           <button
