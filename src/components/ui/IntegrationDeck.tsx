@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Copy, Check, ExternalLink, Code2, Terminal, Zap, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Copy, Check, ExternalLink, Code2, Terminal, Zap } from 'lucide-react';
 
 export interface IntegrationExample {
   id: string;
@@ -256,20 +256,21 @@ const DeckCard = ({
 
   const getTransform = () => {
     const visiblePortion = CARD_WIDTH * (1 - SIDE_OVERLAP_PERCENT);
+    const hiddenPortion = CARD_WIDTH * SIDE_OVERLAP_PERCENT;
 
     if (position === 'center') {
       return { x: 0, scale: 1, zIndex: 30, opacity: 1 };
     }
     if (position === 'left') {
       return {
-        x: -(CARD_WIDTH - visiblePortion),
+        x: -visiblePortion,
         scale: 0.92,
         zIndex: 20,
         opacity: 0.4
       };
     }
     return {
-      x: CENTER_CARD_WIDTH - visiblePortion,
+      x: CENTER_CARD_WIDTH - hiddenPortion,
       scale: 0.92,
       zIndex: 20,
       opacity: 0.4
@@ -295,7 +296,7 @@ const DeckCard = ({
       }}
       style={{ zIndex: transform.zIndex, width: cardWidth }}
       onClick={onClick}
-      className="absolute left-0 top-0 cursor-pointer"
+      className="absolute left-1/2 top-0 -translate-x-1/2 cursor-pointer"
     >
       <div
         style={{ width: '100%', height: CARD_HEIGHT }}
@@ -372,32 +373,6 @@ const DeckCard = ({
   );
 };
 
-interface ArrowButtonProps {
-  side: 'left' | 'right';
-  onClick: () => void;
-}
-
-const ArrowButton = ({ side, onClick }: ArrowButtonProps) => {
-  const isLeft = side === 'left';
-
-  return (
-    <motion.button
-      onClick={onClick}
-      className={`absolute z-40 group top-1/2 -translate-y-1/2 ${isLeft ? 'left-0 -translate-x-full' : 'right-0 translate-x-full'}`}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      <div className="p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 group-hover:bg-blue-500/20 group-hover:border-blue-500/50 transition-all">
-        {isLeft ? (
-          <ChevronLeft size={24} className="text-blue-400/70 group-hover:text-blue-400" strokeWidth={2.5} />
-        ) : (
-          <ChevronRight size={24} className="text-blue-400/70 group-hover:text-blue-400" strokeWidth={2.5} />
-        )}
-      </div>
-    </motion.button>
-  );
-};
-
 export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProps) => {
   const [activeId, setActiveId] = useState(defaultActive || examples[1]?.id || examples[0]?.id);
   const [copied, setCopied] = useState(false);
@@ -469,39 +444,45 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
+  const visibleSideWidth = CARD_WIDTH * (1 - SIDE_OVERLAP_PERCENT);
+  const deckWidth = CENTER_CARD_WIDTH + visibleSideWidth;
+  const leftShift = -180;
+  const containerCenter = deckWidth / 2;
+
   return (
     <div
       className="relative"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      style={{ width: CENTER_CARD_WIDTH }}
+      style={{ marginLeft: leftShift }}
     >
       <div
-        className="relative"
-        style={{ height: CARD_HEIGHT, width: CENTER_CARD_WIDTH }}
+        className="relative overflow-visible"
+        style={{ height: CARD_HEIGHT, width: deckWidth }}
       >
-        <ArrowButton side="left" onClick={navigateLeft} />
-        <ArrowButton side="right" onClick={navigateRight} />
-
-        <div className="absolute inset-0 overflow-visible">
-          <AnimatePresence mode="sync">
-            {orderedExamples.map((example) => (
-              <DeckCard
-                key={example.id}
-                example={example}
-                position={getCircularPosition(example)}
-                isActive={activeId === example.id}
-                onClick={() => setActiveId(example.id)}
-                onCopy={handleCopy}
-                copied={copied && activeId === example.id}
-                reducedMotion={reducedMotion}
-              />
-            ))}
-          </AnimatePresence>
-        </div>
+        <AnimatePresence mode="sync">
+          {orderedExamples.map((example) => (
+            <DeckCard
+              key={example.id}
+              example={example}
+              position={getCircularPosition(example)}
+              isActive={activeId === example.id}
+              onClick={() => setActiveId(example.id)}
+              onCopy={handleCopy}
+              copied={copied && activeId === example.id}
+              reducedMotion={reducedMotion}
+            />
+          ))}
+        </AnimatePresence>
       </div>
 
-      <div className="flex justify-center gap-2 mt-4">
+      <div
+        className="flex items-center justify-center gap-2 mt-4"
+        style={{
+          width: CENTER_CARD_WIDTH,
+          marginLeft: containerCenter - CENTER_CARD_WIDTH / 2
+        }}
+      >
         {orderedExamples.map((example) => (
           <button
             key={example.id}
@@ -517,6 +498,10 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
           />
         ))}
       </div>
+
+      <p className="text-[10px] text-white/30 text-center mt-2" style={{ marginLeft: leftShift * -1 }}>
+        Click cards or swipe to navigate
+      </p>
     </div>
   );
 };
