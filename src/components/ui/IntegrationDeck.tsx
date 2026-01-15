@@ -486,31 +486,32 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
             />
           ))}
         </AnimatePresence>
+      </div>
 
+      <div
+        className="flex items-center justify-between mt-3 px-2"
+        style={{ marginLeft: leftShift * -1, width: CENTER_CARD_WIDTH }}
+      >
         <motion.button
           onClick={navigateLeft}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full flex items-center gap-1 text-white/25 hover:text-white/50 transition-colors cursor-pointer pr-3"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          className="flex items-center gap-1 text-white/30 hover:text-white/60 transition-colors cursor-pointer group"
           whileHover={{ x: -2 }}
         >
-          <ChevronLeft size={14} className="text-white/20" />
-          <span className="text-[10px] font-medium whitespace-nowrap writing-mode-vertical">
+          <ChevronLeft size={12} className="text-white/20 group-hover:text-white/40" />
+          <span className="text-[10px] font-medium">
             {adjacentCards.left?.label}
           </span>
         </motion.button>
 
         <motion.button
           onClick={navigateRight}
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full flex items-center gap-1 text-white/25 hover:text-white/50 transition-colors cursor-pointer pl-3"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          className="flex items-center gap-1 text-white/30 hover:text-white/60 transition-colors cursor-pointer group"
           whileHover={{ x: 2 }}
         >
-          <span className="text-[10px] font-medium whitespace-nowrap">
+          <span className="text-[10px] font-medium">
             {adjacentCards.right?.label}
           </span>
-          <ChevronRight size={14} className="text-white/20" />
+          <ChevronRight size={12} className="text-white/20 group-hover:text-white/40" />
         </motion.button>
       </div>
 
