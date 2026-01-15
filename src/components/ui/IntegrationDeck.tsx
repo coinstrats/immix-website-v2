@@ -472,35 +472,35 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
         className="relative overflow-visible"
         style={{ height: CARD_HEIGHT, width: deckWidth }}
       >
-        <div
-          className="absolute left-1/2 -translate-x-1/2 z-40 flex items-center justify-between"
+        <motion.button
+          onClick={navigateLeft}
+          className="absolute z-40 flex items-center gap-1 text-blue-400 hover:text-blue-300 transition-colors cursor-pointer group"
           style={{
-            width: CENTER_CARD_WIDTH,
+            left: (deckWidth - CENTER_CARD_WIDTH) / 2,
             top: -24,
           }}
+          whileHover={{ x: -2 }}
         >
-          <motion.button
-            onClick={navigateLeft}
-            className="flex items-center gap-1 text-blue-400 hover:text-blue-300 transition-colors cursor-pointer group"
-            whileHover={{ x: -2 }}
-          >
-            <ChevronLeft size={12} className="text-blue-400 group-hover:text-blue-300" />
-            <span className="text-[11px] font-bold">
-              {adjacentCards.left?.label}
-            </span>
-          </motion.button>
+          <ChevronLeft size={12} className="text-blue-400 group-hover:text-blue-300" />
+          <span className="text-[11px] font-bold">
+            {adjacentCards.left?.label}
+          </span>
+        </motion.button>
 
-          <motion.button
-            onClick={navigateRight}
-            className="flex items-center gap-1 text-blue-400 hover:text-blue-300 transition-colors cursor-pointer group"
-            whileHover={{ x: 2 }}
-          >
-            <span className="text-[11px] font-bold">
-              {adjacentCards.right?.label}
-            </span>
-            <ChevronRight size={12} className="text-blue-400 group-hover:text-blue-300" />
-          </motion.button>
-        </div>
+        <motion.button
+          onClick={navigateRight}
+          className="absolute z-40 flex items-center gap-1 text-blue-400 hover:text-blue-300 transition-colors cursor-pointer group"
+          style={{
+            right: (deckWidth - CENTER_CARD_WIDTH) / 2,
+            top: -24,
+          }}
+          whileHover={{ x: 2 }}
+        >
+          <span className="text-[11px] font-bold">
+            {adjacentCards.right?.label}
+          </span>
+          <ChevronRight size={12} className="text-blue-400 group-hover:text-blue-300" />
+        </motion.button>
 
         <AnimatePresence mode="sync">
           {orderedExamples.map((example) => (
