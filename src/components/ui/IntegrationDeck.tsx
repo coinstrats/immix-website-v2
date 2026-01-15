@@ -371,35 +371,32 @@ const DeckCard = ({
 
 interface ArrowButtonProps {
   side: 'left' | 'right';
-  label: string;
   onClick: () => void;
 }
 
-const ArrowButton = ({ side, label, onClick }: ArrowButtonProps) => {
+const ARROW_GAP = 10;
+
+const ArrowButton = ({ side, onClick }: ArrowButtonProps) => {
   const isLeft = side === 'left';
-  const visibleWidth = CARD_WIDTH * (1 - SIDE_OVERLAP_PERCENT);
-  const arrowOffset = (CARD_WIDTH / 2) + (CARD_WIDTH * SIDE_OVERLAP_PERCENT) - (visibleWidth / 2);
+  const offset = CARD_WIDTH / 2 + ARROW_GAP;
 
   return (
     <motion.button
       onClick={onClick}
-      className="absolute top-1/2 -translate-y-1/2 z-40 flex flex-col items-center gap-1.5 group"
+      className={`absolute top-1/2 -translate-y-1/2 z-40 group ${isLeft ? '-translate-x-full' : ''}`}
       style={{
-        [isLeft ? 'left' : 'right']: `calc(50% - ${arrowOffset}px)`
+        left: isLeft ? `calc(50% - ${offset}px)` : `calc(50% + ${offset}px)`
       }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
     >
-      <div className="p-2.5 rounded-lg bg-blue-500/10 border border-blue-500/30 group-hover:bg-blue-500/20 group-hover:border-blue-500/50 transition-all">
+      <div className="p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 group-hover:bg-blue-500/20 group-hover:border-blue-500/50 transition-all">
         {isLeft ? (
-          <ChevronLeft size={28} className="text-blue-400/70 group-hover:text-blue-400" strokeWidth={2.5} />
+          <ChevronLeft size={24} className="text-blue-400/70 group-hover:text-blue-400" strokeWidth={2.5} />
         ) : (
-          <ChevronRight size={28} className="text-blue-400/70 group-hover:text-blue-400" strokeWidth={2.5} />
+          <ChevronRight size={24} className="text-blue-400/70 group-hover:text-blue-400" strokeWidth={2.5} />
         )}
       </div>
-      <span className="text-[10px] text-blue-400/60 group-hover:text-blue-400/90 uppercase tracking-wider font-semibold whitespace-nowrap">
-        {label}
-      </span>
     </motion.button>
   );
 };
@@ -428,18 +425,6 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
     const leftIdx = (activeIdx - 1 + total) % total;
     if (exampleIdx === leftIdx) return 'left';
     return 'right';
-  };
-
-  const getLeftExample = () => {
-    const activeIdx = getActiveIndex();
-    const leftIdx = (activeIdx - 1 + orderedExamples.length) % orderedExamples.length;
-    return orderedExamples[leftIdx];
-  };
-
-  const getRightExample = () => {
-    const activeIdx = getActiveIndex();
-    const rightIdx = (activeIdx + 1) % orderedExamples.length;
-    return orderedExamples[rightIdx];
   };
 
   const navigateLeft = useCallback(() => {
@@ -487,17 +472,15 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
-  const leftExample = getLeftExample();
-  const rightExample = getRightExample();
-
   const visibleSideWidth = CARD_WIDTH * (1 - SIDE_OVERLAP_PERCENT);
+  const extraLeftShift = CARD_WIDTH * 0.15;
 
   return (
     <div
       className="relative"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      style={{ marginLeft: -visibleSideWidth }}
+      style={{ marginLeft: -(visibleSideWidth + extraLeftShift) }}
     >
       <div
         className="relative"
@@ -505,13 +488,11 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
       >
         <ArrowButton
           side="left"
-          label={leftExample.label}
           onClick={navigateLeft}
         />
 
         <ArrowButton
           side="right"
-          label={rightExample.label}
           onClick={navigateRight}
         />
 
@@ -531,7 +512,10 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
         </AnimatePresence>
       </div>
 
-      <div className="flex gap-2 mt-4" style={{ paddingLeft: visibleSideWidth }}>
+      <div
+        className="flex justify-center gap-2 mt-4"
+        style={{ marginLeft: visibleSideWidth, width: CARD_WIDTH }}
+      >
         {orderedExamples.map((example) => (
           <button
             key={example.id}
