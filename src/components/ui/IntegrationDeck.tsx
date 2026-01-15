@@ -473,9 +473,8 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
         style={{ height: CARD_HEIGHT, width: deckWidth }}
       >
         <div
-          className="absolute z-40 flex items-center justify-between"
+          className="absolute left-1/2 -translate-x-1/2 z-40 flex items-center justify-between"
           style={{
-            left: (deckWidth - CENTER_CARD_WIDTH) / 2,
             width: CENTER_CARD_WIDTH,
             top: -24,
           }}
