@@ -240,7 +240,7 @@ interface CardProps {
 const CARD_WIDTH = 320;
 const CENTER_CARD_WIDTH = 380;
 const CARD_HEIGHT = 460;
-const SIDE_OVERLAP_PERCENT = 0.70;
+const SIDE_OVERLAP_PERCENT = 0.95;
 
 const DeckCard = ({
   example,
@@ -255,7 +255,7 @@ const DeckCard = ({
   const colors = languageColors[example.language];
 
   const getTransform = () => {
-    const sideOffset = CARD_WIDTH * SIDE_OVERLAP_PERCENT;
+    const sideOffset = CENTER_CARD_WIDTH * SIDE_OVERLAP_PERCENT;
 
     if (position === 'center') {
       return { x: 0, scale: 1, zIndex: 30, opacity: 1 };
@@ -263,16 +263,16 @@ const DeckCard = ({
     if (position === 'left') {
       return {
         x: -sideOffset,
-        scale: 0.95,
+        scale: 0.92,
         zIndex: 20,
-        opacity: 0.5
+        opacity: 0.4
       };
     }
     return {
       x: sideOffset,
-      scale: 0.95,
+      scale: 0.92,
       zIndex: 20,
-      opacity: 0.5
+      opacity: 0.4
     };
   };
 
@@ -476,18 +476,19 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
   }, [handleKeyDown]);
 
   const visibleSideWidth = CARD_WIDTH * (1 - SIDE_OVERLAP_PERCENT);
-  const extraLeftShift = CARD_WIDTH * 0.15;
+  const deckWidth = CENTER_CARD_WIDTH + (visibleSideWidth * 2);
+  const centerCardLeftOffset = (CENTER_CARD_WIDTH - deckWidth) / 2;
 
   return (
     <div
       className="relative"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      style={{ marginLeft: -(visibleSideWidth + extraLeftShift) }}
+      style={{ marginLeft: centerCardLeftOffset }}
     >
       <div
         className="relative"
-        style={{ height: CARD_HEIGHT, width: CARD_WIDTH + (visibleSideWidth * 2) }}
+        style={{ height: CARD_HEIGHT, width: deckWidth }}
       >
         <ArrowButton
           side="left"
@@ -517,7 +518,7 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
 
       <div
         className="flex justify-center gap-2 mt-4"
-        style={{ marginLeft: visibleSideWidth - (CENTER_CARD_WIDTH - CARD_WIDTH) / 2, width: CENTER_CARD_WIDTH }}
+        style={{ width: CENTER_CARD_WIDTH }}
       >
         {orderedExamples.map((example) => (
           <button
