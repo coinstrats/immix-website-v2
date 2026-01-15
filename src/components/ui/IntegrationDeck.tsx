@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Copy, Check, ExternalLink, Code2, Terminal, Zap } from 'lucide-react';
+import { Copy, Check, ExternalLink, Code2, Terminal, Zap, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export interface IntegrationExample {
   id: string;
@@ -447,7 +447,19 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
   const visibleSideWidth = CARD_WIDTH * (1 - SIDE_OVERLAP_PERCENT);
   const deckWidth = CENTER_CARD_WIDTH + visibleSideWidth;
   const leftShift = -180;
-  const containerCenter = deckWidth / 2;
+
+  const getAdjacentCards = () => {
+    const activeIdx = getActiveIndex();
+    const total = orderedExamples.length;
+    const leftIdx = (activeIdx - 1 + total) % total;
+    const rightIdx = (activeIdx + 1) % total;
+    return {
+      left: orderedExamples[leftIdx],
+      right: orderedExamples[rightIdx]
+    };
+  };
+
+  const adjacentCards = getAdjacentCards();
 
   return (
     <div
@@ -474,6 +486,32 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
             />
           ))}
         </AnimatePresence>
+
+        <motion.button
+          onClick={navigateLeft}
+          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-full flex items-center gap-1 text-white/25 hover:text-white/50 transition-colors cursor-pointer pr-3"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          whileHover={{ x: -2 }}
+        >
+          <ChevronLeft size={14} className="text-white/20" />
+          <span className="text-[10px] font-medium whitespace-nowrap writing-mode-vertical">
+            {adjacentCards.left?.label}
+          </span>
+        </motion.button>
+
+        <motion.button
+          onClick={navigateRight}
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full flex items-center gap-1 text-white/25 hover:text-white/50 transition-colors cursor-pointer pl-3"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          whileHover={{ x: 2 }}
+        >
+          <span className="text-[10px] font-medium whitespace-nowrap">
+            {adjacentCards.right?.label}
+          </span>
+          <ChevronRight size={14} className="text-white/20" />
+        </motion.button>
       </div>
 
       <div
