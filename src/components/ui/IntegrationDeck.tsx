@@ -240,7 +240,7 @@ interface CardProps {
 const CARD_WIDTH = 320;
 const CENTER_CARD_WIDTH = 380;
 const CARD_HEIGHT = 460;
-const SIDE_OVERLAP_PERCENT = 1.15;
+const SIDE_OVERLAP_PERCENT = 0.70;
 
 const DeckCard = ({
   example,
@@ -255,21 +255,21 @@ const DeckCard = ({
   const colors = languageColors[example.language];
 
   const getTransform = () => {
-    const sideOffset = CENTER_CARD_WIDTH * SIDE_OVERLAP_PERCENT;
+    const visiblePortion = CARD_WIDTH * (1 - SIDE_OVERLAP_PERCENT);
 
     if (position === 'center') {
       return { x: 0, scale: 1, zIndex: 30, opacity: 1 };
     }
     if (position === 'left') {
       return {
-        x: -sideOffset,
+        x: -visiblePortion,
         scale: 0.92,
         zIndex: 20,
         opacity: 0.4
       };
     }
     return {
-      x: sideOffset,
+      x: CENTER_CARD_WIDTH - visiblePortion,
       scale: 0.92,
       zIndex: 20,
       opacity: 0.4
@@ -475,9 +475,9 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
-  const sideCardOffset = CENTER_CARD_WIDTH * SIDE_OVERLAP_PERCENT;
-  const deckWidth = CENTER_CARD_WIDTH;
-  const leftShift = -90;
+  const visibleSideWidth = CARD_WIDTH * (1 - SIDE_OVERLAP_PERCENT);
+  const deckWidth = CENTER_CARD_WIDTH + visibleSideWidth;
+  const leftShift = -180;
 
   return (
     <div
