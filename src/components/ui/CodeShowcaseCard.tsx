@@ -12,10 +12,7 @@ interface CodeShowcaseCardProps {
   docTooltip?: string;
   isActive: boolean;
   onClick: () => void;
-  index: number;
-  totalCards: number;
-  hoveredIndex: number | null;
-  onHover: (index: number | null) => void;
+  position: 'left' | 'center' | 'right';
 }
 
 const languageLabels = {
@@ -253,10 +250,7 @@ export const CodeShowcaseCard = ({
   docTooltip = 'View documentation',
   isActive,
   onClick,
-  index,
-  totalCards,
-  hoveredIndex,
-  onHover
+  position
 }: CodeShowcaseCardProps) => {
   const [copied, setCopied] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
@@ -274,70 +268,66 @@ export const CodeShowcaseCard = ({
       ? RestSyntaxHighlighter
       : JavaSyntaxHighlighter;
 
-  const isHovered = hoveredIndex === index;
-  const isAnyHovered = hoveredIndex !== null;
-  const shouldExpand = isActive || isHovered;
-
-  const baseX = index * 100;
-  const baseY = (totalCards - 1 - index) * 45;
-  const baseZ = index + 1;
-
-  const getTransform = () => {
-    if (shouldExpand) {
-      return {
-        x: baseX,
-        y: baseY - 8,
-        scale: 1.02,
-        zIndex: 50
-      };
+  const getPositionStyles = () => {
+    switch (position) {
+      case 'left':
+        return {
+          x: -60,
+          scale: 0.88,
+          opacity: 0.6,
+          zIndex: 10,
+          rotateY: 8
+        };
+      case 'right':
+        return {
+          x: 340,
+          scale: 0.88,
+          opacity: 0.6,
+          zIndex: 10,
+          rotateY: -8
+        };
+      case 'center':
+      default:
+        return {
+          x: 110,
+          scale: 1,
+          opacity: 1,
+          zIndex: 30,
+          rotateY: 0
+        };
     }
-    if (isAnyHovered && !isHovered) {
-      return {
-        x: baseX,
-        y: baseY + 3,
-        scale: 0.98,
-        zIndex: baseZ
-      };
-    }
-    return {
-      x: baseX,
-      y: baseY,
-      scale: 1,
-      zIndex: isActive ? 40 : baseZ
-    };
   };
 
-  const transform = getTransform();
+  const styles = getPositionStyles();
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: -30, y: baseY }}
+      initial={{ opacity: 0, x: styles.x, scale: 0.9 }}
       animate={{
-        opacity: 1,
-        x: transform.x,
-        y: transform.y,
-        scale: transform.scale,
-        zIndex: transform.zIndex
+        opacity: styles.opacity,
+        x: styles.x,
+        scale: styles.scale,
+        zIndex: styles.zIndex,
+        rotateY: styles.rotateY
       }}
       transition={{
         type: 'spring',
-        stiffness: 400,
+        stiffness: 300,
         damping: 30,
-        mass: 0.8
+        mass: 1
       }}
       onClick={onClick}
-      onMouseEnter={() => onHover(index)}
-      onMouseLeave={() => onHover(null)}
-      className="absolute cursor-pointer"
+      className="absolute cursor-pointer origin-center"
       style={{
-        width: '380px',
-        height: '220px'
+        width: '340px',
+        height: '286px',
+        perspective: '1000px'
       }}
     >
       <div
         className={`
-          h-full bg-[#0a0a0a]/90 backdrop-blur-md border overflow-hidden transition-all duration-300
-          ${shouldExpand
+          h-full bg-[#0a0a0a]/95 backdrop-blur-md border rounded-lg overflow-hidden transition-all duration-300
+          ${isActive
             ? 'border-blue-400/60 shadow-2xl shadow-blue-500/20'
             : 'border-blue-500/30 animate-pulse-border'
           }
@@ -362,7 +352,7 @@ export const CodeShowcaseCard = ({
           <motion.div
             className="flex items-center gap-1"
             initial={false}
-            animate={{ opacity: shouldExpand ? 1 : 0 }}
+            animate={{ opacity: isActive ? 1 : 0 }}
             transition={{ duration: 0.15 }}
           >
             <button
@@ -405,13 +395,11 @@ export const CodeShowcaseCard = ({
           </motion.div>
         </div>
 
-        <div className="h-[180px] overflow-hidden">
-          <div className="p-3 overflow-x-auto">
+        <div className="h-[calc(100%-40px)] overflow-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10 hover:scrollbar-thumb-white/20">
+          <div className="p-3 min-w-max">
             <SyntaxHighlighter code={code} />
           </div>
         </div>
-
-        <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0a0a0a] to-transparent pointer-events-none"></div>
       </div>
     </motion.div>
   );

@@ -724,8 +724,18 @@ export const SolutionsEngine = () => {
   const [activeUseCase, setActiveUseCase] = useState(useCases[0].id);
   const [activePattern, setActivePattern] = useState(useCases[0].patterns[0].id);
   const [activeCodeType, setActiveCodeType] = useState<CodeType>('python');
-  const [hoveredCardIndex, setHoveredCardIndex] = useState<number | null>(null);
   const [imagesLoaded, setImagesLoaded] = useState<Record<string, boolean>>({});
+
+  const codeTypes: CodeType[] = ['sdk', 'python', 'api'];
+
+  const getCardPosition = (type: CodeType): 'left' | 'center' | 'right' => {
+    const activeIndex = codeTypes.indexOf(activeCodeType);
+    const typeIndex = codeTypes.indexOf(type);
+    const diff = typeIndex - activeIndex;
+    if (diff === 0) return 'center';
+    if (diff === -1 || diff === 2) return 'left';
+    return 'right';
+  };
 
   const currentUseCase = useCases.find(uc => uc.id === activeUseCase) || useCases[0];
   const currentPattern = currentUseCase.patterns.find(p => p.id === activePattern) || currentUseCase.patterns[0];
@@ -837,8 +847,8 @@ export const SolutionsEngine = () => {
                 </motion.p>
               )}
 
-              <div className="relative h-[380px] overflow-visible mr-[-60px]">
-                {(['python', 'api', 'sdk'] as CodeType[]).map((type, index) => {
+              <div className="relative h-[320px] overflow-visible" style={{ perspective: '1000px' }}>
+                {codeTypes.map((type) => {
                   const config = codeTypeConfig[type];
                   const example = getCodeExample(type);
 
@@ -854,10 +864,7 @@ export const SolutionsEngine = () => {
                       docTooltip={example.docTooltip}
                       isActive={activeCodeType === type}
                       onClick={() => setActiveCodeType(type)}
-                      index={index}
-                      totalCards={3}
-                      hoveredIndex={hoveredCardIndex}
-                      onHover={setHoveredCardIndex}
+                      position={getCardPosition(type)}
                     />
                   );
                 })}
