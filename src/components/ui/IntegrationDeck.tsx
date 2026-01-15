@@ -240,7 +240,7 @@ interface CardProps {
 const CARD_WIDTH = 320;
 const CENTER_CARD_WIDTH = 380;
 const CARD_HEIGHT = 460;
-const SIDE_OVERLAP_PERCENT = 0.95;
+const SIDE_OVERLAP_PERCENT = 1.15;
 
 const DeckCard = ({
   example,
@@ -475,19 +475,19 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
-  const visibleSideWidth = CARD_WIDTH * (1 - SIDE_OVERLAP_PERCENT);
-  const deckWidth = CENTER_CARD_WIDTH + (visibleSideWidth * 2);
-  const centerCardLeftOffset = (CENTER_CARD_WIDTH - deckWidth) / 2;
+  const sideCardOffset = CENTER_CARD_WIDTH * SIDE_OVERLAP_PERCENT;
+  const deckWidth = CENTER_CARD_WIDTH;
+  const leftShift = -90;
 
   return (
     <div
       className="relative"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      style={{ marginLeft: centerCardLeftOffset }}
+      style={{ marginLeft: leftShift }}
     >
       <div
-        className="relative"
+        className="relative overflow-visible"
         style={{ height: CARD_HEIGHT, width: deckWidth }}
       >
         <ArrowButton
