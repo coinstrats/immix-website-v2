@@ -256,6 +256,7 @@ const DeckCard = ({
 
   const getTransform = () => {
     const visiblePortion = CARD_WIDTH * (1 - SIDE_OVERLAP_PERCENT);
+    const hiddenPortion = CARD_WIDTH * SIDE_OVERLAP_PERCENT;
 
     if (position === 'center') {
       return { x: 0, scale: 1, zIndex: 30, opacity: 1 };
@@ -269,7 +270,7 @@ const DeckCard = ({
       };
     }
     return {
-      x: CENTER_CARD_WIDTH - visiblePortion,
+      x: CENTER_CARD_WIDTH - hiddenPortion,
       scale: 0.92,
       zIndex: 20,
       opacity: 0.4
