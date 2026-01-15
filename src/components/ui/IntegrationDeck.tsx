@@ -478,10 +478,7 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
 
       <div
         className="flex items-center justify-center gap-2 mt-4"
-        style={{
-          width: CENTER_CARD_WIDTH,
-          marginLeft: containerCenter - CENTER_CARD_WIDTH / 2
-        }}
+        style={{ marginLeft: leftShift * -1 }}
       >
         {orderedExamples.map((example) => (
           <button
