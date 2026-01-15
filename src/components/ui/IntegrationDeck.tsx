@@ -240,7 +240,7 @@ interface CardProps {
 const CARD_WIDTH = 320;
 const CENTER_CARD_WIDTH = 380;
 const CARD_HEIGHT = 460;
-const SIDE_OVERLAP_PERCENT = 0.70;
+const SIDE_OVERLAP_PERCENT = 0.55;
 
 const DeckCard = ({
   example,
