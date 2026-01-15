@@ -235,15 +235,11 @@ interface CardProps {
   onCopy: () => void;
   copied: boolean;
   reducedMotion: boolean;
-  centerCardWidth: number;
-  centerCardHeight: number;
 }
 
-const CARD_WIDTH = 280;
-const CARD_HEIGHT = 400;
-const CENTER_SCALE = 1.15;
-const SIDE_CARD_SCALE = 0.88;
-const SIDE_CARD_VISIBLE = 50;
+const CARD_WIDTH = 320;
+const CARD_HEIGHT = 460;
+const SIDE_OVERLAP_PERCENT = 0.70;
 
 const DeckCard = ({
   example,
@@ -252,35 +248,30 @@ const DeckCard = ({
   onClick,
   onCopy,
   copied,
-  reducedMotion,
-  centerCardWidth,
-  centerCardHeight
+  reducedMotion
 }: CardProps) => {
   const SyntaxHighlighter = getSyntaxHighlighter(example.language);
   const colors = languageColors[example.language];
 
   const getTransform = () => {
-    const sideCardWidth = CARD_WIDTH * SIDE_CARD_SCALE;
-    const hideAmount = sideCardWidth - SIDE_CARD_VISIBLE;
+    const sideOffset = CARD_WIDTH * SIDE_OVERLAP_PERCENT;
 
     if (position === 'center') {
-      return { x: 0, scale: CENTER_SCALE, zIndex: 30, opacity: 1 };
+      return { x: 0, scale: 1, zIndex: 30, opacity: 1 };
     }
     if (position === 'left') {
-      const offset = (centerCardWidth / 2) + hideAmount;
       return {
-        x: -offset,
-        scale: SIDE_CARD_SCALE,
+        x: -sideOffset,
+        scale: 0.95,
         zIndex: 20,
-        opacity: 0.6
+        opacity: 0.5
       };
     }
-    const offset = (centerCardWidth / 2) + hideAmount;
     return {
-      x: offset,
-      scale: SIDE_CARD_SCALE,
+      x: sideOffset,
+      scale: 0.95,
       zIndex: 20,
-      opacity: 0.6
+      opacity: 0.5
     };
   };
 
@@ -365,7 +356,7 @@ const DeckCard = ({
           className={`
             h-[calc(100%-44px)] overflow-auto p-3
             scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10
-            ${!isActive ? 'opacity-50' : ''}
+            ${!isActive ? 'opacity-40' : ''}
           `}
           style={{ pointerEvents: isActive ? 'auto' : 'none' }}
         >
@@ -386,22 +377,27 @@ interface ArrowButtonProps {
 
 const ArrowButton = ({ side, label, onClick }: ArrowButtonProps) => {
   const isLeft = side === 'left';
+  const visibleWidth = CARD_WIDTH * (1 - SIDE_OVERLAP_PERCENT);
+  const arrowOffset = (CARD_WIDTH / 2) + (CARD_WIDTH * SIDE_OVERLAP_PERCENT) - (visibleWidth / 2);
 
   return (
     <motion.button
       onClick={onClick}
-      className={`absolute top-1/2 -translate-y-1/2 z-40 flex flex-col items-center gap-1 group ${isLeft ? 'left-0' : 'right-0'}`}
+      className="absolute top-1/2 -translate-y-1/2 z-40 flex flex-col items-center gap-1.5 group"
+      style={{
+        [isLeft ? 'left' : 'right']: `calc(50% - ${arrowOffset}px)`
+      }}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
     >
-      <div className="p-2 rounded-lg bg-black/40 border border-white/10 group-hover:border-white/20 group-hover:bg-black/60 transition-all">
+      <div className="p-2.5 rounded-lg bg-blue-500/10 border border-blue-500/30 group-hover:bg-blue-500/20 group-hover:border-blue-500/50 transition-all">
         {isLeft ? (
-          <ChevronLeft size={20} className="text-white/50 group-hover:text-white/80" />
+          <ChevronLeft size={28} className="text-blue-400/70 group-hover:text-blue-400" strokeWidth={2.5} />
         ) : (
-          <ChevronRight size={20} className="text-white/50 group-hover:text-white/80" />
+          <ChevronRight size={28} className="text-blue-400/70 group-hover:text-blue-400" strokeWidth={2.5} />
         )}
       </div>
-      <span className="text-[9px] text-white/40 group-hover:text-white/70 uppercase tracking-wider font-medium whitespace-nowrap">
+      <span className="text-[10px] text-blue-400/60 group-hover:text-blue-400/90 uppercase tracking-wider font-semibold whitespace-nowrap">
         {label}
       </span>
     </motion.button>
@@ -494,20 +490,18 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
   const leftExample = getLeftExample();
   const rightExample = getRightExample();
 
-  const centerCardWidth = CARD_WIDTH * CENTER_SCALE;
-  const centerCardHeight = CARD_HEIGHT * CENTER_SCALE;
-  const sideCardWidth = CARD_WIDTH * SIDE_CARD_SCALE;
-  const totalWidth = centerCardWidth + (SIDE_CARD_VISIBLE * 2) + 100;
+  const visibleSideWidth = CARD_WIDTH * (1 - SIDE_OVERLAP_PERCENT);
 
   return (
     <div
       className="relative"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      style={{ marginLeft: -visibleSideWidth }}
     >
       <div
-        className="relative mx-auto flex items-center justify-between"
-        style={{ height: centerCardHeight, width: totalWidth, maxWidth: '100%' }}
+        className="relative"
+        style={{ height: CARD_HEIGHT, width: CARD_WIDTH + (visibleSideWidth * 2) }}
       >
         <ArrowButton
           side="left"
@@ -515,36 +509,29 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
           onClick={navigateLeft}
         />
 
-        <div
-          className="relative flex-1 h-full"
-          style={{ marginLeft: 50, marginRight: 50 }}
-        >
-          <AnimatePresence mode="sync">
-            {orderedExamples.map((example) => (
-              <DeckCard
-                key={example.id}
-                example={example}
-                position={getCircularPosition(example)}
-                isActive={activeId === example.id}
-                onClick={() => setActiveId(example.id)}
-                onCopy={handleCopy}
-                copied={copied && activeId === example.id}
-                reducedMotion={reducedMotion}
-                centerCardWidth={centerCardWidth}
-                centerCardHeight={centerCardHeight}
-              />
-            ))}
-          </AnimatePresence>
-        </div>
-
         <ArrowButton
           side="right"
           label={rightExample.label}
           onClick={navigateRight}
         />
+
+        <AnimatePresence mode="sync">
+          {orderedExamples.map((example) => (
+            <DeckCard
+              key={example.id}
+              example={example}
+              position={getCircularPosition(example)}
+              isActive={activeId === example.id}
+              onClick={() => setActiveId(example.id)}
+              onCopy={handleCopy}
+              copied={copied && activeId === example.id}
+              reducedMotion={reducedMotion}
+            />
+          ))}
+        </AnimatePresence>
       </div>
 
-      <div className="flex justify-center gap-2" style={{ marginTop: 8 }}>
+      <div className="flex gap-2 mt-4" style={{ paddingLeft: visibleSideWidth }}>
         {orderedExamples.map((example) => (
           <button
             key={example.id}
