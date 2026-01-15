@@ -469,6 +469,33 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
       style={{ marginLeft: leftShift }}
     >
       <div
+        className="flex items-center justify-between mb-2 px-1"
+        style={{ marginLeft: leftShift * -1, width: CENTER_CARD_WIDTH }}
+      >
+        <motion.button
+          onClick={navigateLeft}
+          className="flex items-center gap-1 text-blue-400 hover:text-blue-300 transition-colors cursor-pointer group"
+          whileHover={{ x: -2 }}
+        >
+          <ChevronLeft size={12} className="text-blue-400 group-hover:text-blue-300" />
+          <span className="text-[11px] font-bold">
+            {adjacentCards.left?.label}
+          </span>
+        </motion.button>
+
+        <motion.button
+          onClick={navigateRight}
+          className="flex items-center gap-1 text-blue-400 hover:text-blue-300 transition-colors cursor-pointer group"
+          whileHover={{ x: 2 }}
+        >
+          <span className="text-[11px] font-bold">
+            {adjacentCards.right?.label}
+          </span>
+          <ChevronRight size={12} className="text-blue-400 group-hover:text-blue-300" />
+        </motion.button>
+      </div>
+
+      <div
         className="relative overflow-visible"
         style={{ height: CARD_HEIGHT, width: deckWidth }}
       >
@@ -486,33 +513,6 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
             />
           ))}
         </AnimatePresence>
-      </div>
-
-      <div
-        className="flex items-center justify-between mt-3 px-2"
-        style={{ marginLeft: leftShift * -1, width: CENTER_CARD_WIDTH }}
-      >
-        <motion.button
-          onClick={navigateLeft}
-          className="flex items-center gap-1 text-white/30 hover:text-white/60 transition-colors cursor-pointer group"
-          whileHover={{ x: -2 }}
-        >
-          <ChevronLeft size={12} className="text-white/20 group-hover:text-white/40" />
-          <span className="text-[10px] font-medium">
-            {adjacentCards.left?.label}
-          </span>
-        </motion.button>
-
-        <motion.button
-          onClick={navigateRight}
-          className="flex items-center gap-1 text-white/30 hover:text-white/60 transition-colors cursor-pointer group"
-          whileHover={{ x: 2 }}
-        >
-          <span className="text-[10px] font-medium">
-            {adjacentCards.right?.label}
-          </span>
-          <ChevronRight size={12} className="text-white/20 group-hover:text-white/40" />
-        </motion.button>
       </div>
 
       <div
