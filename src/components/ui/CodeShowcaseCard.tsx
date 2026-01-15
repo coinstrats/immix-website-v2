@@ -278,23 +278,23 @@ export const CodeShowcaseCard = ({
   const isAnyHovered = hoveredIndex !== null;
   const shouldExpand = isActive || isHovered;
 
-  const baseX = index * 60;
-  const baseY = index * 12;
-  const baseZ = totalCards - index;
+  const baseX = index * 100;
+  const baseY = (totalCards - 1 - index) * 45;
+  const baseZ = index + 1;
 
   const getTransform = () => {
     if (shouldExpand) {
       return {
-        x: baseX + 20,
-        y: baseY - 5,
-        scale: 1,
+        x: baseX,
+        y: baseY - 8,
+        scale: 1.02,
         zIndex: 50
       };
     }
     if (isAnyHovered && !isHovered) {
       return {
-        x: baseX - 10,
-        y: baseY,
+        x: baseX,
+        y: baseY + 3,
         scale: 0.98,
         zIndex: baseZ
       };
@@ -330,16 +330,16 @@ export const CodeShowcaseCard = ({
       onMouseLeave={() => onHover(null)}
       className="absolute cursor-pointer"
       style={{
-        width: 'calc(100% - 120px)',
-        maxWidth: '420px'
+        width: '380px',
+        height: '220px'
       }}
     >
       <div
         className={`
-          bg-[#0a0a0a]/90 backdrop-blur-md border overflow-hidden transition-colors duration-200
+          h-full bg-[#0a0a0a]/90 backdrop-blur-md border overflow-hidden transition-all duration-300
           ${shouldExpand
-            ? 'border-white/20 shadow-2xl shadow-black/50'
-            : 'border-white/[0.06]'
+            ? 'border-blue-400/60 shadow-2xl shadow-blue-500/20'
+            : 'border-blue-500/30 animate-pulse-border'
           }
         `}
       >
@@ -405,23 +405,13 @@ export const CodeShowcaseCard = ({
           </motion.div>
         </div>
 
-        <motion.div
-          className="overflow-hidden"
-          initial={false}
-          animate={{
-            height: shouldExpand ? 'auto' : '80px',
-            opacity: shouldExpand ? 1 : 0.5
-          }}
-          transition={{ duration: 0.2 }}
-        >
+        <div className="h-[180px] overflow-hidden">
           <div className="p-3 overflow-x-auto">
             <SyntaxHighlighter code={code} />
           </div>
-        </motion.div>
+        </div>
 
-        {!shouldExpand && (
-          <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0a0a0a] to-transparent pointer-events-none"></div>
-        )}
+        <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0a0a0a] to-transparent pointer-events-none"></div>
       </div>
     </motion.div>
   );
