@@ -235,12 +235,15 @@ interface CardProps {
   onCopy: () => void;
   copied: boolean;
   reducedMotion: boolean;
+  centerCardWidth: number;
+  centerCardHeight: number;
 }
 
-const CARD_WIDTH = 300;
-const CARD_HEIGHT = 420;
-const SIDE_CARD_SCALE = 0.92;
-const SIDE_CARD_VISIBLE = 70;
+const CARD_WIDTH = 280;
+const CARD_HEIGHT = 400;
+const CENTER_SCALE = 1.15;
+const SIDE_CARD_SCALE = 0.88;
+const SIDE_CARD_VISIBLE = 50;
 
 const DeckCard = ({
   example,
@@ -249,32 +252,35 @@ const DeckCard = ({
   onClick,
   onCopy,
   copied,
-  reducedMotion
+  reducedMotion,
+  centerCardWidth,
+  centerCardHeight
 }: CardProps) => {
   const SyntaxHighlighter = getSyntaxHighlighter(example.language);
   const colors = languageColors[example.language];
 
   const getTransform = () => {
-    const scaledWidth = CARD_WIDTH * SIDE_CARD_SCALE;
-    const centerOffset = (CARD_WIDTH - scaledWidth) / 2;
-    const hideAmount = scaledWidth - SIDE_CARD_VISIBLE;
+    const sideCardWidth = CARD_WIDTH * SIDE_CARD_SCALE;
+    const hideAmount = sideCardWidth - SIDE_CARD_VISIBLE;
 
     if (position === 'center') {
-      return { x: 0, scale: 1, zIndex: 30, opacity: 1 };
+      return { x: 0, scale: CENTER_SCALE, zIndex: 30, opacity: 1 };
     }
     if (position === 'left') {
+      const offset = (centerCardWidth / 2) + hideAmount;
       return {
-        x: -(CARD_WIDTH / 2 + hideAmount - centerOffset),
+        x: -offset,
         scale: SIDE_CARD_SCALE,
         zIndex: 20,
-        opacity: 0.7
+        opacity: 0.6
       };
     }
+    const offset = (centerCardWidth / 2) + hideAmount;
     return {
-      x: CARD_WIDTH / 2 + hideAmount - centerOffset,
+      x: offset,
       scale: SIDE_CARD_SCALE,
       zIndex: 20,
-      opacity: 0.7
+      opacity: 0.6
     };
   };
 
@@ -295,7 +301,7 @@ const DeckCard = ({
       }}
       style={{ zIndex: transform.zIndex }}
       onClick={onClick}
-      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
+      className="absolute left-1/2 top-0 -translate-x-1/2 cursor-pointer"
     >
       <div
         style={{ width: CARD_WIDTH, height: CARD_HEIGHT }}
@@ -359,7 +365,7 @@ const DeckCard = ({
           className={`
             h-[calc(100%-44px)] overflow-auto p-3
             scrollbar-thin scrollbar-track-transparent scrollbar-thumb-white/10
-            ${!isActive ? 'opacity-60' : ''}
+            ${!isActive ? 'opacity-50' : ''}
           `}
           style={{ pointerEvents: isActive ? 'auto' : 'none' }}
         >
@@ -380,28 +386,22 @@ interface ArrowButtonProps {
 
 const ArrowButton = ({ side, label, onClick }: ArrowButtonProps) => {
   const isLeft = side === 'left';
-  const scaledWidth = CARD_WIDTH * SIDE_CARD_SCALE;
-  const hideAmount = scaledWidth - SIDE_CARD_VISIBLE;
-  const arrowPosition = CARD_WIDTH / 2 + hideAmount + SIDE_CARD_VISIBLE / 2;
 
   return (
     <motion.button
       onClick={onClick}
-      className="absolute top-1/2 -translate-y-1/2 z-40 flex flex-col items-center gap-1 group"
-      style={{
-        [isLeft ? 'left' : 'right']: `calc(50% - ${arrowPosition}px)`
-      }}
+      className={`absolute top-1/2 -translate-y-1/2 z-40 flex flex-col items-center gap-1 group ${isLeft ? 'left-0' : 'right-0'}`}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
     >
       <div className="p-2 rounded-lg bg-black/40 border border-white/10 group-hover:border-white/20 group-hover:bg-black/60 transition-all">
         {isLeft ? (
-          <ChevronLeft size={24} className="text-white/60 group-hover:text-white/90" />
+          <ChevronLeft size={20} className="text-white/50 group-hover:text-white/80" />
         ) : (
-          <ChevronRight size={24} className="text-white/60 group-hover:text-white/90" />
+          <ChevronRight size={20} className="text-white/50 group-hover:text-white/80" />
         )}
       </div>
-      <span className="text-[10px] text-white/40 group-hover:text-white/70 uppercase tracking-wider font-medium">
+      <span className="text-[9px] text-white/40 group-hover:text-white/70 uppercase tracking-wider font-medium whitespace-nowrap">
         {label}
       </span>
     </motion.button>
@@ -494,6 +494,11 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
   const leftExample = getLeftExample();
   const rightExample = getRightExample();
 
+  const centerCardWidth = CARD_WIDTH * CENTER_SCALE;
+  const centerCardHeight = CARD_HEIGHT * CENTER_SCALE;
+  const sideCardWidth = CARD_WIDTH * SIDE_CARD_SCALE;
+  const totalWidth = centerCardWidth + (SIDE_CARD_VISIBLE * 2) + 100;
+
   return (
     <div
       className="relative"
@@ -501,38 +506,45 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
       onTouchEnd={handleTouchEnd}
     >
       <div
-        className="relative mx-auto"
-        style={{ height: CARD_HEIGHT + 40, maxWidth: CARD_WIDTH + SIDE_CARD_VISIBLE * 2 + 80 }}
+        className="relative mx-auto flex items-center justify-between"
+        style={{ height: centerCardHeight, width: totalWidth, maxWidth: '100%' }}
       >
         <ArrowButton
           side="left"
-          label="API"
+          label={leftExample.label}
           onClick={navigateLeft}
         />
 
+        <div
+          className="relative flex-1 h-full"
+          style={{ marginLeft: 50, marginRight: 50 }}
+        >
+          <AnimatePresence mode="sync">
+            {orderedExamples.map((example) => (
+              <DeckCard
+                key={example.id}
+                example={example}
+                position={getCircularPosition(example)}
+                isActive={activeId === example.id}
+                onClick={() => setActiveId(example.id)}
+                onCopy={handleCopy}
+                copied={copied && activeId === example.id}
+                reducedMotion={reducedMotion}
+                centerCardWidth={centerCardWidth}
+                centerCardHeight={centerCardHeight}
+              />
+            ))}
+          </AnimatePresence>
+        </div>
+
         <ArrowButton
           side="right"
-          label="SDK"
+          label={rightExample.label}
           onClick={navigateRight}
         />
-
-        <AnimatePresence mode="sync">
-          {orderedExamples.map((example) => (
-            <DeckCard
-              key={example.id}
-              example={example}
-              position={getCircularPosition(example)}
-              isActive={activeId === example.id}
-              onClick={() => setActiveId(example.id)}
-              onCopy={handleCopy}
-              copied={copied && activeId === example.id}
-              reducedMotion={reducedMotion}
-            />
-          ))}
-        </AnimatePresence>
       </div>
 
-      <div className="flex justify-center gap-2 mt-4">
+      <div className="flex justify-center gap-2" style={{ marginTop: 8 }}>
         {orderedExamples.map((example) => (
           <button
             key={example.id}
