@@ -4,7 +4,7 @@ import { Button, AnimatedElement } from '../ui';
 
 export const Hero = () => {
   return (
-    <section className="min-h-screen pt-32 pb-24 px-6 md:px-12 relative overflow-hidden">
+    <section className="pt-32 pb-16 px-6 md:px-12 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           animate={{
@@ -76,7 +76,7 @@ export const Hero = () => {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
-          className="relative hidden lg:block h-[700px] overflow-visible mt-16"
+          className="relative hidden lg:block h-[500px] overflow-visible"
         >
           <div className="relative h-full w-[200%] -mr-[100%]">
             <div className="absolute inset-0 ml-8 rounded-lg" style={{ boxShadow: '0 0 80px 20px rgba(59, 130, 246, 0.15), 0 0 120px 40px rgba(59, 130, 246, 0.08)' }} />
