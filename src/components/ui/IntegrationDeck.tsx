@@ -503,7 +503,7 @@ export const IntegrationDeck = ({ examples, defaultActive }: IntegrationDeckProp
 
   useLayoutEffect(() => {
     calculateLabelPositions();
-  }, [adjacentCards, calculateLabelPositions]);
+  }, [activeId, calculateLabelPositions]);
 
   useEffect(() => {
     const handleResize = () => {
