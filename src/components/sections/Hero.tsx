@@ -43,7 +43,7 @@ export const Hero = () => {
           <AnimatedElement type="fadeInUp" delay={0.4}>
             <div className="flex flex-col md:flex-row gap-3">
               <Button variant="primary" size="md" icon={<TrendingUp size={18} />} href="https://app.immix.xyz">
-                Trade Now
+                Get Started
               </Button>
               <Button variant="secondary" size="md" icon={<BookOpen size={18} />} href="https://docs.immix.xyz/core/introduction">
                 Read the Docs
