@@ -1,6 +1,6 @@
 import {
   Hero,
-  SolutionsEngine,
+  ProductSolutions,
   Pricing,
 } from '../components/sections';
 
@@ -8,7 +8,7 @@ export const HomePage = () => {
   return (
     <>
       <Hero />
-      <SolutionsEngine />
+      <ProductSolutions />
       <Pricing />
     </>
   );
