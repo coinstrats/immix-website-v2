@@ -100,7 +100,7 @@ const pricingTiers = [
       'Everything in Ultra, plus:',
       'Unlimited strategies',
       'Earn product ($10M allocation)',
-      'Java, Rust, Go, C++ SDKs',
+      'Java, Rust, C++ SDKs',
       'Full historical archive',
       'Dedicated success manager',
       '1h SLA response time',
@@ -193,8 +193,8 @@ export const Pricing = () => {
               transition={{ duration: 0.4 }}
               className="space-y-16"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6">
-                {pricingTiers.map((tier, index) => {
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+                {pricingTiers.slice(0, 3).map((tier, index) => {
                   const Icon = tier.icon;
                   const colorClasses = {
                     slate: {
@@ -300,6 +300,79 @@ export const Pricing = () => {
                   );
                 })}
               </div>
+
+              {(() => {
+                const enterprise = pricingTiers[3];
+                const Icon = enterprise.icon;
+                return (
+                  <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                    viewport={{ once: true }}
+                    className="mt-8 p-8 bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-amber-500/10 border border-amber-500/30 relative overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent opacity-50" />
+
+                    <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                      <div className="lg:col-span-4 space-y-4">
+                        <div className="flex items-center gap-3">
+                          <div className="p-3 bg-amber-500/20 text-amber-400">
+                            <Icon size={28} />
+                          </div>
+                          <div>
+                            <h3 className="text-3xl font-bold">{enterprise.name}</h3>
+                            <p className="text-amber-400/80 text-sm">White-glove service</p>
+                          </div>
+                        </div>
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-4xl font-bold">{enterprise.price}</span>
+                          <span className="text-white/60 text-sm">{enterprise.period}</span>
+                        </div>
+                        <p className="text-white/60">{enterprise.description}</p>
+                      </div>
+
+                      <div className="lg:col-span-5">
+                        <div className="grid grid-cols-2 gap-3">
+                          {enterprise.highlights.map((highlight) => (
+                            <div
+                              key={highlight}
+                              className="px-4 py-3 text-sm font-medium border border-amber-500/30 bg-amber-500/10 text-amber-300"
+                            >
+                              {highlight}
+                            </div>
+                          ))}
+                        </div>
+                        <ul className="mt-4 grid grid-cols-2 gap-2">
+                          {enterprise.features.slice(1).map((feature) => (
+                            <li key={feature} className="flex items-center gap-2">
+                              <Check className="flex-shrink-0 text-amber-400" size={14} />
+                              <span className="text-sm text-white/70">{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div className="lg:col-span-3 flex flex-col items-center lg:items-end gap-4">
+                        <Button
+                          variant="secondary"
+                          size="lg"
+                          className="w-full lg:w-auto justify-center border-amber-500/50 hover:border-amber-500 hover:bg-amber-500/10 group/btn"
+                        >
+                          {enterprise.cta}
+                          <ArrowRight
+                            size={16}
+                            className="ml-2 transition-transform group-hover/btn:translate-x-1"
+                          />
+                        </Button>
+                        <p className="text-xs text-white/40 text-center lg:text-right">
+                          Dedicated onboarding included
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })()}
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}

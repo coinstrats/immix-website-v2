@@ -46,9 +46,8 @@ const featureData: FeatureCategory[] = [
       { name: 'Python SDK', lite: true, pro: true, ultra: true, enterprise: true },
       { name: 'Java SDK', lite: false, pro: false, ultra: false, enterprise: true },
       { name: 'Rust SDK', lite: false, pro: false, ultra: false, enterprise: true },
-      { name: 'Go SDK', lite: false, pro: false, ultra: false, enterprise: true },
       { name: 'C++ SDK', lite: false, pro: false, ultra: false, enterprise: true },
-      { name: 'FIX protocol', lite: false, pro: false, ultra: 'Add-on', enterprise: true },
+      { name: 'FIX protocol', lite: false, pro: false, ultra: true, enterprise: true },
     ],
   },
   {
