@@ -7,8 +7,9 @@ type FeatureValue = boolean | string;
 interface Feature {
   name: string;
   tooltip?: string;
-  developer: FeatureValue;
-  growth: FeatureValue;
+  lite: FeatureValue;
+  pro: FeatureValue;
+  ultra: FeatureValue;
   enterprise: FeatureValue;
 }
 
@@ -19,64 +20,66 @@ interface FeatureCategory {
 
 const featureData: FeatureCategory[] = [
   {
+    category: 'Products',
+    features: [
+      { name: 'Markets (Analytics)', lite: 'View-only', pro: 'View-only', ultra: 'Full access', enterprise: 'Full access' },
+      { name: 'Trade Workspaces', lite: 'View-only', pro: 'Full access', ultra: 'Full access', enterprise: 'Full access' },
+      { name: 'Trading Execution', lite: false, pro: true, ultra: true, enterprise: true },
+      { name: 'Transfers', tooltip: 'Cross-chain and fiat movements', lite: false, pro: false, ultra: true, enterprise: true },
+      { name: 'Earn', tooltip: 'Yield generation product', lite: false, pro: '$10K limit', ultra: '$100K limit', enterprise: '$10M limit' },
+    ],
+  },
+  {
+    category: 'Strategies',
+    features: [
+      { name: 'Pre-built templates', lite: false, pro: true, ultra: true, enterprise: true },
+      { name: 'Configurable strategies', lite: false, pro: '1 strategy', ultra: '2 strategies', enterprise: 'Unlimited' },
+      { name: 'Custom strategy development', lite: false, pro: false, ultra: false, enterprise: true },
+      { name: 'Strategy backtesting', lite: false, pro: 'Basic', ultra: 'Advanced', enterprise: 'Full suite' },
+    ],
+  },
+  {
+    category: 'SDKs & APIs',
+    features: [
+      { name: 'REST API', lite: 'Read-only', pro: true, ultra: true, enterprise: true },
+      { name: 'WebSocket streams', lite: true, pro: true, ultra: true, enterprise: true },
+      { name: 'Python SDK', lite: true, pro: true, ultra: true, enterprise: true },
+      { name: 'Java SDK', lite: false, pro: false, ultra: false, enterprise: true },
+      { name: 'Rust SDK', lite: false, pro: false, ultra: false, enterprise: true },
+      { name: 'Go SDK', lite: false, pro: false, ultra: false, enterprise: true },
+      { name: 'C++ SDK', lite: false, pro: false, ultra: false, enterprise: true },
+      { name: 'FIX protocol', lite: false, pro: false, ultra: 'Add-on', enterprise: true },
+    ],
+  },
+  {
     category: 'Infrastructure',
     features: [
-      { name: 'Message throughput', developer: '10M/day', growth: '100M/day', enterprise: 'Unlimited' },
-      { name: 'Sequencer cluster', developer: 'Shared', growth: 'Dedicated', enterprise: 'Isolated' },
-      { name: 'Latency SLA', developer: '<10ms p99', growth: '<5ms p99', enterprise: '<1ms p99' },
-      { name: 'Uptime guarantee', developer: '99.9%', growth: '99.95%', enterprise: '99.999%' },
-      { name: 'Zero-downtime upgrades', developer: false, growth: true, enterprise: true },
-    ],
-  },
-  {
-    category: 'Connectivity',
-    features: [
-      { name: 'REST API', developer: true, growth: true, enterprise: true },
-      { name: 'WebSocket streams', developer: true, growth: true, enterprise: true },
-      { name: 'FIX protocol', developer: false, growth: true, enterprise: true },
-      { name: 'Private connectivity', tooltip: 'AWS Direct Connect to venues', developer: false, growth: 'Add-on', enterprise: true },
-      { name: 'Co-location options', developer: false, growth: false, enterprise: true },
-    ],
-  },
-  {
-    category: 'SDKs & Tools',
-    features: [
-      { name: 'Python SDK', developer: true, growth: true, enterprise: true },
-      { name: 'Java SDK', developer: true, growth: true, enterprise: true },
-      { name: 'C++ SDK', developer: true, growth: true, enterprise: true },
-      { name: 'Node.js SDK', developer: true, growth: true, enterprise: true },
-      { name: 'Rust SDK', developer: false, growth: true, enterprise: true },
-    ],
-  },
-  {
-    category: 'Risk & Compliance',
-    features: [
-      { name: 'Pre-trade risk checks', developer: 'Basic', growth: 'Advanced', enterprise: 'Custom' },
-      { name: 'IMMIX Guard engine', developer: false, growth: true, enterprise: true },
-      { name: 'Position limits', developer: true, growth: true, enterprise: true },
-      { name: 'Compliance reporting', developer: false, growth: true, enterprise: true },
-      { name: 'Audit logs', developer: '30 days', growth: '1 year', enterprise: 'Unlimited' },
+      { name: 'Message pricing', lite: '$0.00002/msg', pro: '$0.000015/msg', ultra: '$0.00001/msg', enterprise: 'Volume discount' },
+      { name: 'Bandwidth pricing', lite: '$0.10/GB', pro: '$0.08/GB', ultra: '$0.05/GB', enterprise: 'Volume discount' },
+      { name: 'Sequencer cluster', lite: 'Shared', pro: 'Shared', ultra: 'Dedicated', enterprise: 'Isolated' },
+      { name: 'Latency SLA', lite: '<15ms p99', pro: '<10ms p99', ultra: '<5ms p99', enterprise: '<1ms p99' },
+      { name: 'Uptime guarantee', lite: '99.9%', pro: '99.9%', ultra: '99.95%', enterprise: '99.999%' },
     ],
   },
   {
     category: 'Data & Analytics',
     features: [
-      { name: 'Real-time market data', developer: true, growth: true, enterprise: true },
-      { name: 'Historical data access', developer: '7 days', growth: '1 year', enterprise: 'Full history' },
-      { name: 'Post-trade analytics', developer: false, growth: true, enterprise: true },
-      { name: 'Data Lab (ClickHouse)', developer: false, growth: 'Add-on', enterprise: true },
-      { name: 'Custom dashboards', developer: false, growth: true, enterprise: true },
+      { name: 'Real-time market data', lite: true, pro: true, ultra: true, enterprise: true },
+      { name: 'Historical data access', lite: '7 days', pro: '30 days', ultra: '1 year', enterprise: 'Full history' },
+      { name: 'Post-trade analytics', lite: false, pro: true, ultra: true, enterprise: true },
+      { name: 'Custom dashboards', lite: false, pro: false, ultra: true, enterprise: true },
+      { name: 'Data Lab (ClickHouse)', lite: false, pro: false, ultra: 'Add-on', enterprise: true },
     ],
   },
   {
     category: 'Support',
     features: [
-      { name: 'Documentation access', developer: true, growth: true, enterprise: true },
-      { name: 'Community support', developer: true, growth: true, enterprise: true },
-      { name: 'Email support', developer: true, growth: true, enterprise: true },
-      { name: 'Priority support', developer: false, growth: true, enterprise: true },
-      { name: 'Dedicated success manager', developer: false, growth: false, enterprise: true },
-      { name: 'SLA response time', developer: '48h', growth: '4h', enterprise: '1h' },
+      { name: 'Documentation access', lite: true, pro: true, ultra: true, enterprise: true },
+      { name: 'Community support', lite: true, pro: true, ultra: true, enterprise: true },
+      { name: 'Email support', lite: true, pro: true, ultra: true, enterprise: true },
+      { name: 'Priority support', lite: false, pro: true, ultra: true, enterprise: true },
+      { name: 'SLA response time', lite: '48h', pro: '8h', ultra: '4h', enterprise: '1h' },
+      { name: 'Dedicated success manager', lite: false, pro: false, ultra: false, enterprise: true },
     ],
   },
 ];
@@ -89,7 +92,7 @@ const FeatureCell = ({ value }: { value: FeatureValue }) => {
       <Minus className="text-white/20 mx-auto" size={18} />
     );
   }
-  return <span className="text-sm text-white/80">{value}</span>;
+  return <span className="text-xs text-white/80">{value}</span>;
 };
 
 export const FeatureComparisonGrid = () => {
@@ -117,28 +120,34 @@ export const FeatureComparisonGrid = () => {
       viewport={{ once: true }}
       className="overflow-x-auto"
     >
-      <table className="w-full min-w-[700px]">
+      <table className="w-full min-w-[800px]">
         <thead>
           <tr className="border-b border-white/10">
-            <th className="text-left py-4 px-4 text-white/60 font-medium text-sm w-[40%]">
+            <th className="text-left py-4 px-4 text-white/60 font-medium text-sm w-[28%]">
               Feature
             </th>
-            <th className="py-4 px-4 text-center w-[20%]">
+            <th className="py-4 px-3 text-center w-[18%]">
               <div className="space-y-1">
-                <div className="text-emerald-400 font-bold">Developer</div>
-                <div className="text-white/40 text-xs font-normal">$2,500/mo</div>
+                <div className="text-slate-300 font-bold">Lite</div>
+                <div className="text-white/40 text-xs font-normal">~$500/mo</div>
               </div>
             </th>
-            <th className="py-4 px-4 text-center w-[20%] bg-immix-blue/5 border-x border-immix-blue/20">
+            <th className="py-4 px-3 text-center w-[18%]">
               <div className="space-y-1">
-                <div className="text-immix-blue font-bold">Growth</div>
-                <div className="text-white/40 text-xs font-normal">$8,500/mo</div>
+                <div className="text-emerald-400 font-bold">Pro</div>
+                <div className="text-white/40 text-xs font-normal">~$2,500/mo</div>
               </div>
             </th>
-            <th className="py-4 px-4 text-center w-[20%]">
+            <th className="py-4 px-3 text-center w-[18%] bg-immix-blue/5 border-x border-immix-blue/20">
+              <div className="space-y-1">
+                <div className="text-immix-blue font-bold">Ultra</div>
+                <div className="text-white/40 text-xs font-normal">~$5,000/mo</div>
+              </div>
+            </th>
+            <th className="py-4 px-3 text-center w-[18%]">
               <div className="space-y-1">
                 <div className="text-amber-400 font-bold">Enterprise</div>
-                <div className="text-white/40 text-xs font-normal">Custom</div>
+                <div className="text-white/40 text-xs font-normal">~$25,000/mo</div>
               </div>
             </th>
           </tr>
@@ -151,7 +160,7 @@ export const FeatureComparisonGrid = () => {
                 className="border-b border-white/5 bg-white/[0.02] cursor-pointer hover:bg-white/[0.04] transition-colors"
                 onClick={() => toggleCategory(category.category)}
               >
-                <td colSpan={4} className="py-3 px-4">
+                <td colSpan={5} className="py-3 px-4">
                   <div className="flex items-center gap-2">
                     <motion.span
                       initial={false}
@@ -186,13 +195,16 @@ export const FeatureComparisonGrid = () => {
                         )}
                       </div>
                     </td>
-                    <td className="py-3 px-4 text-center">
-                      <FeatureCell value={feature.developer} />
+                    <td className="py-3 px-3 text-center">
+                      <FeatureCell value={feature.lite} />
                     </td>
-                    <td className="py-3 px-4 text-center bg-immix-blue/5 border-x border-immix-blue/10">
-                      <FeatureCell value={feature.growth} />
+                    <td className="py-3 px-3 text-center">
+                      <FeatureCell value={feature.pro} />
                     </td>
-                    <td className="py-3 px-4 text-center">
+                    <td className="py-3 px-3 text-center bg-immix-blue/5 border-x border-immix-blue/10">
+                      <FeatureCell value={feature.ultra} />
+                    </td>
+                    <td className="py-3 px-3 text-center">
                       <FeatureCell value={feature.enterprise} />
                     </td>
                   </motion.tr>

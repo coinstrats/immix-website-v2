@@ -1,59 +1,85 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Zap, TrendingUp, Shield, ArrowRight, Sparkles } from 'lucide-react';
+import { Check, Eye, TrendingUp, ArrowLeftRight, Shield, ArrowRight, Sparkles } from 'lucide-react';
 import { AnimatedElement, Button } from '../ui';
 import { UsageCalculator } from './UsageCalculator';
 import { FeatureComparisonGrid } from './FeatureComparisonGrid';
 
 const pricingTiers = [
   {
-    name: 'Developer',
-    icon: Zap,
-    price: '$2,500',
-    period: 'per month',
-    description: 'For quant funds, startups, and algo developers building their first strategies',
+    name: 'Lite',
+    icon: Eye,
+    price: 'From $500',
+    period: 'avg/month',
+    description: 'For analysts and teams needing view-only access to markets and data',
     highlights: [
-      '10M messages/day',
-      'Shared infrastructure',
-      '2.0 bps on volume',
-      'All core SDKs included',
+      'View-only Markets',
+      'Read-only API',
+      'Python SDK',
+      'Pay per message',
     ],
     features: [
-      'REST & WebSocket APIs',
-      'Python, Java, C++, Node.js SDKs',
-      'Real-time market data',
-      'Basic pre-trade risk checks',
+      'Markets analytics dashboard',
+      'View-only trade workspaces',
+      'Read-only market data API',
+      'Real-time data streaming',
       '7-day historical data',
       '99.9% uptime SLA',
-      'Community & email support',
+      'Email support',
     ],
-    cta: 'Start Building',
+    cta: 'Get Started',
+    ctaLink: '#',
+    highlighted: false,
+    tierColor: 'slate',
+  },
+  {
+    name: 'Pro',
+    icon: TrendingUp,
+    price: 'From $2,500',
+    period: 'avg/month',
+    description: 'For traders and funds ready to execute with algorithmic strategies',
+    highlights: [
+      'Full trading access',
+      '1 Strategy',
+      'Earn ($10K limit)',
+      'Pay per usage',
+    ],
+    features: [
+      'Everything in Lite, plus:',
+      'Full trading capabilities',
+      'Order execution & management',
+      '1 configurable strategy',
+      'Earn product ($10K allocation)',
+      'Post-trade analytics',
+      'Priority support (8h SLA)',
+    ],
+    cta: 'Start Trading',
     ctaLink: '#',
     highlighted: false,
     tierColor: 'emerald',
   },
   {
-    name: 'Growth',
-    icon: TrendingUp,
-    price: '$8,500',
-    period: 'per month',
-    description: 'For prop shops, neobanks, and treasury operations scaling their trading',
+    name: 'Ultra',
+    icon: ArrowLeftRight,
+    price: 'From $5,000',
+    period: 'avg/month',
+    description: 'For institutions needing transfers, yield, and advanced automation',
     highlights: [
-      '100M messages/day',
-      'Dedicated sequencer',
-      '1.0 bps on volume',
-      '5 UI seats included',
+      'Transfers access',
+      '2 Strategies',
+      'Earn ($100K limit)',
+      'Volume discounts',
     ],
     features: [
-      'Everything in Developer, plus:',
-      'FIX protocol support',
-      'IMMIX Guard risk engine',
+      'Everything in Pro, plus:',
+      'Transfers product access',
+      'Cross-chain movements',
+      '2 configurable strategies',
+      'Earn product ($100K allocation)',
       '1-year historical data',
-      'Post-trade analytics',
-      'Custom dashboards',
       'Priority support (4h SLA)',
     ],
-    cta: 'Upgrade to Growth',
+    cta: 'Upgrade to Ultra',
     ctaLink: '#',
     highlighted: true,
     tierColor: 'blue',
@@ -61,23 +87,23 @@ const pricingTiers = [
   {
     name: 'Enterprise',
     icon: Shield,
-    price: 'Custom',
-    period: 'tailored pricing',
-    description: 'For tier-1 banks, market makers, and exchanges requiring maximum performance',
+    price: 'From $25,000',
+    period: 'avg/month',
+    description: 'For institutions requiring unlimited scale and white-glove service',
     highlights: [
-      'Unlimited throughput',
-      'Isolated cluster',
-      '0.5 bps volume (negotiable)',
-      'White-glove support',
+      'Unlimited strategies',
+      'Earn ($10M limit)',
+      'All SDKs',
+      'Custom pricing',
     ],
     features: [
-      'Everything in Growth, plus:',
-      'Physical isolation',
-      'Co-location options',
-      'Rust SDK access',
+      'Everything in Ultra, plus:',
+      'Unlimited strategies',
+      'Earn product ($10M allocation)',
+      'Java, Rust, Go, C++ SDKs',
       'Full historical archive',
-      'Compliance consulting',
       'Dedicated success manager',
+      '1h SLA response time',
     ],
     cta: 'Contact Sales',
     ctaLink: '#',
@@ -167,10 +193,15 @@ export const Pricing = () => {
               transition={{ duration: 0.4 }}
               className="space-y-16"
             >
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6">
                 {pricingTiers.map((tier, index) => {
                   const Icon = tier.icon;
                   const colorClasses = {
+                    slate: {
+                      badge: 'bg-slate-500/20 text-slate-300 border-slate-500/30',
+                      icon: 'bg-slate-500/20 text-slate-300',
+                      highlight: 'text-slate-300',
+                    },
                     emerald: {
                       badge: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
                       icon: 'bg-emerald-500/20 text-emerald-400',
@@ -195,7 +226,7 @@ export const Pricing = () => {
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: index * 0.1 }}
                       viewport={{ once: true }}
-                      className={`relative p-8 flex flex-col h-full group ${
+                      className={`relative p-6 flex flex-col h-full group ${
                         tier.highlighted
                           ? 'bg-immix-blue/10 border-2 border-immix-blue shadow-glow-lg'
                           : 'bg-immix-dark/60 border border-white/10 hover:border-white/20 transition-colors'
