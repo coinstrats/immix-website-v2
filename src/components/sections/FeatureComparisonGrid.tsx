@@ -11,6 +11,7 @@ interface Feature {
   pro: FeatureValue;
   ultra: FeatureValue;
   enterprise: FeatureValue;
+  comingSoon?: boolean;
 }
 
 interface FeatureCategory {
@@ -24,7 +25,7 @@ const featureData: FeatureCategory[] = [
     features: [
       { name: 'Markets (Analytics)', lite: 'View-only', pro: 'View-only', ultra: 'Full access', enterprise: 'Full access' },
       { name: 'Trade Workspaces', lite: 'View-only', pro: 'Full access', ultra: 'Full access', enterprise: 'Full access' },
-      { name: 'Trading Execution', lite: false, pro: true, ultra: true, enterprise: true },
+      { name: 'Trading Execution', tooltip: 'Limit, Market, Peg, Ice, SOR, AutoSpreader', lite: false, pro: true, ultra: true, enterprise: true },
       { name: 'Transfers', tooltip: 'Cross-chain and fiat movements', lite: false, pro: false, ultra: true, enterprise: true },
       { name: 'Earn', tooltip: 'Yield generation product', lite: false, pro: '$10K limit', ultra: '$100K limit', enterprise: '$10M limit' },
     ],
@@ -32,10 +33,9 @@ const featureData: FeatureCategory[] = [
   {
     category: 'Strategies',
     features: [
-      { name: 'Pre-built templates', lite: false, pro: true, ultra: true, enterprise: true },
+      { name: 'Pre-built workflows', lite: false, pro: true, ultra: true, enterprise: true },
       { name: 'Configurable strategies', lite: false, pro: '1 strategy', ultra: '2 strategies', enterprise: 'Unlimited' },
       { name: 'Custom strategy development', lite: false, pro: false, ultra: false, enterprise: true },
-      { name: 'Strategy backtesting', lite: false, pro: 'Basic', ultra: 'Advanced', enterprise: 'Full suite' },
     ],
   },
   {
@@ -45,9 +45,9 @@ const featureData: FeatureCategory[] = [
       { name: 'WebSocket streams', lite: true, pro: true, ultra: true, enterprise: true },
       { name: 'Python SDK', lite: true, pro: true, ultra: true, enterprise: true },
       { name: 'Java SDK', lite: false, pro: false, ultra: false, enterprise: true },
-      { name: 'Rust SDK', lite: false, pro: false, ultra: false, enterprise: true },
-      { name: 'C++ SDK', lite: false, pro: false, ultra: false, enterprise: true },
       { name: 'FIX protocol', lite: false, pro: false, ultra: true, enterprise: true },
+      { name: 'Rust SDK', lite: false, pro: false, ultra: false, enterprise: true, comingSoon: true },
+      { name: 'C++ SDK', lite: false, pro: false, ultra: false, enterprise: true, comingSoon: true },
     ],
   },
   {
@@ -183,7 +183,12 @@ export const FeatureComparisonGrid = () => {
                   >
                     <td className="py-3 px-4 pl-8">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm text-white/70">{feature.name}</span>
+                        <span className={`text-sm ${feature.comingSoon ? 'text-white/40' : 'text-white/70'}`}>{feature.name}</span>
+                        {feature.comingSoon && (
+                          <span className="px-1.5 py-0.5 text-[10px] font-medium bg-amber-500/20 text-amber-400 border border-amber-500/30">
+                            Coming soon
+                          </span>
+                        )}
                         {feature.tooltip && (
                           <div className="group relative">
                             <Info size={14} className="text-white/30 cursor-help" />
