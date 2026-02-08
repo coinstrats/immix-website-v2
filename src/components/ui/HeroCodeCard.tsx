@@ -1,17 +1,21 @@
-const pythonCode = `from immix import ImmixClient
+const pythonCode = `from immix import Client
 
-client = ImmixClient(api_key="sk_live_...")
+client = Client(api_key="your_key")
 
-stream = client.market_data.subscribe(
-    symbols=["BTC/USDT", "ETH/USDT"],
-    venues=["binance", "okx", "bybit"],
-    channels=["orderbook", "trades"]
+# Execute with Smart Order Router
+order = client.trade.smart_route(
+    symbol="BTC-USDT",
+    side="BUY",
+    size=1.0,
+    strategy="BEST_PRICE",
+    venues=["BINANCE", "COINBASE", "KRAKEN"],
+    max_slippage_bps=10
 )
 
-for tick in stream:
-    spread = tick.best_ask - tick.best_bid
-    if spread > client.config.threshold:
-        client.orders.submit(tick.signal)`;
+# Stream execution reports
+for fill in order.stream_fills():
+    update_position(fill)
+    log_execution(fill.venue, fill.price)`;
 
 const highlightLine = (line: string) => {
   const keywords = new Set([
@@ -43,7 +47,7 @@ const highlightLine = (line: string) => {
       tokens.push(<span key={`num-${tokenId++}`} className="text-cyan-400">{token}</span>);
     } else if (keywords.has(token)) {
       tokens.push(<span key={`kw-${tokenId++}`} className="text-blue-400">{token}</span>);
-    } else if (token === 'ImmixClient' || token === 'client') {
+    } else if (token === 'Client' || token === 'client' || token === 'order') {
       tokens.push(<span key={`type-${tokenId++}`} className="text-cyan-300">{token}</span>);
     } else {
       tokens.push(<span key={`txt-${tokenId++}`}>{token}</span>);
@@ -67,28 +71,21 @@ export const HeroCodeCard = () => {
   const lines = pythonCode.split('\n');
 
   return (
-    <div className="w-[320px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/[0.08] rounded-lg overflow-hidden"
+    <div
+      className="w-[360px] rounded-xl overflow-hidden"
       style={{
-        boxShadow: '0 0 60px 12px rgba(0, 115, 255, 0.06), 0 25px 50px -12px rgba(0, 0, 0, 0.7)',
-        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+        background: 'rgba(255, 255, 255, 0.03)',
+        backdropFilter: 'blur(40px)',
+        WebkitBackdropFilter: 'blur(40px)',
+        border: '1px solid rgba(255, 255, 255, 0.06)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
       }}
     >
-      <div className="px-3 py-2 border-b border-white/[0.06] flex items-center gap-2 bg-white/[0.02]">
-        <div className="flex gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-[#ff5f57]" />
-          <div className="w-2 h-2 rounded-full bg-[#febc2e]" />
-          <div className="w-2 h-2 rounded-full bg-[#28c840]" />
-        </div>
-        <span className="text-[10px] text-yellow-400/80 font-mono">Python</span>
-        <span className="text-[9px] text-white/25 font-mono ml-auto">strategy.py</span>
-      </div>
-
-      <div className="px-3 py-3">
-        <pre className="text-[10.5px] leading-[1.75]">
+      <div className="px-5 py-4">
+        <pre className="text-[11px] leading-[1.8]">
           <code className="font-mono text-white/85">
             {lines.map((line, i) => (
-              <div key={i} className="flex">
-                <span className="text-white/20 select-none mr-3 text-right w-4 shrink-0 text-[9px]">{i + 1}</span>
+              <div key={i}>
                 <span className="whitespace-pre">{highlightLine(line)}</span>
               </div>
             ))}
