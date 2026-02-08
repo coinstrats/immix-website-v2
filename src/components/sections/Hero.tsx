@@ -79,7 +79,7 @@ export const Hero = () => {
           viewport={{ once: true }}
           className="relative hidden lg:block overflow-visible"
         >
-          <div className="relative">
+          <div className="relative w-[140%]">
             <div className="rounded-xl overflow-hidden border border-white/[0.08]"
               style={{ boxShadow: '0 0 80px 20px rgba(0, 115, 255, 0.08), 0 25px 50px -12px rgba(0, 0, 0, 0.6)' }}
             >
@@ -107,14 +107,15 @@ export const Hero = () => {
               />
             </div>
 
-            <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#050505] to-transparent pointer-events-none z-[1] rounded-b-xl" />
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#050505] via-[#050505]/60 to-transparent pointer-events-none z-[1] rounded-b-xl" />
+            <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-[#050505] to-transparent pointer-events-none z-[1]" />
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.7 }}
               viewport={{ once: true }}
-              className="absolute -bottom-12 -left-12 z-[5]"
+              className="absolute -bottom-8 -left-8 z-[5]"
             >
               <HeroCodeCard />
             </motion.div>
