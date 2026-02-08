@@ -77,42 +77,25 @@ export const Hero = () => {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
-          className="relative hidden lg:block h-[560px] overflow-visible"
+          className="relative hidden lg:block h-[520px] overflow-visible"
         >
-          <div className="relative h-full w-[200%] -mr-[100%]">
+          <div className="relative h-full">
             <img
-              src="/screenshot-3.webp"
-              alt="IMMIX Analytics Dashboard"
-              className="absolute -top-12 left-10 h-[560px] w-auto max-w-none object-cover rounded-lg z-[1] opacity-80"
-              style={{ objectPosition: 'left top' }}
+              src="/screenshot-4.webp"
+              alt="IMMIX Multi-Asset Trading Workspace"
+              className="absolute inset-0 w-full h-full object-cover object-left-top rounded-xl"
+              style={{ boxShadow: '0 0 80px 20px rgba(0, 115, 255, 0.08), 0 25px 50px -12px rgba(0, 0, 0, 0.6)' }}
             />
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.5 }}
-              viewport={{ once: true }}
-              className="absolute top-16 -left-4 z-[2]"
-            >
-              <img
-                src="/screenshot-4.webp"
-                alt="IMMIX Multi-Asset Trading Workspace"
-                className="h-[400px] w-auto max-w-none object-cover rounded-lg shadow-2xl"
-                style={{ objectPosition: 'left top', boxShadow: '0 0 60px 15px rgba(0, 115, 255, 0.12), 0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}
-              />
-            </motion.div>
-
-            <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/60 via-10% to-transparent pointer-events-none z-[3]" />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent from-60% to-[#050505] pointer-events-none z-[3]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 via-20% to-transparent pointer-events-none z-[3]" />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/30 via-transparent to-transparent pointer-events-none z-[3]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-transparent via-15% to-transparent pointer-events-none z-[1] rounded-xl" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent via-25% to-transparent pointer-events-none z-[1] rounded-xl" />
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
               viewport={{ once: true }}
-              className="absolute -bottom-8 -left-8 z-[5]"
+              className="absolute -bottom-10 -left-10 z-[5]"
             >
               <HeroCodeCard />
             </motion.div>
