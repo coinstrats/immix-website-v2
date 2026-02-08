@@ -2,7 +2,6 @@ import { motion } from 'framer-motion';
 import { TrendingUp, BookOpen } from 'lucide-react';
 import { Button, AnimatedElement } from '../ui';
 import { HeroCodeCard } from '../ui/HeroCodeCard';
-import { HeroPromptBox } from '../ui/HeroPromptBox';
 
 export const Hero = () => {
   return (
@@ -84,7 +83,7 @@ export const Hero = () => {
             <img
               src="/screenshot-3.webp"
               alt="IMMIX Analytics Dashboard"
-              className="absolute top-0 left-12 h-[480px] w-auto max-w-none object-cover rounded-lg z-[1]"
+              className="absolute -top-4 left-20 h-[520px] w-auto max-w-none object-cover rounded-lg z-[1] opacity-90"
               style={{ objectPosition: 'left top' }}
             />
 
@@ -93,12 +92,12 @@ export const Hero = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.5 }}
               viewport={{ once: true }}
-              className="absolute top-6 left-4 z-[2]"
+              className="absolute top-10 left-0 z-[2]"
             >
               <img
                 src="/screenshot-4.webp"
                 alt="IMMIX Multi-Asset Trading Workspace"
-                className="h-[460px] w-auto max-w-none object-cover rounded-lg shadow-2xl"
+                className="h-[440px] w-auto max-w-none object-cover rounded-lg shadow-2xl"
                 style={{ objectPosition: 'left top', boxShadow: '0 0 60px 15px rgba(0, 115, 255, 0.12), 0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}
               />
             </motion.div>
@@ -113,19 +112,9 @@ export const Hero = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.8 }}
               viewport={{ once: true }}
-              className="absolute bottom-2 left-0 z-[5]"
+              className="absolute -bottom-8 -left-8 z-[5]"
             >
               <HeroCodeCard />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.0 }}
-              viewport={{ once: true }}
-              className="absolute bottom-2 left-[310px] z-[4]"
-            >
-              <HeroPromptBox />
             </motion.div>
           </div>
         </motion.div>
