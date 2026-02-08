@@ -79,7 +79,7 @@ export const Hero = () => {
           viewport={{ once: true }}
           className="relative hidden lg:block overflow-visible"
         >
-          <div className="relative w-[140%]">
+          <div className="relative w-[160%]">
             <img
               src="/screenshot-4.webp"
               alt="IMMIX Multi-Asset Trading Workspace"
