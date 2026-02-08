@@ -67,28 +67,28 @@ export const HeroCodeCard = () => {
   const lines = pythonCode.split('\n');
 
   return (
-    <div className="w-[260px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/[0.08] rounded-lg overflow-hidden"
+    <div className="w-[380px] bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/[0.08] rounded-lg overflow-hidden"
       style={{
         boxShadow: '0 0 60px 12px rgba(0, 115, 255, 0.06), 0 25px 50px -12px rgba(0, 0, 0, 0.7)',
         borderTop: '1px solid rgba(255, 255, 255, 0.1)',
       }}
     >
-      <div className="px-3 py-2 border-b border-white/[0.06] flex items-center gap-2 bg-white/[0.02]">
+      <div className="px-4 py-2.5 border-b border-white/[0.06] flex items-center gap-2 bg-white/[0.02]">
         <div className="flex gap-1.5">
-          <div className="w-2 h-2 rounded-full bg-[#ff5f57]" />
-          <div className="w-2 h-2 rounded-full bg-[#febc2e]" />
-          <div className="w-2 h-2 rounded-full bg-[#28c840]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
         </div>
-        <span className="text-[10px] text-yellow-400/80 font-mono">Python</span>
-        <span className="text-[9px] text-white/25 font-mono ml-auto">strategy.py</span>
+        <span className="text-[11px] text-yellow-400/80 font-mono">Python</span>
+        <span className="text-[10px] text-white/25 font-mono ml-auto">strategy.py</span>
       </div>
 
-      <div className="px-3 py-3 overflow-hidden">
-        <pre className="text-[9.5px] leading-[1.75]">
+      <div className="px-4 py-4">
+        <pre className="text-[11.5px] leading-[1.8]">
           <code className="font-mono text-white/85">
             {lines.map((line, i) => (
               <div key={i} className="flex">
-                <span className="text-white/20 select-none mr-3 text-right w-4 shrink-0 text-[9px]">{i + 1}</span>
+                <span className="text-white/20 select-none mr-4 text-right w-5 shrink-0 text-[10px]">{i + 1}</span>
                 <span className="whitespace-pre">{highlightLine(line)}</span>
               </div>
             ))}
