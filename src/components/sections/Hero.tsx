@@ -83,7 +83,7 @@ export const Hero = () => {
             <img
               src="/screenshot-3.webp"
               alt="IMMIX Analytics Dashboard"
-              className="absolute -top-4 left-20 h-[520px] w-auto max-w-none object-cover rounded-lg z-[1] opacity-90"
+              className="absolute -top-12 left-10 h-[560px] w-auto max-w-none object-cover rounded-lg z-[1] opacity-80"
               style={{ objectPosition: 'left top' }}
             />
 
@@ -92,12 +92,12 @@ export const Hero = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.5 }}
               viewport={{ once: true }}
-              className="absolute top-10 left-0 z-[2]"
+              className="absolute top-16 -left-4 z-[2]"
             >
               <img
                 src="/screenshot-4.webp"
                 alt="IMMIX Multi-Asset Trading Workspace"
-                className="h-[440px] w-auto max-w-none object-cover rounded-lg shadow-2xl"
+                className="h-[400px] w-auto max-w-none object-cover rounded-lg shadow-2xl"
                 style={{ objectPosition: 'left top', boxShadow: '0 0 60px 15px rgba(0, 115, 255, 0.12), 0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}
               />
             </motion.div>
