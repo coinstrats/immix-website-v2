@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { TrendingUp, BookOpen } from 'lucide-react';
 import { Button, AnimatedElement } from '../ui';
+import { HeroCodeCard } from '../ui/HeroCodeCard';
+import { HeroPromptBox } from '../ui/HeroPromptBox';
 
 export const Hero = () => {
   return (
@@ -20,7 +22,7 @@ export const Hero = () => {
             left: ['10%', '5%', '10%'],
           }}
           transition={{ duration: 10, repeat: Infinity, delay: 1 }}
-          className="absolute w-96 h-96 bg-immix-purple/5 rounded-full blur-3xl"
+          className="absolute w-96 h-96 bg-immix-blue/5 rounded-full blur-3xl"
         />
       </div>
 
@@ -76,21 +78,55 @@ export const Hero = () => {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           viewport={{ once: true }}
-          className="relative hidden lg:block h-[500px] overflow-visible"
+          className="relative hidden lg:block h-[560px] overflow-visible"
         >
           <div className="relative h-full w-[200%] -mr-[100%]">
-            <div className="absolute inset-0 ml-8 rounded-lg" style={{ boxShadow: '0 0 80px 20px rgba(59, 130, 246, 0.15), 0 0 120px 40px rgba(59, 130, 246, 0.08)' }} />
             <img
-              src="/image.png"
-              alt="Immix Platform Dashboard"
-              className="h-full w-auto max-w-none object-cover ml-8 rounded-lg relative z-10"
-              style={{ objectPosition: 'left center' }}
+              src="/screenshot-3.webp"
+              alt="IMMIX Analytics Dashboard"
+              className="absolute top-0 left-12 h-[480px] w-auto max-w-none object-cover rounded-lg z-[1]"
+              style={{ objectPosition: 'left top' }}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#050505]/30 via-transparent via-40% to-[#050505] pointer-events-none rounded-lg ml-8 z-20" />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent from-50% to-[#050505] pointer-events-none rounded-lg ml-8 z-20" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent pointer-events-none rounded-lg ml-8 z-20" />
-            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#050505] to-transparent pointer-events-none rounded-lg ml-8 z-20" />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/20 via-transparent to-transparent pointer-events-none rounded-lg ml-8 z-20" />
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.5 }}
+              viewport={{ once: true }}
+              className="absolute top-6 left-4 z-[2]"
+            >
+              <img
+                src="/screenshot-4.webp"
+                alt="IMMIX Multi-Asset Trading Workspace"
+                className="h-[460px] w-auto max-w-none object-cover rounded-lg shadow-2xl"
+                style={{ objectPosition: 'left top', boxShadow: '0 0 60px 15px rgba(0, 115, 255, 0.12), 0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}
+              />
+            </motion.div>
+
+            <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/60 via-10% to-transparent pointer-events-none z-[3]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent from-60% to-[#050505] pointer-events-none z-[3]" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 via-20% to-transparent pointer-events-none z-[3]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/30 via-transparent to-transparent pointer-events-none z-[3]" />
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              viewport={{ once: true }}
+              className="absolute bottom-2 left-0 z-[5]"
+            >
+              <HeroCodeCard />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.0 }}
+              viewport={{ once: true }}
+              className="absolute bottom-2 left-[310px] z-[4]"
+            >
+              <HeroPromptBox />
+            </motion.div>
           </div>
         </motion.div>
       </div>
