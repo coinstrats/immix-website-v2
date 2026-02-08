@@ -1,5 +1,4 @@
 const pythonCode = `from immix import Client
-
 client = Client(api_key="your_key")
 
 # Execute with Smart Order Router
@@ -8,14 +7,17 @@ order = client.trade.smart_route(
     side="BUY",
     size=1.0,
     strategy="BEST_PRICE",
-    venues=["BINANCE", "COINBASE", "KRAKEN"],
+    venues=["BINANCE", "COINBASE",
+            "KRAKEN"],
     max_slippage_bps=10
 )
 
 # Stream execution reports
 for fill in order.stream_fills():
     update_position(fill)
-    log_execution(fill.venue, fill.price)`;
+    log_execution(
+        fill.venue, fill.price
+    )`;
 
 const highlightLine = (line: string) => {
   const keywords = new Set([
@@ -72,7 +74,7 @@ export const HeroCodeCard = () => {
 
   return (
     <div
-      className="w-[360px] rounded-xl overflow-hidden"
+      className="w-[300px] rounded-xl overflow-hidden"
       style={{
         background: 'rgba(255, 255, 255, 0.03)',
         backdropFilter: 'blur(40px)',
@@ -81,8 +83,8 @@ export const HeroCodeCard = () => {
         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
       }}
     >
-      <div className="px-5 py-4">
-        <pre className="text-[11px] leading-[1.8]">
+      <div className="px-4 py-3">
+        <pre className="text-[10.5px] leading-[1.6]">
           <code className="font-mono text-white/85">
             {lines.map((line, i) => (
               <div key={i}>
