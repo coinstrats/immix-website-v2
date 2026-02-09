@@ -37,7 +37,7 @@ export const Hero = () => {
 
           <AnimatedElement type="fadeInUp" delay={0.3}>
             <p className="text-xl text-white/70 leading-relaxed max-w-lg">
-              Connect custodians, venues, private data and custom logic into a single, fault-tolerant workflow for trading, treasury, and payments.
+              The programmable operating system for institutional digital assets. Unify custodians, venues, and custom logic into fault-tolerant trading, treasury, and payment workflows—accessible via high-performance APIs and SDKs ready for your AI agents.
             </p>
           </AnimatedElement>
 
@@ -64,7 +64,7 @@ export const Hero = () => {
                   <p className="text-sm text-white/60 font-mono uppercase tracking-wider">Instruments</p>
                 </div>
                 <div>
-                  <div className="text-3xl lg:text-4xl font-bold text-immix-blue mb-2">365/24/7</div>
+                  <div className="text-3xl lg:text-4xl font-bold text-immix-blue mb-2">99.99%</div>
                   <p className="text-sm text-white/60 font-mono uppercase tracking-wider">Uptime</p>
                 </div>
               </div>
