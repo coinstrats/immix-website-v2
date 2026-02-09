@@ -156,7 +156,7 @@ export const Navigation = () => {
             Login
           </Button>
           <Button variant="primary" size="sm" href="https://app.immix.xyz">
-            Sign Up
+            Get Started
           </Button>
         </div>
 
@@ -240,7 +240,7 @@ export const Navigation = () => {
                   Login
                 </Button>
                 <Button variant="primary" size="sm" className="w-full justify-center" href="https://app.immix.xyz">
-                  Sign Up
+                  Get Started
                 </Button>
               </div>
             </div>
