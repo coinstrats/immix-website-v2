@@ -91,23 +91,23 @@ export const Navigation = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15 }}
-            href="https://docs.immix.xyz/core/introduction"
-            target="_blank"
-            rel="noopener noreferrer"
+            href={location.pathname === '/' ? '#architecture' : '/#architecture'}
+            onClick={() => handleNavClick('#architecture')}
             className="nav-link text-sm font-medium"
           >
-            Docs
+            Architecture
           </motion.a>
 
-          <motion.div
+          <motion.a
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
+            href={location.pathname === '/' ? '#pricing' : '/#pricing'}
+            onClick={() => handleNavClick('#pricing')}
+            className="nav-link text-sm font-medium"
           >
-            <Link to="/customers" className="nav-link text-sm font-medium">
-              Customers
-            </Link>
-          </motion.div>
+            Pricing
+          </motion.a>
 
           <motion.div
             ref={companyRef}
@@ -149,17 +149,6 @@ export const Navigation = () => {
               )}
             </AnimatePresence>
           </motion.div>
-
-          <motion.a
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            href={location.pathname === '/' ? '#pricing' : '/#pricing'}
-            onClick={() => handleNavClick('#pricing')}
-            className="nav-link text-sm font-medium"
-          >
-            Pricing
-          </motion.a>
         </div>
 
         <div className="hidden md:flex items-center gap-3">
@@ -200,21 +189,19 @@ export const Navigation = () => {
                 Solutions
               </a>
               <a
-                href="https://docs.immix.xyz/core/introduction"
-                target="_blank"
-                rel="noopener noreferrer"
+                href={location.pathname === '/' ? '#architecture' : '/#architecture'}
                 className="block nav-link text-sm font-medium py-3"
                 onClick={() => setIsOpen(false)}
               >
-                Docs
+                Architecture
               </a>
-              <Link
-                to="/customers"
+              <a
+                href={location.pathname === '/' ? '#pricing' : '/#pricing'}
                 className="block nav-link text-sm font-medium py-3"
                 onClick={() => setIsOpen(false)}
               >
-                Customers
-              </Link>
+                Pricing
+              </a>
               <div>
                 <button
                   onClick={() => setMobileCompanyOpen(!mobileCompanyOpen)}
@@ -248,13 +235,6 @@ export const Navigation = () => {
                   )}
                 </AnimatePresence>
               </div>
-              <a
-                href={location.pathname === '/' ? '#pricing' : '/#pricing'}
-                className="block nav-link text-sm font-medium py-3"
-                onClick={() => setIsOpen(false)}
-              >
-                Pricing
-              </a>
               <div className="pt-4 space-y-2 border-t border-white/10">
                 <Button variant="ghost" size="sm" className="w-full justify-center" href="https://app.immix.xyz">
                   Login
