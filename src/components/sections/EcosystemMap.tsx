@@ -24,7 +24,7 @@ const DataFlowDot = ({ delay = 0, reverse = false, speed = 1, color = 'bg-immix-
 
 export const EcosystemMap = () => {
   return (
-    <section id="ecosystem" className="section-wrapper relative overflow-hidden">
+    <section id="architecture" className="section-wrapper relative overflow-hidden">
       <div className="absolute inset-0 opacity-5">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
