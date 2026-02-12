@@ -9,8 +9,8 @@ export const HomePage = () => {
   return (
     <>
       <Hero />
-      <EcosystemMap />
       <ProductSolutions />
+      <EcosystemMap />
       <Pricing />
     </>
   );
