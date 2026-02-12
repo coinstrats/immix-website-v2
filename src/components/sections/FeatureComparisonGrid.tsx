@@ -7,6 +7,7 @@ type FeatureValue = boolean | string;
 interface Feature {
   name: string;
   tooltip?: string;
+  startup: FeatureValue;
   lite: FeatureValue;
   pro: FeatureValue;
   ultra: FeatureValue;
@@ -23,62 +24,62 @@ const featureData: FeatureCategory[] = [
   {
     category: 'Products',
     features: [
-      { name: 'Markets (Analytics)', lite: 'View-only', pro: 'View-only', ultra: 'Full access', enterprise: 'Full access' },
-      { name: 'Trade Workspaces', lite: 'View-only', pro: 'Full access', ultra: 'Full access', enterprise: 'Full access' },
-      { name: 'Trading Execution', tooltip: 'Limit, Market, Peg, Ice, SOR, AutoSpreader', lite: false, pro: true, ultra: true, enterprise: true },
-      { name: 'Transfers', tooltip: 'Cross-chain and fiat movements', lite: false, pro: false, ultra: true, enterprise: true },
-      { name: 'Earn', tooltip: 'Yield generation product', lite: false, pro: '$10K limit', ultra: '$100K limit', enterprise: '$10M limit' },
+      { name: 'Markets (Analytics)', startup: 'Full access', lite: 'View-only', pro: 'View-only', ultra: 'Full access', enterprise: 'Full access' },
+      { name: 'Trade Workspaces', startup: 'Full access', lite: 'View-only', pro: 'Full access', ultra: 'Full access', enterprise: 'Full access' },
+      { name: 'Trading Execution', tooltip: 'Limit, Market, Peg, Ice, SOR, AutoSpreader', startup: true, lite: false, pro: true, ultra: true, enterprise: true },
+      { name: 'Transfers', tooltip: 'Cross-chain and fiat movements', startup: true, lite: false, pro: false, ultra: true, enterprise: true },
+      { name: 'Earn', tooltip: 'Yield generation product', startup: '$100K limit', lite: false, pro: '$10K limit', ultra: '$100K limit', enterprise: '$10M limit' },
     ],
   },
   {
     category: 'Strategies',
     features: [
-      { name: 'Pre-built workflows', lite: false, pro: true, ultra: true, enterprise: true },
-      { name: 'Configurable strategies', lite: false, pro: '1 strategy', ultra: '2 strategies', enterprise: 'Unlimited' },
-      { name: 'Custom strategy development', lite: false, pro: false, ultra: false, enterprise: true },
+      { name: 'Pre-built workflows', startup: true, lite: false, pro: true, ultra: true, enterprise: true },
+      { name: 'Configurable strategies', startup: '2 strategies', lite: false, pro: '1 strategy', ultra: '2 strategies', enterprise: 'Unlimited' },
+      { name: 'Custom strategy development', startup: false, lite: false, pro: false, ultra: false, enterprise: true },
     ],
   },
   {
     category: 'SDKs & APIs',
     features: [
-      { name: 'REST API', lite: 'Read-only', pro: true, ultra: true, enterprise: true },
-      { name: 'WebSocket streams', lite: true, pro: true, ultra: true, enterprise: true },
-      { name: 'Python SDK', lite: true, pro: true, ultra: true, enterprise: true },
-      { name: 'Java SDK', lite: false, pro: false, ultra: false, enterprise: true },
-      { name: 'FIX protocol', lite: false, pro: false, ultra: true, enterprise: true },
-      { name: 'Rust SDK', lite: false, pro: false, ultra: false, enterprise: true, comingSoon: true },
-      { name: 'C++ SDK', lite: false, pro: false, ultra: false, enterprise: true, comingSoon: true },
+      { name: 'REST API', startup: true, lite: 'Read-only', pro: true, ultra: true, enterprise: true },
+      { name: 'WebSocket streams', startup: true, lite: true, pro: true, ultra: true, enterprise: true },
+      { name: 'Python SDK', startup: true, lite: true, pro: true, ultra: true, enterprise: true },
+      { name: 'Java SDK', startup: false, lite: false, pro: false, ultra: false, enterprise: true },
+      { name: 'FIX protocol', startup: true, lite: false, pro: false, ultra: true, enterprise: true },
+      { name: 'Rust SDK', startup: false, lite: false, pro: false, ultra: false, enterprise: true, comingSoon: true },
+      { name: 'C++ SDK', startup: false, lite: false, pro: false, ultra: false, enterprise: true, comingSoon: true },
     ],
   },
   {
     category: 'Infrastructure',
     features: [
-      { name: 'Message pricing', lite: '$0.00002/msg', pro: '$0.000015/msg', ultra: '$0.00001/msg', enterprise: 'Volume discount' },
-      { name: 'Bandwidth pricing', lite: '$0.10/GB', pro: '$0.08/GB', ultra: '$0.05/GB', enterprise: 'Volume discount' },
-      { name: 'Sequencer cluster', lite: 'Shared', pro: 'Shared', ultra: 'Dedicated', enterprise: 'Isolated' },
-      { name: 'Latency SLA', lite: '<15ms p99', pro: '<10ms p99', ultra: '<5ms p99', enterprise: '<1ms p99' },
-      { name: 'Uptime guarantee', lite: '99.9%', pro: '99.9%', ultra: '99.95%', enterprise: '99.999%' },
+      { name: 'Message pricing', startup: 'Credits', lite: '$0.00002/msg', pro: '$0.000015/msg', ultra: '$0.00001/msg', enterprise: 'Volume discount' },
+      { name: 'Bandwidth pricing', startup: 'Credits', lite: '$0.10/GB', pro: '$0.08/GB', ultra: '$0.05/GB', enterprise: 'Volume discount' },
+      { name: 'Sequencer cluster', startup: 'Dedicated', lite: 'Shared', pro: 'Shared', ultra: 'Dedicated', enterprise: 'Isolated' },
+      { name: 'Latency SLA', startup: '<5ms p99', lite: '<15ms p99', pro: '<10ms p99', ultra: '<5ms p99', enterprise: '<1ms p99' },
+      { name: 'Uptime guarantee', startup: '99.95%', lite: '99.9%', pro: '99.9%', ultra: '99.95%', enterprise: '99.999%' },
     ],
   },
   {
     category: 'Data & Analytics',
     features: [
-      { name: 'Real-time market data', lite: true, pro: true, ultra: true, enterprise: true },
-      { name: 'Historical data access', lite: '7 days', pro: '30 days', ultra: '1 year', enterprise: 'Full history' },
-      { name: 'Post-trade analytics', lite: false, pro: true, ultra: true, enterprise: true },
-      { name: 'Custom dashboards', lite: false, pro: false, ultra: true, enterprise: true },
-      { name: 'Data Lab (ClickHouse)', lite: false, pro: false, ultra: 'Add-on', enterprise: true },
+      { name: 'Real-time market data', startup: true, lite: true, pro: true, ultra: true, enterprise: true },
+      { name: 'Historical data access', startup: '6 months', lite: '7 days', pro: '30 days', ultra: '1 year', enterprise: 'Full history' },
+      { name: 'Post-trade analytics', startup: true, lite: false, pro: true, ultra: true, enterprise: true },
+      { name: 'Custom dashboards', startup: true, lite: false, pro: false, ultra: true, enterprise: true },
+      { name: 'Data Lab (ClickHouse)', startup: false, lite: false, pro: false, ultra: 'Add-on', enterprise: true },
     ],
   },
   {
     category: 'Support',
     features: [
-      { name: 'Documentation access', lite: true, pro: true, ultra: true, enterprise: true },
-      { name: 'Community support', lite: true, pro: true, ultra: true, enterprise: true },
-      { name: 'Email support', lite: true, pro: true, ultra: true, enterprise: true },
-      { name: 'Priority support', lite: false, pro: true, ultra: true, enterprise: true },
-      { name: 'SLA response time', lite: '48h', pro: '8h', ultra: '4h', enterprise: '1h' },
-      { name: 'Dedicated success manager', lite: false, pro: false, ultra: false, enterprise: true },
+      { name: 'Documentation access', startup: true, lite: true, pro: true, ultra: true, enterprise: true },
+      { name: 'Community support', startup: true, lite: true, pro: true, ultra: true, enterprise: true },
+      { name: 'Email support', startup: true, lite: true, pro: true, ultra: true, enterprise: true },
+      { name: 'Priority support', startup: true, lite: false, pro: true, ultra: true, enterprise: true },
+      { name: 'SLA response time', startup: '4h', lite: '48h', pro: '8h', ultra: '4h', enterprise: '1h' },
+      { name: 'Dedicated success manager', startup: false, lite: false, pro: false, ultra: false, enterprise: true },
     ],
   },
 ];
@@ -119,31 +120,37 @@ export const FeatureComparisonGrid = () => {
       viewport={{ once: true }}
       className="overflow-x-auto"
     >
-      <table className="w-full min-w-[800px]">
+      <table className="w-full min-w-[900px]">
         <thead>
           <tr className="border-b border-white/10">
-            <th className="text-left py-4 px-4 text-white/60 font-medium text-sm w-[28%]">
+            <th className="text-left py-4 px-4 text-white/60 font-medium text-sm w-[22%]">
               Feature
             </th>
-            <th className="py-4 px-3 text-center w-[18%]">
+            <th className="py-4 px-3 text-center w-[15%] bg-teal-500/5 border-x border-teal-500/20">
+              <div className="space-y-1">
+                <div className="text-teal-400 font-bold">Startup</div>
+                <div className="text-teal-300/40 text-[10px] font-normal">$15K credits / 6mo</div>
+              </div>
+            </th>
+            <th className="py-4 px-3 text-center w-[15%]">
               <div className="space-y-1">
                 <div className="text-slate-300 font-bold">Lite</div>
                 <div className="text-white/40 text-xs font-normal">~$500/mo</div>
               </div>
             </th>
-            <th className="py-4 px-3 text-center w-[18%]">
+            <th className="py-4 px-3 text-center w-[15%]">
               <div className="space-y-1">
                 <div className="text-emerald-400 font-bold">Pro</div>
                 <div className="text-white/40 text-xs font-normal">~$2,500/mo</div>
               </div>
             </th>
-            <th className="py-4 px-3 text-center w-[18%] bg-immix-blue/5 border-x border-immix-blue/20">
+            <th className="py-4 px-3 text-center w-[15%] bg-immix-blue/5 border-x border-immix-blue/20">
               <div className="space-y-1">
                 <div className="text-immix-blue font-bold">Ultra</div>
                 <div className="text-white/40 text-xs font-normal">~$5,000/mo</div>
               </div>
             </th>
-            <th className="py-4 px-3 text-center w-[18%]">
+            <th className="py-4 px-3 text-center w-[15%]">
               <div className="space-y-1">
                 <div className="text-amber-400 font-bold">Enterprise</div>
                 <div className="text-white/40 text-xs font-normal">~$25,000/mo</div>
@@ -159,7 +166,7 @@ export const FeatureComparisonGrid = () => {
                 className="border-b border-white/5 bg-white/[0.02] cursor-pointer hover:bg-white/[0.04] transition-colors"
                 onClick={() => toggleCategory(category.category)}
               >
-                <td colSpan={5} className="py-3 px-4">
+                <td colSpan={6} className="py-3 px-4">
                   <div className="flex items-center gap-2">
                     <motion.span
                       initial={false}
@@ -198,6 +205,9 @@ export const FeatureComparisonGrid = () => {
                           </div>
                         )}
                       </div>
+                    </td>
+                    <td className="py-3 px-3 text-center bg-teal-500/5 border-x border-teal-500/10">
+                      <FeatureCell value={feature.startup} />
                     </td>
                     <td className="py-3 px-3 text-center">
                       <FeatureCell value={feature.lite} />
