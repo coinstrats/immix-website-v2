@@ -1,367 +1,377 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { BarChart3, Briefcase, Zap } from 'lucide-react';
-import { AnimatedElement, IntegrationDeck } from '../ui';
-import type { IntegrationExample } from '../ui';
+import {
+  BarChart3,
+  Link,
+  ArrowRightLeft,
+  CreditCard,
+  TrendingUp,
+  FlaskConical,
+  ChevronLeft,
+  ChevronRight,
+  Check,
+  LayoutDashboard,
+  Code,
+  Terminal,
+} from 'lucide-react';
+import { AnimatedElement } from '../ui';
 
-interface UseCase {
+type IntegrationLevel = 'ui' | 'sdk' | 'api';
+
+interface Product {
   id: string;
-  label: string;
-  icon: React.ReactNode;
-  description: string;
-  image: string;
-  sdk: { code: string; filename: string };
-  python: { code: string; filename: string };
-  api: { code: string; filename: string };
+  name: string;
+  icon: React.ElementType;
+  tagline: string;
+  capabilities: string[];
+  integrations: IntegrationLevel[];
+  accentColor: string;
+  accentBg: string;
+  accentBorder: string;
 }
 
-const useCases: UseCase[] = [
+const products: Product[] = [
   {
-    id: 'trading',
-    label: 'Trading',
-    icon: <BarChart3 size={18} />,
-    description: 'Execute across 70+ venues with a single API. Smart order routing, basis trading, and market making — all with the same code.',
-    image: '/image.png',
-    sdk: {
-      code: `// Atomic basis trade: buy spot, sell perp
-public void onTick(MarketData spot, MarketData perp) {
-    double spread = perp.midPrice() - spot.midPrice();
-
-    if (spread > threshold) {
-        execution.atomicPair(
-            Order.limit("BINANCE", "BTC-USDT",
-                Side.BUY, size, spot.ask),
-            Order.limit("BINANCE", "BTC-USDT-PERP",
-                Side.SELL, size, perp.bid)
-        );
-    }
-}`,
-      filename: 'BasisStrategy.java'
-    },
-    python: {
-      code: `from immix import Client
-
-client = Client(api_key="your_key")
-
-spot = client.market_data.quote("BINANCE", "BTC-USDT")
-perp = client.market_data.quote("BINANCE", "BTC-USDT-PERP")
-
-spread = perp.mid - spot.mid
-print(f"Current spread: \${spread:.2f}")
-
-if spread > 50:
-    client.trading.atomic_pair(
-        buy=("BINANCE", "BTC-USDT", 0.1, spot.ask),
-        sell=("BINANCE", "BTC-USDT-PERP", 0.1, perp.bid)
-    )`,
-      filename: 'basis_trade.py'
-    },
-    api: {
-      code: `-> { "op": "subscribe", "channel": "ticker",
-     "symbols": ["BTC-USDT", "BTC-USDT-PERP"] }
-
-<- { "channel": "ticker", "symbol": "BTC-USDT",
-     "bid": 42150.00, "ask": 42152.50 }
-
-<- { "channel": "ticker", "symbol": "BTC-USDT-PERP",
-     "bid": 42198.00, "ask": 42200.50 }
-
--> { "op": "order", "type": "atomic_pair",
-     "legs": [
-       { "symbol": "BTC-USDT", "side": "BUY", "size": 0.1 },
-       { "symbol": "BTC-USDT-PERP", "side": "SELL", "size": 0.1 }
-     ]}
-
-<- { "op": "order_ack", "order_id": "ord_abc123",
-     "status": "FILLED", "fill_price": 42151.25 }`,
-      filename: 'ws-trading.json'
-    }
+    id: 'markets',
+    name: 'Markets',
+    icon: BarChart3,
+    tagline: 'Analytics across the derivative term structure, funding rates, and arbitrage opportunities.',
+    capabilities: [
+      'Term structure analytics',
+      'Funding rate monitoring',
+      'Arbitrage opportunity detection',
+      'Market-wide insights dashboard',
+    ],
+    integrations: ['ui', 'api'],
+    accentColor: 'text-blue-400',
+    accentBg: 'bg-blue-500/10',
+    accentBorder: 'border-blue-500/30',
   },
   {
-    id: 'treasury',
-    label: 'Treasury',
-    icon: <Briefcase size={18} />,
-    description: 'Automate portfolio rebalancing across exchanges and custody providers. Monitor balances and execute multi-step workflows with a single command.',
-    image: '/balance-map.png',
-    sdk: {
-      code: `// Rebalance portfolio across venues
-@OnTimer(interval = "1h")
-public void rebalance() {
-    Map<String, Balance> balances = treasury.getBalances();
-    double target = totalBtc / venues.length;
-
-    for (var entry : balances.entrySet()) {
-        if (entry.getValue() > target + threshold) {
-            treasury.transfer()
-                .from(entry.getKey())
-                .to(underAllocatedVenue)
-                .asset("BTC")
-                .amount(entry.getValue() - target)
-                .execute();
-        }
-    }
-}`,
-      filename: 'Rebalancer.java'
-    },
-    python: {
-      code: `from immix import Client
-
-client = Client(api_key="your_key")
-
-balances = client.treasury.balances(asset="BTC")
-total = sum(b.free for b in balances)
-target = total / len(balances)
-
-print(f"Target per venue: {target:.4f} BTC")
-
-for b in balances:
-    if b.free > target + 0.1:
-        excess = b.free - target
-        client.treasury.transfer(
-            from_venue=b.venue,
-            to_venue="FIREBLOCKS",
-            asset="BTC",
-            amount=excess
-        )`,
-      filename: 'rebalance.py'
-    },
-    api: {
-      code: `-> { "op": "subscribe", "channel": "balances",
-     "venues": ["BINANCE", "COINBASE", "FIREBLOCKS"] }
-
-<- { "channel": "balances",
-     "data": [
-       { "venue": "BINANCE", "asset": "BTC", "free": 2.5 },
-       { "venue": "COINBASE", "asset": "BTC", "free": 1.8 },
-       { "venue": "FIREBLOCKS", "asset": "BTC", "free": 10.0 }
-     ]}
-
--> { "op": "transfer",
-     "from": "BINANCE", "to": "COINBASE",
-     "asset": "BTC", "amount": 0.35 }
-
-<- { "op": "transfer_ack", "tx_id": "tx_xyz789",
-     "status": "PENDING", "eta_seconds": 300 }`,
-      filename: 'ws-treasury.json'
-    }
+    id: 'connect',
+    name: 'Connect',
+    icon: Link,
+    tagline: 'One API to the full digital asset ecosystem — crypto, tokenized commodities, stocks, ETFs, and money market funds.',
+    capabilities: [
+      'REST, WebSocket & FIX protocols',
+      'Crypto & tokenized RWAs',
+      'Tokenized ETFs & money markets',
+      'Unified streaming & trading',
+    ],
+    integrations: ['sdk', 'api'],
+    accentColor: 'text-cyan-400',
+    accentBg: 'bg-cyan-500/10',
+    accentBorder: 'border-cyan-500/30',
   },
   {
-    id: 'payments',
-    label: 'Payments',
-    icon: <Zap size={18} />,
-    description: 'Build cross-border payment rails on crypto. Route payments through the most efficient corridors and settle in milliseconds.',
-    image: '/image.png',
-    sdk: {
-      code: `// Multi-hop cross-border payment
-public void onPaymentRequest(Payment p) {
-    // 1. Convert fiat to stablecoin
-    execution.smartRouter("SGD-USDC")
-        .side(Side.BUY)
-        .amount(p.amount)
-        .execute();
-
-    // 2. Transfer across borders
-    treasury.transfer("USDC")
-        .from("SG_NODE")
-        .to("MX_NODE")
-        .execute();
-
-    // 3. Off-ramp to local currency
-    execution.smartRouter("USDC-MXN")
-        .side(Side.SELL)
-        .execute();
-}`,
-      filename: 'CrossBorderPayment.java'
-    },
-    python: {
-      code: `from immix import Client
-
-client = Client(api_key="your_key")
-
-route = client.payments.get_route(
-    source="SGD",
-    destination="MXN",
-    amount=10000
-)
-
-print(f"Route: {route.path}")
-print(f"FX rate: {route.rate}")
-print(f"Fees: \${route.fees}")
-
-payment = client.payments.send(
-    route=route,
-    beneficiary="Acme Corp MX",
-    reference="INV-2024-001"
-)
-
-print(f"Payment {payment.id}: {payment.status}")`,
-      filename: 'cross_border.py'
-    },
-    api: {
-      code: `-> { "op": "subscribe", "channel": "payments",
-     "payment_id": "pay_abc123" }
-
--> { "op": "payment_create",
-     "source": "SGD", "destination": "MXN",
-     "amount": 10000,
-     "beneficiary": { "name": "Acme Corp MX" }}
-
-<- { "channel": "payment_status",
-     "step": 1, "status": "SGD_TO_USDC_COMPLETE" }
-
-<- { "channel": "payment_status",
-     "step": 2, "status": "USDC_TRANSFERRED" }
-
-<- { "channel": "payment_status",
-     "step": 3, "status": "COMPLETED",
-     "fx_rate": 13.45, "fees": 12.50 }`,
-      filename: 'ws-payments.json'
-    }
-  }
+    id: 'trade',
+    name: 'Trade',
+    icon: ArrowRightLeft,
+    tagline: 'Advanced order types and algos across CeFi, DeFi and RWAs — from multi-leg spreads to continuous hedging.',
+    capabilities: [
+      'Multi-leg spreads & portfolio rebalancing',
+      'Market making & smart order routing',
+      'Continuous hedging of staking rewards',
+      'CeFi, DeFi & RWA execution',
+    ],
+    integrations: ['ui', 'sdk', 'api'],
+    accentColor: 'text-emerald-400',
+    accentBg: 'bg-emerald-500/10',
+    accentBorder: 'border-emerald-500/30',
+  },
+  {
+    id: 'pay',
+    name: 'Pay',
+    icon: CreditCard,
+    tagline: 'Configurable payment corridors for cross-border settlement via stablecoin transport with minimal slippage.',
+    capabilities: [
+      'Any source-to-target fiat corridor',
+      'Stablecoin cross-border transport',
+      'Smart order router for speed',
+      'Configurable payment workflows',
+    ],
+    integrations: ['ui', 'sdk', 'api'],
+    accentColor: 'text-teal-400',
+    accentBg: 'bg-teal-500/10',
+    accentBorder: 'border-teal-500/30',
+  },
+  {
+    id: 'earn',
+    name: 'Earn',
+    icon: TrendingUp,
+    tagline: 'Yield-bearing strategies exploiting secondary market dislocations for USD stablecoins.',
+    capabilities: [
+      'Continuous yield strategies',
+      'Stablecoin dislocation capture',
+      'BTC, ETH & XRP yield coming soon',
+      'Automated position management',
+    ],
+    integrations: ['ui', 'api'],
+    accentColor: 'text-sky-400',
+    accentBg: 'bg-sky-500/10',
+    accentBorder: 'border-sky-500/30',
+  },
+  {
+    id: 'lab',
+    name: 'Lab',
+    icon: FlaskConical,
+    tagline: '360-degree insight to all messages in a deterministic, real-time, fault-tolerant ordered stream.',
+    capabilities: [
+      'Market data, risk & trading feeds',
+      'Internal analytics streams',
+      'Deterministic message ordering',
+      'Real-time fault-tolerant replay',
+    ],
+    integrations: ['ui', 'api'],
+    accentColor: 'text-blue-300',
+    accentBg: 'bg-blue-400/10',
+    accentBorder: 'border-blue-400/30',
+  },
 ];
 
+const integrationModes = [
+  {
+    key: 'ui' as IntegrationLevel,
+    label: 'No-Code',
+    icon: LayoutDashboard,
+    description: 'Point and click. Configure in the UI.',
+  },
+  {
+    key: 'sdk' as IntegrationLevel,
+    label: 'SDK',
+    icon: Code,
+    description: 'Python, Java, Rust & C++ libraries.',
+  },
+  {
+    key: 'api' as IntegrationLevel,
+    label: 'API',
+    icon: Terminal,
+    description: 'REST, WebSocket & FIX protocols.',
+  },
+];
+
+const CARD_WIDTH = 380;
+const CARD_GAP = 20;
+
+function ProductCard({ product, index }: { product: Product; index: number }) {
+  const Icon = product.icon;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.08 }}
+      className="group flex-shrink-0 snap-start"
+      style={{ width: CARD_WIDTH }}
+    >
+      <div
+        className={`
+          relative h-full rounded-xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm
+          transition-all duration-300
+          hover:border-white/[0.15] hover:-translate-y-1
+          overflow-hidden
+        `}
+      >
+        <div className={`absolute top-0 left-0 right-0 h-px ${product.accentBorder.replace('border-', 'bg-').replace('/30', '/50')}`} />
+
+        <div className="p-6 flex flex-col gap-5">
+          <div className="flex items-center gap-3.5">
+            <div className={`w-10 h-10 rounded-lg ${product.accentBg} flex items-center justify-center`}>
+              <Icon size={20} className={product.accentColor} />
+            </div>
+            <h3 className="text-xl font-bold text-white">{product.name}</h3>
+          </div>
+
+          <p className="text-sm text-white/50 leading-relaxed min-h-[3rem]">
+            {product.tagline}
+          </p>
+
+          <div className="space-y-2.5">
+            {product.capabilities.map((cap) => (
+              <div key={cap} className="flex items-start gap-2.5">
+                <Check size={14} className={`${product.accentColor} mt-0.5 flex-shrink-0 opacity-60`} />
+                <span className="text-sm text-white/65 leading-snug">{cap}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className={`
+            relative h-[100px] rounded-lg bg-white/[0.03] border border-white/[0.06]
+            flex items-center justify-center overflow-hidden
+            transition-all duration-300 group-hover:border-white/[0.1]
+          `}>
+            <div className={`absolute inset-0 bg-gradient-to-br ${product.accentBg} opacity-30`} />
+            <span className="text-xs text-white/20 font-mono tracking-wider uppercase relative z-10">
+              Screenshot
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 pt-1">
+            {(['ui', 'sdk', 'api'] as IntegrationLevel[]).map((level) => {
+              const supported = product.integrations.includes(level);
+              return (
+                <span
+                  key={level}
+                  className={`
+                    px-3 py-1 rounded text-xs font-semibold uppercase tracking-wider
+                    transition-colors duration-200
+                    ${supported
+                      ? `${product.accentBg} ${product.accentColor}`
+                      : 'bg-white/[0.03] text-white/15'
+                    }
+                  `}
+                >
+                  {level}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export const ProductSolutions = () => {
-  const [activeUseCase, setActiveUseCase] = useState(useCases[0].id);
-  const [imagesLoaded, setImagesLoaded] = useState<Record<string, boolean>>({});
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
-  const currentUseCase = useCases.find(uc => uc.id === activeUseCase) || useCases[0];
-
-  useEffect(() => {
-    useCases.forEach(uc => {
-      const img = new Image();
-      img.onload = () => {
-        setImagesLoaded(prev => ({ ...prev, [uc.image]: true }));
-      };
-      img.src = uc.image;
-    });
+  const checkScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 10);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
   }, []);
 
-  const integrationExamples: IntegrationExample[] = useMemo(() => [
-    {
-      id: 'api',
-      label: 'WebSocket API',
-      subtitle: 'Streaming',
-      code: currentUseCase.api.code,
-      filename: currentUseCase.api.filename,
-      language: 'websocket' as const
-    },
-    {
-      id: 'python',
-      label: 'Python',
-      subtitle: 'Quickstart',
-      code: currentUseCase.python.code,
-      filename: currentUseCase.python.filename,
-      language: 'python' as const
-    },
-    {
-      id: 'sdk',
-      label: 'Java SDK',
-      subtitle: 'Full SDK',
-      code: currentUseCase.sdk.code,
-      filename: currentUseCase.sdk.filename,
-      language: 'java' as const
-    }
-  ], [currentUseCase]);
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    checkScroll();
+    el.addEventListener('scroll', checkScroll, { passive: true });
+    window.addEventListener('resize', checkScroll);
+    return () => {
+      el.removeEventListener('scroll', checkScroll);
+      window.removeEventListener('resize', checkScroll);
+    };
+  }, [checkScroll]);
+
+  const scroll = (direction: 'left' | 'right') => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const amount = direction === 'left' ? -(CARD_WIDTH + CARD_GAP) : CARD_WIDTH + CARD_GAP;
+    el.scrollBy({ left: amount, behavior: 'smooth' });
+  };
 
   return (
     <section id="solutions" className="section-wrapper overflow-hidden">
-      <div className="container-max space-y-12">
+      <div className="container-max space-y-14">
         <div className="text-center space-y-4">
           <AnimatedElement type="fadeInUp">
-            <h2 className="text-4xl md:text-5xl font-bold">Solutions for every workflow.</h2>
+            <h2 className="text-4xl md:text-5xl font-bold">
+              Six products. Three ways to build.
+            </h2>
           </AnimatedElement>
           <AnimatedElement type="fadeInUp" delay={0.1}>
             <p className="text-lg text-white/50 max-w-2xl mx-auto">
-              Three ways to integrate. Choose your path — from quick Python scripts to full SDK power.
+              From no-code configuration to full programmatic control — every product meets you where you are.
             </p>
           </AnimatedElement>
         </div>
 
-        <AnimatedElement type="fadeInUp" delay={0.2}>
-          <div className="flex justify-center gap-3">
-            {useCases.map((uc) => (
-              <motion.button
-                key={uc.id}
-                onClick={() => setActiveUseCase(uc.id)}
-                className={`
-                  flex items-center gap-2 px-6 py-3 font-semibold text-base transition-all rounded-lg
-                  ${activeUseCase === uc.id
-                    ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/25'
-                    : 'bg-white/5 text-white/60 hover:bg-white/10 hover:text-white'
-                  }
-                `}
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <span className={activeUseCase === uc.id ? 'text-white/80' : 'text-white/40'}>
-                  {uc.icon}
-                </span>
-                {uc.label}
-              </motion.button>
-            ))}
+        <AnimatedElement type="fadeInUp" delay={0.15}>
+          <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8">
+            {integrationModes.map((mode) => {
+              const ModeIcon = mode.icon;
+              return (
+                <div key={mode.key} className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-white/[0.05] border border-white/[0.08] flex items-center justify-center">
+                    <ModeIcon size={16} className="text-white/40" />
+                  </div>
+                  <div>
+                    <span className="text-sm font-semibold text-white/80">{mode.label}</span>
+                    <p className="text-xs text-white/35">{mode.description}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </AnimatedElement>
 
-        <motion.p
-          key={activeUseCase}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="text-lg text-white/60 leading-relaxed text-center max-w-3xl mx-auto"
-        >
-          {currentUseCase.description}
-        </motion.p>
-
         <div className="relative">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            <div className="lg:col-span-5 relative z-30">
-              <motion.div
-                key={activeUseCase}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <IntegrationDeck
-                  examples={integrationExamples}
-                  defaultActive="python"
-                />
-              </motion.div>
-            </div>
-
-            <div className="lg:col-span-7 relative hidden lg:block">
-              <div className="relative h-[560px]">
-                <div className="absolute inset-0 w-[200%] -right-[100%]">
-                  {useCases.map((uc) => (
-                    <motion.div
-                      key={uc.id}
-                      className="absolute inset-0"
-                      initial={false}
-                      animate={{
-                        opacity: activeUseCase === uc.id ? 1 : 0,
-                        scale: activeUseCase === uc.id ? 1 : 1.02
-                      }}
-                      transition={{ duration: 0.4, ease: 'easeOut' }}
-                      style={{ pointerEvents: activeUseCase === uc.id ? 'auto' : 'none' }}
-                    >
-                      <img
-                        src={uc.image}
-                        alt={`${uc.label} UI Preview`}
-                        className="w-full h-full object-cover object-left-top rounded-lg"
-                        style={{
-                          opacity: imagesLoaded[uc.image] ? 1 : 0,
-                          transition: 'opacity 0.3s ease'
-                        }}
-                      />
-                    </motion.div>
-                  ))}
-                </div>
-
-                <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/70 via-20% to-transparent pointer-events-none z-10" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent pointer-events-none z-10" />
-              </div>
-            </div>
+          <div
+            ref={scrollRef}
+            className="flex gap-5 overflow-x-auto no-scrollbar pb-4 -mx-6 px-6 md:-mx-12 md:px-12 lg:-mx-16 lg:px-16"
+            style={{ scrollSnapType: 'x mandatory' }}
+          >
+            {products.map((product, i) => (
+              <ProductCard key={product.id} product={product} index={i} />
+            ))}
           </div>
+
+          <button
+            onClick={() => scroll('left')}
+            className={`
+              hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2
+              w-10 h-10 rounded-full bg-white/[0.08] backdrop-blur-sm border border-white/[0.1]
+              items-center justify-center
+              hover:bg-white/[0.15] hover:border-white/[0.2]
+              transition-all duration-200
+              ${canScrollLeft ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+            `}
+            aria-label="Scroll left"
+          >
+            <ChevronLeft size={18} className="text-white/70" />
+          </button>
+          <button
+            onClick={() => scroll('right')}
+            className={`
+              hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-2
+              w-10 h-10 rounded-full bg-white/[0.08] backdrop-blur-sm border border-white/[0.1]
+              items-center justify-center
+              hover:bg-white/[0.15] hover:border-white/[0.2]
+              transition-all duration-200
+              ${canScrollRight ? 'opacity-100' : 'opacity-0 pointer-events-none'}
+            `}
+            aria-label="Scroll right"
+          >
+            <ChevronRight size={18} className="text-white/70" />
+          </button>
+
+          <div
+            className={`
+              hidden lg:block absolute left-0 top-0 bottom-4 w-16
+              bg-gradient-to-r from-immix-dark to-transparent pointer-events-none z-10
+              transition-opacity duration-300
+              ${canScrollLeft ? 'opacity-100' : 'opacity-0'}
+            `}
+          />
+          <div
+            className={`
+              hidden lg:block absolute right-0 top-0 bottom-4 w-16
+              bg-gradient-to-l from-immix-dark to-transparent pointer-events-none z-10
+              transition-opacity duration-300
+              ${canScrollRight ? 'opacity-100' : 'opacity-0'}
+            `}
+          />
         </div>
+
+        <AnimatedElement type="fadeInUp" delay={0.2}>
+          <div className="text-center space-y-5">
+            <p className="text-base text-white/40">
+              Combine products to match your workflow. Pricing scales with what you use.
+            </p>
+            <motion.button
+              onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="button-secondary px-6 py-3 inline-flex items-center gap-2 font-semibold"
+            >
+              See Pricing
+            </motion.button>
+          </div>
+        </AnimatedElement>
       </div>
     </section>
   );

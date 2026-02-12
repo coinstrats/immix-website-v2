@@ -8,5 +8,3 @@ export { HeroVisualStack } from './HeroVisualStack';
 export { WebSocketTerminal } from './WebSocketTerminal';
 export { DataFlowLines } from './DataFlowLines';
 export { CodeShowcaseCard } from './CodeShowcaseCard';
-export { IntegrationDeck } from './IntegrationDeck';
-export type { IntegrationExample } from './IntegrationDeck';
