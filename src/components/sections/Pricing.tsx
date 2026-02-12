@@ -8,10 +8,6 @@ import {
   Shield,
   ArrowRight,
   Sparkles,
-  Monitor,
-  Database,
-  Wifi,
-  Palette,
 } from 'lucide-react';
 import { AnimatedElement, Button } from '../ui';
 import { FeatureComparisonGrid } from './FeatureComparisonGrid';
@@ -65,7 +61,7 @@ const pricingTiers = [
       'Post-trade analytics',
       'Priority support (8h SLA)',
     ],
-    cta: 'Start Trading',
+    cta: 'Get Started',
     ctaLink: '#',
     highlighted: false,
     tierColor: 'emerald' as const,
@@ -91,67 +87,39 @@ const pricingTiers = [
       '1-year historical data',
       'Priority support (4h SLA)',
     ],
-    cta: 'Upgrade to Ultra',
+    cta: 'Get Started',
     ctaLink: '#',
     highlighted: true,
     tierColor: 'blue' as const,
   },
-];
-
-const enterprise = {
-  name: 'Enterprise',
-  icon: Shield,
-  price: 'From $25,000',
-  period: 'avg/month',
-  description: 'For institutions requiring unlimited scale and white-glove service',
-  highlights: [
-    'Unlimited strategies',
-    'Earn ($10M limit)',
-    'All SDKs',
-    'Custom pricing',
-  ],
-  features: [
-    'Everything in Ultra, plus:',
-    'Unlimited strategies',
-    'Earn product ($10M allocation)',
-    'Java, Rust, C++ SDKs',
-    'Full historical archive',
-    'Dedicated success manager',
-    '1h SLA response time',
-  ],
-  cta: 'Contact Sales',
-  ctaLink: '#',
-  tierColor: 'amber' as const,
-};
-
-const addOns = [
   {
-    name: 'IMMIX Visualize',
-    icon: Monitor,
-    price: '$250',
-    unit: '/seat/month',
-    desc: 'Premium dashboard for operations teams with real-time monitoring',
-  },
-  {
-    name: 'Data Lab',
-    icon: Database,
-    price: '$1,500',
-    unit: '/month',
-    desc: 'ClickHouse cluster with full historical data and custom queries',
-  },
-  {
-    name: 'Private Connectivity',
-    icon: Wifi,
-    price: '$2,000',
-    unit: '/month',
-    desc: 'AWS Direct Connect to major venues for lowest latency',
-  },
-  {
-    name: 'White Label',
-    icon: Palette,
-    price: 'Custom',
-    unit: '',
-    desc: 'Offer IMMIX infrastructure under your own brand',
+    name: 'Enterprise',
+    icon: Shield,
+    price: 'From $25,000',
+    period: 'avg/month',
+    description: 'For institutions requiring unlimited scale and white-glove service',
+    highlights: [
+      'Unlimited strategies',
+      'Earn ($10M limit)',
+      'All SDKs',
+      'Custom pricing',
+    ],
+    features: [
+      'Everything in Ultra, plus:',
+      'Unlimited strategies',
+      'Earn product ($10M allocation)',
+      'Java, Rust, C++ SDKs',
+      'Full historical archive',
+      'Data Lab (ClickHouse)',
+      'Private Connectivity',
+      'White Label',
+      'Dedicated success manager',
+      '1h SLA response time',
+    ],
+    cta: 'Talk to Sales',
+    ctaLink: '#',
+    highlighted: false,
+    tierColor: 'amber' as const,
   },
 ];
 
@@ -170,6 +138,7 @@ const tierColorMap = {
     accent: 'from-slate-500 to-slate-400',
     hoverShadow: 'hover:shadow-[0_0_30px_rgba(148,163,184,0.12)]',
     glow: 'from-slate-400/10 via-transparent to-transparent',
+    cta: '',
   },
   emerald: {
     badge: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
@@ -178,6 +147,7 @@ const tierColorMap = {
     accent: 'from-emerald-500 to-emerald-400',
     hoverShadow: 'hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]',
     glow: 'from-emerald-400/10 via-transparent to-transparent',
+    cta: '',
   },
   blue: {
     badge: 'bg-immix-blue/20 text-immix-blue border-immix-blue/30',
@@ -186,6 +156,7 @@ const tierColorMap = {
     accent: 'from-blue-500 to-blue-400',
     hoverShadow: 'hover:shadow-[0_0_30px_rgba(0,115,255,0.15)]',
     glow: 'from-immix-blue/10 via-transparent to-transparent',
+    cta: '',
   },
   amber: {
     badge: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
@@ -194,6 +165,7 @@ const tierColorMap = {
     accent: 'from-amber-500 to-amber-400',
     hoverShadow: 'hover:shadow-[0_0_30px_rgba(245,158,11,0.15)]',
     glow: 'from-amber-400/10 via-transparent to-transparent',
+    cta: 'border-amber-500/50 hover:border-amber-500 hover:bg-amber-500/10',
   },
 };
 
@@ -251,17 +223,7 @@ export const Pricing = () => {
               transition={{ duration: 0.4 }}
               className="space-y-10"
             >
-              <StartupCreditsBanner />
-
-              <div className="flex items-center gap-4">
-                <div className="flex-1 h-px bg-gradient-to-r from-transparent to-white/10" />
-                <p className="text-white/35 text-sm text-center px-2 max-w-md">
-                  When your credits are used or you're ready to scale, transition seamlessly to a paid plan
-                </p>
-                <div className="flex-1 h-px bg-gradient-to-l from-transparent to-white/10" />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
                 {pricingTiers.map((tier, index) => {
                   const Icon = tier.icon;
                   const colors = tierColorMap[tier.tierColor];
@@ -293,57 +255,55 @@ export const Pricing = () => {
                         </div>
                       )}
 
-                      <div className="relative space-y-6 flex-grow flex flex-col">
+                      <div className="relative space-y-5 flex-grow flex flex-col">
                         <div className="flex items-center gap-3">
                           <div className={`p-2.5 ${colors.icon}`}>
-                            <Icon size={24} />
+                            <Icon size={22} />
                           </div>
-                          <div>
-                            <h3 className="text-2xl font-bold">{tier.name}</h3>
-                          </div>
+                          <h3 className="text-xl font-bold">{tier.name}</h3>
                         </div>
 
                         <div className="py-4 border-b border-white/10">
                           <div className="flex items-baseline gap-2">
-                            <span className="text-4xl font-bold">{tier.price}</span>
+                            <span className="text-3xl font-bold">{tier.price}</span>
                             <span className="text-white/60 text-sm">{tier.period}</span>
                           </div>
-                          <p className="mt-3 text-sm text-white/60">{tier.description}</p>
+                          <p className="mt-3 text-sm text-white/60 leading-relaxed">{tier.description}</p>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="grid grid-cols-2 gap-1.5">
                           {tier.highlights.map((highlight) => (
                             <div
                               key={highlight}
-                              className={`px-3 py-2.5 text-xs font-medium border text-center ${colors.badge}`}
+                              className={`px-2.5 py-2 text-[11px] font-medium border text-center ${colors.badge}`}
                             >
                               {highlight}
                             </div>
                           ))}
                         </div>
 
-                        <ul className="space-y-3 flex-grow">
+                        <ul className="space-y-2.5 flex-grow">
                           {tier.features.map((feature) => (
-                            <li key={feature} className="flex items-start gap-3">
+                            <li key={feature} className="flex items-start gap-2.5">
                               <Check
                                 className={`flex-shrink-0 mt-0.5 ${colors.highlight}`}
-                                size={16}
+                                size={14}
                               />
-                              <span className="text-sm text-white/70">{feature}</span>
+                              <span className="text-[13px] text-white/70">{feature}</span>
                             </li>
                           ))}
                         </ul>
 
-                        <div className="mt-auto pt-6">
+                        <div className="mt-auto pt-5">
                           <Button
                             variant={tier.highlighted ? 'primary' : 'secondary'}
-                            size="lg"
-                            className="w-full justify-center group/btn"
+                            size="md"
+                            className={`w-full justify-center group/btn ${colors.cta}`}
                           >
                             {tier.cta}
                             <ArrowRight
-                              size={16}
-                              className="ml-2 transition-transform group-hover/btn:translate-x-1"
+                              size={15}
+                              className="ml-1.5 transition-transform group-hover/btn:translate-x-1"
                             />
                           </Button>
                         </div>
@@ -353,126 +313,15 @@ export const Pricing = () => {
                 })}
               </div>
 
-              {(() => {
-                const Icon = enterprise.icon;
-                return (
-                  <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                    viewport={{ once: true }}
-                    className="mt-8 p-8 bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-amber-500/10 border border-amber-500/30 relative overflow-hidden"
-                  >
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-500/10 via-transparent to-transparent opacity-50" />
+              <div className="flex items-center gap-4">
+                <div className="flex-1 h-px bg-gradient-to-r from-transparent to-white/10" />
+                <p className="text-white/35 text-sm text-center px-2 max-w-md">
+                  Early-stage? Build on institutional-grade infrastructure risk-free
+                </p>
+                <div className="flex-1 h-px bg-gradient-to-l from-transparent to-white/10" />
+              </div>
 
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-400/[0.06] to-transparent animate-shimmer-slow" style={{ backgroundSize: '200% 100%' }} />
-
-                    <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                      <div className="lg:col-span-4 space-y-4">
-                        <div className="flex items-center gap-3">
-                          <div className="p-3 bg-amber-500/20 text-amber-400">
-                            <Icon size={28} />
-                          </div>
-                          <div>
-                            <h3 className="text-3xl font-bold">{enterprise.name}</h3>
-                            <p className="text-amber-400/80 text-sm">White-glove service</p>
-                          </div>
-                        </div>
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-4xl font-bold">{enterprise.price}</span>
-                          <span className="text-white/60 text-sm">{enterprise.period}</span>
-                        </div>
-                        <p className="text-white/60">{enterprise.description}</p>
-                      </div>
-
-                      <div className="lg:col-span-5">
-                        <div className="grid grid-cols-2 gap-3">
-                          {enterprise.highlights.map((highlight) => (
-                            <div
-                              key={highlight}
-                              className="px-4 py-3 text-sm font-medium border border-amber-500/30 bg-amber-500/10 text-amber-300"
-                            >
-                              {highlight}
-                            </div>
-                          ))}
-                        </div>
-                        <ul className="mt-4 grid grid-cols-2 gap-2">
-                          {enterprise.features.slice(1).map((feature) => (
-                            <li key={feature} className="flex items-center gap-2">
-                              <Check className="flex-shrink-0 text-amber-400" size={14} />
-                              <span className="text-sm text-white/70">{feature}</span>
-                            </li>
-                          ))}
-                        </ul>
-                        <p className="mt-3 text-xs text-amber-400/60">
-                          Dedicated onboarding + white-glove setup included
-                        </p>
-                      </div>
-
-                      <div className="lg:col-span-3 flex flex-col items-center lg:items-end gap-4">
-                        <Button
-                          variant="secondary"
-                          size="lg"
-                          className="w-full lg:w-auto justify-center border-amber-500/50 hover:border-amber-500 hover:bg-amber-500/10 group/btn"
-                        >
-                          {enterprise.cta}
-                          <ArrowRight
-                            size={16}
-                            className="ml-2 transition-transform group-hover/btn:translate-x-1"
-                          />
-                        </Button>
-                        <p className="text-xs text-white/40 text-center lg:text-right">
-                          Dedicated onboarding included
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })()}
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                viewport={{ once: true }}
-                className="pt-12 border-t border-white/10"
-              >
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold mb-2">Expand with modules</h3>
-                  <p className="text-white/60">Add capabilities as your needs grow</p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {addOns.map((addon, i) => {
-                    const AddonIcon = addon.icon;
-                    return (
-                      <motion.div
-                        key={addon.name}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
-                        viewport={{ once: true }}
-                        className="relative p-6 bg-immix-dark border border-white/10 hover:border-immix-blue/30 transition-all duration-300 hover:-translate-y-1 group overflow-hidden"
-                      >
-                        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-immix-blue/60 to-immix-blue-light/60" />
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="p-2 bg-immix-blue/10 text-immix-blue">
-                            <AddonIcon size={18} />
-                          </div>
-                          <h4 className="font-bold group-hover:text-immix-blue transition-colors">
-                            {addon.name}
-                          </h4>
-                        </div>
-                        <p className="font-mono mb-2">
-                          <span className="text-immix-blue text-lg">{addon.price}</span>
-                          <span className="text-white/40 text-sm">{addon.unit}</span>
-                        </p>
-                        <p className="text-sm text-white/50">{addon.desc}</p>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              </motion.div>
+              <StartupCreditsBanner />
             </motion.div>
           )}
 

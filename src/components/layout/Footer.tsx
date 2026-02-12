@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { Button } from '../ui';
 
 export const Footer = () => {
   const footerLinks = {
@@ -12,22 +11,6 @@ export const Footer = () => {
     <footer className="bg-immix-darker border-t border-white/10">
       <div className="section-wrapper">
         <div className="container-max space-y-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center space-y-4 pb-8 border-b border-white/10"
-          >
-            <h3 className="text-2xl md:text-3xl font-bold">
-              Ready to upgrade your infrastructure?
-            </h3>
-            <p className="text-white/60 max-w-2xl mx-auto">
-              Join the institutions building the future of decentralized finance with IMMIX.
-            </p>
-            <Button variant="primary">Get Started</Button>
-          </motion.div>
-
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

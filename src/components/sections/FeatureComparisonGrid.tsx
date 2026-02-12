@@ -29,6 +29,7 @@ const featureData: FeatureCategory[] = [
       { name: 'Trading Execution', tooltip: 'Limit, Market, Peg, Ice, SOR, AutoSpreader', startup: true, lite: false, pro: true, ultra: true, enterprise: true },
       { name: 'Transfers', tooltip: 'Cross-chain and fiat movements', startup: true, lite: false, pro: false, ultra: true, enterprise: true },
       { name: 'Earn', tooltip: 'Yield generation product', startup: '$100K limit', lite: false, pro: '$10K limit', ultra: '$100K limit', enterprise: '$10M limit' },
+      { name: 'White Label', tooltip: 'Offer IMMIX infrastructure under your own brand', startup: false, lite: false, pro: false, ultra: false, enterprise: true },
     ],
   },
   {
@@ -57,6 +58,7 @@ const featureData: FeatureCategory[] = [
       { name: 'Message pricing', startup: 'Credits', lite: '$0.00002/msg', pro: '$0.000015/msg', ultra: '$0.00001/msg', enterprise: 'Volume discount' },
       { name: 'Bandwidth pricing', startup: 'Credits', lite: '$0.10/GB', pro: '$0.08/GB', ultra: '$0.05/GB', enterprise: 'Volume discount' },
       { name: 'Sequencer cluster', startup: 'Dedicated', lite: 'Shared', pro: 'Shared', ultra: 'Dedicated', enterprise: 'Isolated' },
+      { name: 'Private Connectivity', tooltip: 'AWS Direct Connect to major venues', startup: false, lite: false, pro: false, ultra: 'Add-on', enterprise: true },
       { name: 'Latency SLA', startup: '<5ms p99', lite: '<15ms p99', pro: '<10ms p99', ultra: '<5ms p99', enterprise: '<1ms p99' },
       { name: 'Uptime guarantee', startup: '99.95%', lite: '99.9%', pro: '99.9%', ultra: '99.95%', enterprise: '99.999%' },
     ],
