@@ -270,7 +270,7 @@ export const ProductSolutions = () => {
         <div className="text-center space-y-4">
           <AnimatedElement type="fadeInUp">
             <h2 className="text-4xl md:text-5xl font-bold">
-              Six products. Three ways to build.
+              The full stack for digital assets.
             </h2>
           </AnimatedElement>
           <AnimatedElement type="fadeInUp" delay={0.1}>
