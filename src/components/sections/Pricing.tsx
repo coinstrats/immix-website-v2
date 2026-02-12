@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Eye, TrendingUp, ArrowLeftRight, Shield, ArrowRight, Sparkles } from 'lucide-react';
 import { AnimatedElement, Button } from '../ui';
-import { UsageCalculator } from './UsageCalculator';
 import { FeatureComparisonGrid } from './FeatureComparisonGrid';
 
 const pricingTiers = [
@@ -139,12 +138,11 @@ const addOns = [
   },
 ];
 
-type TabId = 'tiers' | 'compare' | 'calculator';
+type TabId = 'tiers' | 'compare';
 
 const tabs: { id: TabId; label: string }[] = [
   { id: 'tiers', label: 'Pricing Tiers' },
   { id: 'compare', label: 'Compare Features' },
-  { id: 'calculator', label: 'Cost Calculator' },
 ];
 
 export const Pricing = () => {
@@ -422,15 +420,6 @@ export const Pricing = () => {
             </motion.div>
           )}
 
-          {activeTab === 'calculator' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-            >
-              <UsageCalculator />
-            </motion.div>
-          )}
         </div>
 
         <motion.div
