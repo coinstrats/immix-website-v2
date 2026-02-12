@@ -302,7 +302,7 @@ export const ProductSolutions = () => {
         <div className="relative">
           <div
             ref={scrollRef}
-            className="flex gap-5 overflow-x-auto no-scrollbar pb-4 -mx-6 px-6 md:-mx-12 md:px-12 lg:-mx-16 lg:px-16"
+            className="flex gap-5 overflow-x-auto no-scrollbar pb-4"
             style={{ scrollSnapType: 'x mandatory' }}
           >
             {products.map((product, i) => (
@@ -310,51 +310,34 @@ export const ProductSolutions = () => {
             ))}
           </div>
 
-          <button
-            onClick={() => scroll('left')}
-            className={`
-              hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2
-              w-10 h-10 rounded-full bg-white/[0.08] backdrop-blur-sm border border-white/[0.1]
-              items-center justify-center
-              hover:bg-white/[0.15] hover:border-white/[0.2]
-              transition-all duration-200
-              ${canScrollLeft ? 'opacity-100' : 'opacity-0 pointer-events-none'}
-            `}
-            aria-label="Scroll left"
-          >
-            <ChevronLeft size={18} className="text-white/70" />
-          </button>
-          <button
-            onClick={() => scroll('right')}
-            className={`
-              hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-2
-              w-10 h-10 rounded-full bg-white/[0.08] backdrop-blur-sm border border-white/[0.1]
-              items-center justify-center
-              hover:bg-white/[0.15] hover:border-white/[0.2]
-              transition-all duration-200
-              ${canScrollRight ? 'opacity-100' : 'opacity-0 pointer-events-none'}
-            `}
-            aria-label="Scroll right"
-          >
-            <ChevronRight size={18} className="text-white/70" />
-          </button>
-
-          <div
-            className={`
-              hidden lg:block absolute left-0 top-0 bottom-4 w-16
-              bg-gradient-to-r from-immix-dark to-transparent pointer-events-none z-10
-              transition-opacity duration-300
-              ${canScrollLeft ? 'opacity-100' : 'opacity-0'}
-            `}
-          />
-          <div
-            className={`
-              hidden lg:block absolute right-0 top-0 bottom-4 w-16
-              bg-gradient-to-l from-immix-dark to-transparent pointer-events-none z-10
-              transition-opacity duration-300
-              ${canScrollRight ? 'opacity-100' : 'opacity-0'}
-            `}
-          />
+          <div className="hidden lg:flex justify-center gap-3 mt-6">
+            <button
+              onClick={() => scroll('left')}
+              className={`
+                w-10 h-10 rounded-full bg-white/[0.06] border border-white/[0.1]
+                flex items-center justify-center
+                hover:bg-white/[0.12] hover:border-white/[0.2]
+                transition-all duration-200
+                ${canScrollLeft ? 'opacity-100' : 'opacity-30 pointer-events-none'}
+              `}
+              aria-label="Scroll left"
+            >
+              <ChevronLeft size={18} className="text-white/70" />
+            </button>
+            <button
+              onClick={() => scroll('right')}
+              className={`
+                w-10 h-10 rounded-full bg-white/[0.06] border border-white/[0.1]
+                flex items-center justify-center
+                hover:bg-white/[0.12] hover:border-white/[0.2]
+                transition-all duration-200
+                ${canScrollRight ? 'opacity-100' : 'opacity-30 pointer-events-none'}
+              `}
+              aria-label="Scroll right"
+            >
+              <ChevronRight size={18} className="text-white/70" />
+            </button>
+          </div>
         </div>
 
         <AnimatedElement type="fadeInUp" delay={0.2}>
