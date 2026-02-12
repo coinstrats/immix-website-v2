@@ -150,7 +150,6 @@ const integrationModes = [
   },
 ];
 
-const CARD_WIDTH = 380;
 const CARD_GAP = 20;
 
 function ProductCard({ product, index }: { product: Product; index: number }) {
@@ -162,8 +161,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="group flex-shrink-0 snap-start"
-      style={{ width: CARD_WIDTH }}
+      className="group flex-shrink-0 snap-start w-[300px] sm:w-[380px]"
     >
       <div
         className={`
@@ -260,7 +258,8 @@ export const ProductSolutions = () => {
   const scroll = (direction: 'left' | 'right') => {
     const el = scrollRef.current;
     if (!el) return;
-    const amount = direction === 'left' ? -(CARD_WIDTH + CARD_GAP) : CARD_WIDTH + CARD_GAP;
+    const cardWidth = window.innerWidth < 640 ? 300 : 380;
+    const amount = direction === 'left' ? -(cardWidth + CARD_GAP) : cardWidth + CARD_GAP;
     el.scrollBy({ left: amount, behavior: 'smooth' });
   };
 
@@ -302,8 +301,8 @@ export const ProductSolutions = () => {
         <div className="relative">
           <div
             ref={scrollRef}
-            className="flex gap-5 overflow-x-auto no-scrollbar pb-4"
-            style={{ scrollSnapType: 'x mandatory' }}
+            className="flex gap-5 overflow-x-auto pb-4 no-scrollbar lg:no-scrollbar"
+            style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}
           >
             {products.map((product, i) => (
               <ProductCard key={product.id} product={product} index={i} />
