@@ -33,7 +33,7 @@ export const Hero = () => {
           className="absolute inset-0 lg:hidden pointer-events-none overflow-hidden"
         >
           <img
-            src="/hero-workspace.png"
+            src="/screenshot-4.webp"
             alt="IMMIX Multi-Asset Trading Workspace"
             className="w-[140%] max-w-none h-auto opacity-15 -translate-x-[10%] translate-y-[10%]"
           />
@@ -96,7 +96,7 @@ export const Hero = () => {
           >
             <div className="relative w-[160%]">
               <img
-                src="/hero-workspace.png"
+                src="/screenshot-4.webp"
                 alt="IMMIX Multi-Asset Trading Workspace"
                 className="w-full h-auto block rounded-lg"
                 style={{ boxShadow: '0 0 80px 20px rgba(0, 115, 255, 0.08), 0 25px 50px -12px rgba(0, 0, 0, 0.6)' }}
