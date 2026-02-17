@@ -59,7 +59,7 @@ export const ConnectVisual = () => {
         />
 
         {connections.map((conn, i) => (
-          <motion.line
+          <line
             key={`conn-${i}`}
             x1={conn.from.x}
             y1={conn.from.y}
@@ -68,9 +68,6 @@ export const ConnectVisual = () => {
             stroke="rgb(34,211,238)"
             strokeOpacity="0.3"
             strokeWidth="0.8"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 1, delay: i * 0.1 }}
           />
         ))}
 
@@ -126,7 +123,7 @@ export const ConnectVisual = () => {
 
         {nodes.map((node, i) => (
           <g key={`node-${i}`}>
-            <motion.rect
+            <rect
               x={node.x - 3}
               y={node.y - 3}
               width="6"
@@ -136,9 +133,6 @@ export const ConnectVisual = () => {
               stroke="rgb(34,211,238)"
               strokeOpacity="0.5"
               strokeWidth="0.5"
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3 + i * 0.08 }}
             />
             <motion.rect
               x={node.x - 3}

@@ -67,12 +67,8 @@ export const CaseStudies = () => {
             const bgColor = study.color === 'blue' ? 'bg-immix-blue/5' : 'bg-immix-purple/5';
 
             return (
-              <motion.div
+              <div
                 key={study.company}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-
                 className={`relative p-6 rounded-lg border ${borderColor} bg-immix-dark/40 backdrop-blur hover:bg-immix-dark/60 transition-colors group`}
               >
                 <div className={`inline-flex p-3 rounded-lg ${bgColor} border ${borderColor} mb-4`}>
@@ -116,22 +112,19 @@ export const CaseStudies = () => {
                     Read case study <ArrowRight size={14} />
                   </motion.button>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+        <div
           className="text-center pt-8"
         >
           <p className="text-white/60 mb-6">Ready to build your own success story?</p>
           <Button variant="primary" size="lg">
             Schedule a Demo
           </Button>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

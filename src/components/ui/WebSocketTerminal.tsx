@@ -2,10 +2,7 @@ import { motion } from 'framer-motion';
 
 export const WebSocketTerminal = () => {
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.8, delay: 0.3 }}
+    <div
       className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-[500px]"
     >
       <div className="bg-[#0D0D0D] border border-slate-800 rounded-lg shadow-2xl overflow-hidden">
@@ -84,19 +81,16 @@ export const WebSocketTerminal = () => {
               {'\n'}
               <span className="text-slate-500">{'}'}</span>
               {'\n\n'}
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.5 }}
+              <span
                 className="text-slate-400"
               >
                 {'// > Response: '}
                 <span className="text-cyan-400">Routing 4.2 BTC to Binance...</span>
-              </motion.span>
+              </span>
             </code>
           </pre>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };

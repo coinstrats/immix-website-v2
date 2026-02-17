@@ -115,11 +115,7 @@ export const FeatureComparisonGrid = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-
+    <div
       className="overflow-x-auto"
     >
       <table className="w-full min-w-[900px]">
@@ -229,6 +225,6 @@ export const FeatureComparisonGrid = () => {
           ))}
         </tbody>
       </table>
-    </motion.div>
+    </div>
   );
 };

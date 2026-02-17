@@ -301,27 +301,17 @@ export const CodeShowcaseCard = ({
   const styles = getPositionStyles();
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: styles.x, scale: 0.9 }}
-      animate={{
-        opacity: styles.opacity,
-        x: styles.x,
-        scale: styles.scale,
-        zIndex: styles.zIndex,
-        rotateY: styles.rotateY
-      }}
-      transition={{
-        type: 'spring',
-        stiffness: 300,
-        damping: 30,
-        mass: 1
-      }}
+    <div
       onClick={onClick}
       className="absolute cursor-pointer origin-center"
       style={{
         width: '340px',
         height: '286px',
-        perspective: '1000px'
+        perspective: '1000px',
+        opacity: styles.opacity,
+        transform: `translateX(${styles.x}px) scale(${styles.scale}) rotateY(${styles.rotateY}deg)`,
+        zIndex: styles.zIndex,
+        transition: 'transform 0.3s ease, opacity 0.3s ease'
       }}
     >
       <div
@@ -383,13 +373,11 @@ export const CodeShowcaseCard = ({
               </a>
 
               {showTooltip && (
-                <motion.div
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
+                <div
                   className="absolute right-0 top-full mt-2 px-2 py-1 bg-white/10 backdrop-blur-md border border-white/20 text-[10px] text-white/70 whitespace-nowrap z-50 rounded"
                 >
                   {docTooltip}
-                </motion.div>
+                </div>
               )}
             </div>
           </motion.div>
@@ -401,6 +389,6 @@ export const CodeShowcaseCard = ({
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };

@@ -59,7 +59,7 @@ const products: Product[] = [
     id: 'connect',
     name: 'Connect',
     icon: Link,
-    tagline: 'One API to the full digital asset ecosystem — crypto, tokenized commodities, stocks, ETFs, and money market funds.',
+    tagline: 'One API to the full digital asset ecosystem \u2014 crypto, tokenized commodities, stocks, ETFs, and money market funds.',
     capabilities: [
       'REST, WebSocket & FIX protocols',
       'Crypto & tokenized RWAs',
@@ -76,7 +76,7 @@ const products: Product[] = [
     id: 'trade',
     name: 'Trade',
     icon: ArrowRightLeft,
-    tagline: 'Advanced order types and algos across CeFi, DeFi and RWAs — from multi-leg spreads to continuous hedging.',
+    tagline: 'Advanced order types and algos across CeFi, DeFi and RWAs \u2014 from multi-leg spreads to continuous hedging.',
     capabilities: [
       'Multi-leg spreads & portfolio rebalancing',
       'Market making & smart order routing',
@@ -170,12 +170,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
   const Visual = product.visual;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
-      className="group flex-shrink-0 snap-start w-[300px] sm:w-[380px]"
-    >
+    <div className="group flex-shrink-0 snap-start w-[300px] sm:w-[380px]">
       <div
         className={`
           relative h-full rounded-xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm
@@ -241,7 +236,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 

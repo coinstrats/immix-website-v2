@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Lock, Zap, TrendingUp, Shield, Terminal, BarChart, Building2, Network, Database, ExternalLink, Server } from 'lucide-react';
+import { Lock, Zap, TrendingUp, Shield, Terminal, Network, Database, ExternalLink, Server, Building2 } from 'lucide-react';
 import { AnimatedElement, Button } from '../ui';
 
 const DataFlowDot = ({ delay = 0, reverse = false, speed = 1, color = 'bg-immix-blue' }: { delay?: number; reverse?: boolean; speed?: number; color?: string }) => (
@@ -48,20 +48,9 @@ export const EcosystemMap = () => {
           </AnimatedElement>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="relative"
-        >
+        <div className="relative">
           <div className="hidden lg:grid grid-cols-12 gap-6 items-center py-16">
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-  
-              className="col-span-3 space-y-4"
-            >
+            <div className="col-span-3 space-y-4">
               <div className="relative p-6 border border-immix-purple/30 bg-immix-dark/40 backdrop-blur">
                 <div className="absolute -top-3 left-4 px-2 bg-immix-darker">
                   <div className="flex items-center gap-2 text-xs text-immix-purple font-mono">
@@ -71,36 +60,26 @@ export const EcosystemMap = () => {
                 </div>
 
                 <div className="space-y-2 mt-2">
-                  {['Fireblocks', 'Copper', 'Hex Trust', 'Anchorage', 'BitGo'].map((item, i) => (
-                    <motion.div
+                  {['Fireblocks', 'Copper', 'Hex Trust', 'Anchorage', 'BitGo'].map((item) => (
+                    <div
                       key={item}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.2 + i * 0.05 }}
-          
                       className="flex items-center gap-2 px-3 py-2 bg-immix-purple/5 border border-immix-purple/20 text-xs font-mono text-white/70 hover:bg-immix-purple/10 hover:border-immix-purple/30 transition-colors"
                     >
                       <Building2 size={14} className="text-white/40" />
                       {item}
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-white/10">
                   <p className="text-xs text-white/40 font-mono">
-                    MPC • Cold Storage • Compliance
+                    MPC &bull; Cold Storage &bull; Compliance
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, scaleX: 0 }}
-              animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-  
-              className="col-span-1 flex items-center justify-center relative h-80"
-            >
+            <div className="col-span-1 flex items-center justify-center relative h-80">
               <div className="relative w-full h-full flex items-center justify-center">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full h-px bg-gradient-to-r from-immix-purple/30 via-immix-blue/50 to-immix-blue/30" />
@@ -115,19 +94,13 @@ export const EcosystemMap = () => {
 
                 <div className="absolute left-1/2 top-1/4 -translate-x-1/2">
                   <div className="px-2 py-1 bg-immix-darker border border-immix-blue/30 text-xs font-mono text-immix-blue">
-                    5μs
+                    5&mu;s
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-  
-              className="col-span-4 relative"
-            >
+            <div className="col-span-4 relative">
               <div className="relative p-8 border-2 border-immix-blue/50 bg-immix-dark/60 backdrop-blur">
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 bg-immix-darker">
                   <div className="text-xs font-mono text-immix-blue flex items-center gap-2">
@@ -139,7 +112,7 @@ export const EcosystemMap = () => {
 
                 <div className="text-center mb-8 mt-2">
                   <h3 className="font-bold text-2xl mb-1 text-white">Sequencer</h3>
-                  <p className="text-xs text-white/60 font-mono">RAFT Consensus • 1M+ msg/s • 5μs latency</p>
+                  <p className="text-xs text-white/60 font-mono">RAFT Consensus &bull; 1M+ msg/s &bull; 5&mu;s latency</p>
                 </div>
 
                 <div className="flex flex-col items-center relative h-64 mb-6">
@@ -158,7 +131,6 @@ export const EcosystemMap = () => {
                     <line x1="50%" y1="15%" x2="70%" y2="80%" stroke="rgb(148, 163, 184)" strokeOpacity="0.2" strokeWidth="1.5" strokeDasharray="4,4" />
 
                     <motion.circle
-                      key="dot-s1-s2"
                       r="3"
                       fill="rgb(59, 130, 246)"
                       filter="url(#glow)"
@@ -178,7 +150,6 @@ export const EcosystemMap = () => {
                     />
 
                     <motion.circle
-                      key="dot-s1-s3"
                       r="3"
                       fill="rgb(59, 130, 246)"
                       filter="url(#glow)"
@@ -198,7 +169,6 @@ export const EcosystemMap = () => {
                     />
 
                     <motion.circle
-                      key="dot-s2-s1"
                       r="3"
                       fill="rgb(59, 130, 246)"
                       filter="url(#glow)"
@@ -218,7 +188,6 @@ export const EcosystemMap = () => {
                     />
 
                     <motion.circle
-                      key="dot-s3-s1"
                       r="3"
                       fill="rgb(59, 130, 246)"
                       filter="url(#glow)"
@@ -239,46 +208,31 @@ export const EcosystemMap = () => {
                   </svg>
 
                   <div className="absolute top-2 left-0 right-0 flex justify-center" style={{ zIndex: 20 }}>
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.3 }}
-                      className="w-24 h-24 bg-white border-2 border-white/60 flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.3)]"
-                    >
+                    <div className="w-24 h-24 bg-white border-2 border-white/60 flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.3)]">
                       <div className="text-center">
                         <Zap className="text-immix-dark mx-auto" size={24} />
                         <div className="text-xs font-mono text-immix-dark/90 mt-1 font-bold">S1</div>
                         <div className="text-[10px] font-mono text-immix-dark/60 font-semibold">Leader</div>
                       </div>
-                    </motion.div>
+                    </div>
                   </div>
 
                   <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-16" style={{ zIndex: 10 }}>
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.4 }}
-                      className="w-20 h-20 bg-slate-900 border-2 border-slate-700 flex items-center justify-center"
-                    >
+                    <div className="w-20 h-20 bg-slate-900 border-2 border-slate-700 flex items-center justify-center">
                       <div className="text-center">
                         <Zap className="text-slate-400 mx-auto" size={20} />
                         <div className="text-xs font-mono text-slate-400 mt-1 font-bold">S2</div>
                         <div className="text-[10px] font-mono text-slate-500 font-semibold">Follower</div>
                       </div>
-                    </motion.div>
+                    </div>
 
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.5 }}
-                      className="w-20 h-20 bg-slate-900 border-2 border-slate-700 flex items-center justify-center"
-                    >
+                    <div className="w-20 h-20 bg-slate-900 border-2 border-slate-700 flex items-center justify-center">
                       <div className="text-center">
                         <Zap className="text-slate-400 mx-auto" size={20} />
                         <div className="text-xs font-mono text-slate-400 mt-1 font-bold">S3</div>
                         <div className="text-[10px] font-mono text-slate-500 font-semibold">Follower</div>
                       </div>
-                    </motion.div>
+                    </div>
                   </div>
                 </div>
 
@@ -287,21 +241,17 @@ export const EcosystemMap = () => {
                     { label: 'Risk Books', icon: Network, metric: 'Strategy Pods' },
                     { label: 'Business Logic', icon: Terminal, metric: 'SDK' },
                     { label: 'Data Lab', icon: Database, metric: '360 Insights' },
-                  ].map((feature, i) => {
+                  ].map((feature) => {
                     const Icon = feature.icon;
                     return (
-                      <motion.div
+                      <div
                         key={feature.label}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.6 + i * 0.1 }}
-            
                         className="p-3 bg-immix-blue/5 border border-immix-blue/30 hover:bg-immix-blue/10 transition-colors"
                       >
                         <Icon className="text-immix-blue mb-2" size={16} />
                         <p className="text-xs font-semibold text-white/80 leading-tight mb-1">{feature.label}</p>
                         <p className="text-xs text-immix-blue/60 font-mono">{feature.metric}</p>
-                      </motion.div>
+                      </div>
                     );
                   })}
                 </div>
@@ -316,15 +266,9 @@ export const EcosystemMap = () => {
               <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-6 h-6 border-2 border-immix-blue/30 bg-immix-darker flex items-center justify-center">
                 <div className="w-2 h-2 bg-immix-blue" />
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, scaleX: 0 }}
-              animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-  
-              className="col-span-1 flex items-center justify-center relative h-80"
-            >
+            <div className="col-span-1 flex items-center justify-center relative h-80">
               <div className="relative w-full h-full flex items-center justify-center">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full h-px bg-gradient-to-r from-immix-blue/30 via-immix-blue/50 to-immix-blue/30" />
@@ -343,15 +287,9 @@ export const EcosystemMap = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-  
-              className="col-span-3 space-y-4"
-            >
+            <div className="col-span-3 space-y-4">
               <div className="relative p-6 border border-immix-blue/30 bg-immix-dark/40 backdrop-blur">
                 <div className="absolute -top-3 right-4 px-2 bg-immix-darker">
                   <div className="flex items-center gap-2 text-xs text-immix-blue font-mono">
@@ -361,39 +299,29 @@ export const EcosystemMap = () => {
                 </div>
 
                 <div className="space-y-2 mt-2">
-                  {['Binance', 'Coinbase', 'Kraken', 'CME', 'OKX', 'Bybit', 'Deribit'].map((item, i) => (
-                    <motion.div
+                  {['Binance', 'Coinbase', 'Kraken', 'CME', 'OKX', 'Bybit', 'Deribit'].map((item) => (
+                    <div
                       key={item}
-                      initial={{ opacity: 0, x: 10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.2 + i * 0.05 }}
-          
                       className="flex items-center gap-2 px-3 py-2 bg-immix-blue/5 border border-immix-blue/20 text-xs font-mono text-white/70 hover:bg-immix-blue/10 hover:border-immix-blue/30 transition-colors"
                     >
                       <Building2 size={14} className="text-white/40" />
                       {item}
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-white/10">
                   <p className="text-xs text-white/40 font-mono">
-                    CEX • DEX • OTC • DMA
+                    CEX &bull; DEX &bull; OTC &bull; DMA
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           <div className="hidden lg:grid grid-cols-12 gap-6 -mt-8">
             <div className="col-start-3 col-span-8 flex flex-col items-center">
-              <motion.div
-                initial={{ opacity: 0, scaleY: 0 }}
-                animate={{ opacity: 1, scaleY: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-    
-                className="w-full flex items-center justify-center relative h-20 mb-2"
-              >
+              <div className="w-full flex items-center justify-center relative h-20 mb-2">
                 <div className="relative w-full h-full flex items-center justify-center">
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
                     <div className="h-full w-px bg-gradient-to-b from-emerald-600/30 via-emerald-600/50 to-emerald-600/30" />
@@ -438,15 +366,9 @@ export const EcosystemMap = () => {
                     />
                   ))}
                 </div>
-              </motion.div>
+              </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-    
-                className="w-full"
-              >
+              <div className="w-full">
                 <div className="relative p-6 border border-emerald-600/30 bg-immix-dark/40 backdrop-blur">
                   <div className="absolute -top-3 left-8 px-2 bg-immix-darker">
                     <div className="flex items-center gap-2 text-xs text-emerald-600 font-mono">
@@ -456,15 +378,9 @@ export const EcosystemMap = () => {
                   </div>
 
                   <div className="flex items-center gap-6 mt-2">
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.4 }}
-          
-                      className="w-16 h-16 bg-emerald-600/10 border-2 border-emerald-600/40 flex items-center justify-center flex-shrink-0"
-                    >
+                    <div className="w-16 h-16 bg-emerald-600/10 border-2 border-emerald-600/40 flex items-center justify-center flex-shrink-0">
                       <Shield className="text-emerald-600" size={32} />
-                    </motion.div>
+                    </div>
                     <div className="flex-1">
                       <p className="text-base text-white/90 font-mono mb-2 font-semibold">Private Connection Bridge</p>
                       <p className="text-xs text-white/60 font-mono leading-relaxed">
@@ -473,7 +389,7 @@ export const EcosystemMap = () => {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
 
@@ -484,66 +400,64 @@ export const EcosystemMap = () => {
                 icon: Server,
                 color: 'cyan',
                 items: ['Direct API', 'Access Layer', 'Secure', 'Private'],
-                desc: 'Secure • Private • Fast',
+                desc: 'Secure \u2022 Private \u2022 Fast',
               },
               {
                 title: 'Custody Layer',
                 icon: Lock,
                 color: 'purple',
                 items: ['Fireblocks', 'Copper', 'Hex Trust', 'Anchorage'],
-                desc: 'MPC • Cold Storage • Compliance',
+                desc: 'MPC \u2022 Cold Storage \u2022 Compliance',
               },
               {
                 title: 'Liquidity Venues',
                 icon: TrendingUp,
                 color: 'blue',
                 items: ['Binance', 'Coinbase', 'Kraken', 'CME', 'OKX', 'Bybit'],
-                desc: 'CEX • DEX • OTC • DMA',
+                desc: 'CEX \u2022 DEX \u2022 OTC \u2022 DMA',
               },
-            ].map((zone, i) => (
-              <AnimatedElement key={zone.title} type="fadeInUp" delay={i * 0.2}>
-                <div className="relative p-6 border border-white/10 bg-immix-dark/40">
-                  <div className="absolute -top-3 left-4 px-2 bg-immix-darker">
-                    <div className="flex items-center gap-2">
-                      <zone.icon
-                        className={
-                          zone.color === 'purple'
-                            ? 'text-immix-purple'
-                            : zone.color === 'cyan'
-                            ? 'text-cyan-400'
-                            : 'text-immix-blue'
-                        }
-                        size={14}
-                      />
-                      <h3 className="text-xs font-mono uppercase">{zone.title}</h3>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2 mt-2">
-                    {zone.items.map((item) => (
-                      <div
-                        key={item}
-                        className={`px-3 py-2 text-xs font-mono ${
-                          zone.color === 'purple'
-                            ? 'bg-immix-purple/5 border border-immix-purple/20'
-                            : zone.color === 'cyan'
-                            ? 'bg-cyan-500/5 border border-cyan-500/20'
-                            : 'bg-immix-blue/5 border border-immix-blue/20'
-                        }`}
-                      >
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="mt-4 pt-3 border-t border-white/10">
-                    <p className="text-xs text-white/40 font-mono">{zone.desc}</p>
+            ].map((zone) => (
+              <div key={zone.title} className="relative p-6 border border-white/10 bg-immix-dark/40">
+                <div className="absolute -top-3 left-4 px-2 bg-immix-darker">
+                  <div className="flex items-center gap-2">
+                    <zone.icon
+                      className={
+                        zone.color === 'purple'
+                          ? 'text-immix-purple'
+                          : zone.color === 'cyan'
+                          ? 'text-cyan-400'
+                          : 'text-immix-blue'
+                      }
+                      size={14}
+                    />
+                    <h3 className="text-xs font-mono uppercase">{zone.title}</h3>
                   </div>
                 </div>
-              </AnimatedElement>
+
+                <div className="grid grid-cols-2 gap-2 mt-2">
+                  {zone.items.map((item) => (
+                    <div
+                      key={item}
+                      className={`px-3 py-2 text-xs font-mono ${
+                        zone.color === 'purple'
+                          ? 'bg-immix-purple/5 border border-immix-purple/20'
+                          : zone.color === 'cyan'
+                          ? 'bg-cyan-500/5 border border-cyan-500/20'
+                          : 'bg-immix-blue/5 border border-immix-blue/20'
+                      }`}
+                    >
+                      {item}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-white/10">
+                  <p className="text-xs text-white/40 font-mono">{zone.desc}</p>
+                </div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         <AnimatedElement type="fadeInUp">
           <div className="text-center pt-8 border-t border-white/10 space-y-6">

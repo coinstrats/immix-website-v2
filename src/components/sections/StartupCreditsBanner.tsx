@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { Rocket, ArrowRight, Zap, Clock, Users, DollarSign } from 'lucide-react';
 import { Button } from '../ui';
 
@@ -11,11 +10,7 @@ const benefits = [
 
 export const StartupCreditsBanner = () => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-
+    <div
       className="relative overflow-hidden border border-teal-500/30 bg-gradient-to-r from-teal-500/[0.08] via-transparent to-teal-500/[0.08]"
     >
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_50%,_var(--tw-gradient-stops))] from-teal-500/[0.12] via-transparent to-transparent" />
@@ -80,6 +75,6 @@ export const StartupCreditsBanner = () => {
           </p>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };

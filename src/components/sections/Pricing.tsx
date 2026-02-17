@@ -217,23 +217,15 @@ export const Pricing = () => {
 
         <div className="min-h-[600px]">
           {activeTab === 'tiers' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="space-y-10"
-            >
+            <div className="space-y-10">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
-                {pricingTiers.map((tier, index) => {
+                {pricingTiers.map((tier) => {
                   const Icon = tier.icon;
                   const colors = tierColorMap[tier.tierColor];
 
                   return (
-                    <motion.div
+                    <div
                       key={tier.name}
-                      initial={{ opacity: 0, y: 40 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
                       className={`relative p-6 flex flex-col h-full group transition-all duration-300 hover:-translate-y-1 ${colors.hoverShadow} ${
                         tier.highlighted
                           ? 'bg-immix-blue/10 border-2 border-immix-blue shadow-glow-lg'
@@ -307,7 +299,7 @@ export const Pricing = () => {
                           </Button>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   );
                 })}
               </div>
@@ -321,27 +313,17 @@ export const Pricing = () => {
               </div>
 
               <StartupCreditsBanner />
-            </motion.div>
+            </div>
           )}
 
           {activeTab === 'compare' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="bg-immix-dark/60 border border-white/10"
-            >
+            <div className="bg-immix-dark/60 border border-white/10">
               <FeatureComparisonGrid />
-            </motion.div>
+            </div>
           )}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          className="text-center pt-8"
-        >
+        <div className="text-center pt-8">
           <p className="text-white/40 text-sm">
             All plans include 24/7 infrastructure monitoring, automatic failover, and regular
             security audits.
@@ -354,7 +336,7 @@ export const Pricing = () => {
             </a>{' '}
             for custom requirements.
           </p>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -1,9 +1,8 @@
-import { motion } from 'framer-motion';
 import { AnimatedElement } from '../ui';
 
 const stats = [
   {
-    number: '5μs',
+    number: '5\u03BCs',
     label: 'Latency',
     description: 'Door-to-door execution',
   },
@@ -33,60 +32,34 @@ export const EngineeringStats = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-16 max-w-5xl mx-auto">
-          {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: i * 0.15 }}
-
-              className="text-center space-y-3"
-            >
-              <motion.div
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-                transition={{ duration: 0.5, delay: i * 0.15 + 0.2 }}
-  
-                className="text-6xl md:text-7xl font-bold bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent"
-              >
+          {stats.map((stat) => (
+            <div key={stat.label} className="text-center space-y-3">
+              <div className="text-6xl md:text-7xl font-bold bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
                 {stat.number}
-              </motion.div>
-
+              </div>
               <div>
                 <h3 className="text-lg font-semibold text-white/90 mb-1">{stat.label}</h3>
                 <p className="text-white/40 text-sm">{stat.description}</p>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-24 pt-16 border-t border-white/5"
-        >
+        <div className="mt-24 pt-16 border-t border-white/5">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-4xl mx-auto">
             {[
               { value: '70+', label: 'Venue Integrations' },
               { value: '24/7', label: 'Global Operations' },
               { value: '< 100ms', label: 'Order Execution' },
               { value: 'SOC2', label: 'Certified' },
-            ].map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.7 + i * 0.1 }}
-  
-                className="text-center space-y-2"
-              >
+            ].map((stat) => (
+              <div key={stat.label} className="text-center space-y-2">
                 <p className="text-3xl font-bold text-immix-blue/80">{stat.value}</p>
                 <p className="text-xs text-white/40 uppercase tracking-wider">{stat.label}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

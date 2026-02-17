@@ -28,7 +28,7 @@ export const PayVisual = () => {
 
         <rect width="360" height="110" fill="url(#pay-grid)" />
 
-        <motion.line
+        <line
           x1="75"
           y1="38"
           x2="150"
@@ -37,20 +37,14 @@ export const PayVisual = () => {
           strokeOpacity="0.35"
           strokeWidth="1"
           strokeDasharray="3 3"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
         />
-        <motion.polygon
+        <polygon
           points="148,34 155,38 148,42"
           fill="rgb(45,212,191)"
           fillOpacity="0.35"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.9 }}
         />
 
-        <motion.line
+        <line
           x1="210"
           y1="38"
           x2="285"
@@ -59,25 +53,16 @@ export const PayVisual = () => {
           strokeOpacity="0.35"
           strokeWidth="1"
           strokeDasharray="3 3"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
         />
-        <motion.polygon
+        <polygon
           points="283,34 290,38 283,42"
           fill="rgb(45,212,191)"
           fillOpacity="0.35"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
         />
 
-        {stages.map((stage, i) => (
-          <motion.g
+        {stages.map((stage) => (
+          <g
             key={stage.label}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.2 }}
           >
             <rect
               x={stage.x - 30}
@@ -103,10 +88,10 @@ export const PayVisual = () => {
             >
               {stage.label}
             </text>
-          </motion.g>
+          </g>
         ))}
 
-        <motion.circle
+        <circle
           cx="180"
           cy="17"
           r="8"
@@ -115,9 +100,6 @@ export const PayVisual = () => {
           stroke="rgb(45,212,191)"
           strokeOpacity="0.4"
           strokeWidth="0.6"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.4 }}
         />
         <text
           x="180"
@@ -174,7 +156,7 @@ export const PayVisual = () => {
           />
         ))}
 
-        <motion.line
+        <line
           x1="135"
           y1="60"
           x2="135"
@@ -183,13 +165,10 @@ export const PayVisual = () => {
           strokeOpacity="0.2"
           strokeWidth="0.5"
           strokeDasharray="2 2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
         />
 
         {sorBranches.map((branch, i) => (
-          <motion.path
+          <path
             key={`sor-${i}`}
             d={`M 135 80 C ${branch.cp1x} ${branch.cp1y} ${branch.cp2x} ${branch.cp2y} ${branch.endX} ${branch.endY}`}
             fill="none"
@@ -197,9 +176,6 @@ export const PayVisual = () => {
             strokeOpacity="0.2"
             strokeWidth="0.6"
             strokeDasharray="2 3"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.4 + i * 0.15 }}
           />
         ))}
 
@@ -224,19 +200,16 @@ export const PayVisual = () => {
           />
         ))}
 
-        <motion.text
+        <text
           x="120"
           y="77"
           fill="rgb(45,212,191)"
           fillOpacity="0.35"
           fontSize="5"
           fontFamily="monospace"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.3 }}
         >
           SOR
-        </motion.text>
+        </text>
 
         <line
           x1="260"

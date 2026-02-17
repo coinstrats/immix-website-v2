@@ -67,28 +67,22 @@ export const EarnVisual = () => {
           />
         ))}
 
-        <motion.path
+        <path
           d={fillPath}
           fill="url(#yield-fill)"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, delay: 1.2 }}
         />
 
-        <motion.path
+        <path
           d={curvePath}
           fill="none"
           stroke="url(#yield-stroke)"
           strokeWidth="1.5"
           strokeLinecap="round"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 2, ease: 'easeOut' }}
         />
 
         {yieldPoints.map((pt, i) => (
           <g key={`yield-${i}`}>
-            <motion.circle
+            <circle
               cx={pt.x}
               cy={pt.y}
               r="3"
@@ -97,11 +91,8 @@ export const EarnVisual = () => {
               stroke="rgb(56,189,248)"
               strokeOpacity="0.5"
               strokeWidth="0.5"
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.8 + i * 0.25 }}
             />
-            <motion.text
+            <text
               x={pt.x}
               y={pt.y - 7}
               textAnchor="middle"
@@ -110,22 +101,16 @@ export const EarnVisual = () => {
               fontSize="6"
               fontFamily="monospace"
               fontWeight="bold"
-              initial={{ opacity: 0, y: pt.y - 3 }}
-              animate={{ opacity: 1, y: pt.y - 7 }}
-              transition={{ delay: 1 + i * 0.25 }}
             >
               +
-            </motion.text>
+            </text>
           </g>
         ))}
 
-        <motion.polygon
+        <polygon
           points="345,2 349,6 345,10 341,6"
           fill="rgb(56,189,248)"
           fillOpacity="0.6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.2 }}
         />
         <motion.polygon
           points="345,2 349,6 345,10 341,6"

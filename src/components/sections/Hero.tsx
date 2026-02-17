@@ -26,19 +26,14 @@ export const Hero = () => {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className="absolute inset-0 lg:hidden pointer-events-none overflow-hidden"
-        >
+        <div className="absolute inset-0 lg:hidden pointer-events-none overflow-hidden">
           <img
             src="/screenshot-4.webp"
             alt="IMMIX Multi-Asset Trading Workspace"
             className="w-[140%] max-w-none h-auto opacity-15 -translate-x-[10%] translate-y-[10%]"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/40 via-[#050505]/60 to-[#050505]" />
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative">
           <div className="space-y-8 relative z-10">
@@ -87,12 +82,7 @@ export const Hero = () => {
             </AnimatedElement>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative hidden lg:block overflow-visible"
-          >
+          <div className="relative hidden lg:block overflow-visible">
             <div className="relative w-[160%]">
               <img
                 src="/screenshot-4.webp"
@@ -104,16 +94,11 @@ export const Hero = () => {
               <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#050505] via-[#050505]/60 to-transparent pointer-events-none z-[1]" />
               <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-[#050505] to-transparent pointer-events-none z-[1]" />
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.7 }}
-                className="absolute -bottom-8 -left-8 z-[5]"
-              >
+              <div className="absolute -bottom-8 -left-8 z-[5]">
                 <HeroCodeCard />
-              </motion.div>
+              </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
