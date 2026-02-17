@@ -16,7 +16,7 @@ export const TradeVisual = () => {
       >
         <defs>
           <pattern id="trade-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <circle cx="10" cy="10" r="0.5" fill="white" opacity="0.06" />
+            <circle cx="10" cy="10" r="0.5" fill="white" opacity="0.1" />
           </pattern>
           <linearGradient id="bid-grad" x1="100%" y1="0%" x2="0%" y2="0%">
             <stop offset="0%" stopColor="rgb(52,211,153)" stopOpacity="0.6" />
@@ -36,7 +36,7 @@ export const TradeVisual = () => {
           x2={centerX}
           y2="105"
           stroke="white"
-          strokeOpacity="0.1"
+          strokeOpacity="0.15"
           strokeWidth="0.5"
         />
 
@@ -52,8 +52,7 @@ export const TradeVisual = () => {
                 fill="url(#bid-grad)"
                 rx="1"
                 initial={{ width: 0, x: centerX }}
-                whileInView={{ width: w, x: centerX - w }}
-                viewport={{ once: true }}
+                animate={{ width: w, x: centerX - w }}
                 transition={{ duration: 0.8, delay: i * 0.06 }}
               />
               <motion.rect
@@ -81,7 +80,7 @@ export const TradeVisual = () => {
                 y={y + 6.5}
                 textAnchor="end"
                 fill="white"
-                fillOpacity="0.12"
+                fillOpacity="0.3"
                 fontSize="4"
                 fontFamily="monospace"
               >
@@ -103,8 +102,7 @@ export const TradeVisual = () => {
                 fill="url(#ask-grad)"
                 rx="1"
                 initial={{ width: 0 }}
-                whileInView={{ width: w }}
-                viewport={{ once: true }}
+                animate={{ width: w }}
                 transition={{ duration: 0.8, delay: i * 0.06 }}
               />
               <motion.rect
@@ -131,7 +129,7 @@ export const TradeVisual = () => {
                 y={y + 6.5}
                 textAnchor="start"
                 fill="white"
-                fillOpacity="0.12"
+                fillOpacity="0.3"
                 fontSize="4"
                 fontFamily="monospace"
               >
@@ -161,14 +159,14 @@ export const TradeVisual = () => {
       </svg>
 
       <div className="absolute top-1.5 left-2">
-        <span className="text-[6px] font-mono text-emerald-400/30 tracking-widest uppercase">
+        <span className="text-[6px] font-mono text-emerald-400/40 tracking-widest uppercase">
           VWAP
         </span>
       </div>
 
       <div className="absolute top-1.5 right-2 flex gap-3">
-        <span className="text-[5px] font-mono text-emerald-400/25">BID</span>
-        <span className="text-[5px] font-mono text-red-400/25">ASK</span>
+        <span className="text-[5px] font-mono text-emerald-400/40">BID</span>
+        <span className="text-[5px] font-mono text-red-400/40">ASK</span>
       </div>
     </div>
   );

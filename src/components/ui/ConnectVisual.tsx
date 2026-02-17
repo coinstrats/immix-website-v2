@@ -27,10 +27,10 @@ export const ConnectVisual = () => {
       >
         <defs>
           <pattern id="connect-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <circle cx="10" cy="10" r="0.5" fill="white" opacity="0.06" />
+            <circle cx="10" cy="10" r="0.5" fill="white" opacity="0.1" />
           </pattern>
           <radialGradient id="globe-glow" cx="50%" cy="50%">
-            <stop offset="0%" stopColor="rgb(34,211,238)" stopOpacity="0.08" />
+            <stop offset="0%" stopColor="rgb(34,211,238)" stopOpacity="0.12" />
             <stop offset="100%" stopColor="rgb(34,211,238)" stopOpacity="0" />
           </radialGradient>
         </defs>
@@ -44,7 +44,7 @@ export const ConnectVisual = () => {
           ry="42"
           fill="none"
           stroke="white"
-          strokeOpacity="0.04"
+          strokeOpacity="0.1"
           strokeDasharray="3 6"
         />
         <ellipse
@@ -54,7 +54,7 @@ export const ConnectVisual = () => {
           ry="30"
           fill="url(#globe-glow)"
           stroke="white"
-          strokeOpacity="0.03"
+          strokeOpacity="0.08"
           strokeDasharray="2 4"
         />
 
@@ -66,11 +66,10 @@ export const ConnectVisual = () => {
             x2={conn.to.x}
             y2={conn.to.y}
             stroke="rgb(34,211,238)"
-            strokeOpacity="0.15"
+            strokeOpacity="0.3"
             strokeWidth="0.8"
             initial={{ pathLength: 0 }}
-            whileInView={{ pathLength: 1 }}
-            viewport={{ once: true }}
+            animate={{ pathLength: 1 }}
             transition={{ duration: 1, delay: i * 0.1 }}
           />
         ))}
@@ -110,7 +109,7 @@ export const ConnectVisual = () => {
               fill="white"
               initial={{ opacity: 0 }}
               animate={{
-                opacity: [0, 0.4, 0.4, 0],
+                opacity: [0, 0.5, 0.5, 0],
                 cx: [conn.from.x + dx, conn.from.x],
                 cy: [conn.from.y + dy, conn.from.y],
               }}
@@ -138,8 +137,7 @@ export const ConnectVisual = () => {
               strokeOpacity="0.5"
               strokeWidth="0.5"
               initial={{ opacity: 0, scale: 0 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3 + i * 0.08 }}
             />
             <motion.rect
@@ -165,7 +163,7 @@ export const ConnectVisual = () => {
                 y={node.y + 12}
                 textAnchor="middle"
                 fill="white"
-                fillOpacity="0.2"
+                fillOpacity="0.35"
                 fontSize="5"
                 fontFamily="monospace"
               >
@@ -197,7 +195,7 @@ export const ConnectVisual = () => {
         {['REST', 'WS', 'FIX'].map((proto) => (
           <span
             key={proto}
-            className="text-[6px] font-mono text-cyan-400/25 tracking-wider"
+            className="text-[6px] font-mono text-cyan-400/40 tracking-wider"
           >
             {proto}
           </span>

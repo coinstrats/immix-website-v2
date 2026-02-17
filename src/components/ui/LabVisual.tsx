@@ -30,7 +30,7 @@ export const LabVisual = () => {
       >
         <defs>
           <pattern id="lab-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <circle cx="10" cy="10" r="0.5" fill="white" opacity="0.04" />
+            <circle cx="10" cy="10" r="0.5" fill="white" opacity="0.1" />
           </pattern>
         </defs>
 
@@ -52,9 +52,9 @@ export const LabVisual = () => {
                   height={cellH}
                   rx="1"
                   fill="rgb(147,197,253)"
-                  fillOpacity="0.04"
+                  fillOpacity="0.08"
                   stroke="rgb(147,197,253)"
-                  strokeOpacity="0.08"
+                  strokeOpacity="0.12"
                   strokeWidth="0.3"
                 />
 
@@ -68,8 +68,8 @@ export const LabVisual = () => {
                   fillOpacity="0"
                   animate={{
                     fillOpacity: isHot
-                      ? [0.04, 0.25, 0.04]
-                      : [0.04, 0.1, 0.04],
+                      ? [0.06, 0.3, 0.06]
+                      : [0.06, 0.14, 0.06],
                   }}
                   transition={{
                     duration: isHot ? 1.5 : 3,
@@ -88,7 +88,7 @@ export const LabVisual = () => {
                     rx="1"
                     fill="rgb(147,197,253)"
                     fillOpacity="0"
-                    animate={{ fillOpacity: [0, 0.35, 0] }}
+                    animate={{ fillOpacity: [0, 0.4, 0] }}
                     transition={{
                       duration: 0.8,
                       delay: 2 + waveDelay * 2,
@@ -110,8 +110,8 @@ export const LabVisual = () => {
           height={cellH - 4}
           rx="1"
           fill="rgb(147,197,253)"
-          fillOpacity="0.4"
-          animate={{ fillOpacity: [0.4, 0, 0.4] }}
+          fillOpacity="0.5"
+          animate={{ fillOpacity: [0.5, 0, 0.5] }}
           transition={{ duration: 1, repeat: Infinity, ease: 'steps(2)' }}
         />
 
@@ -125,7 +125,7 @@ export const LabVisual = () => {
             rx="1"
             fill="rgb(147,197,253)"
             fillOpacity="0"
-            animate={{ fillOpacity: [0, 0.06, 0] }}
+            animate={{ fillOpacity: [0, 0.08, 0] }}
             transition={{
               duration: 0.4,
               delay: c * 0.15,
@@ -138,13 +138,13 @@ export const LabVisual = () => {
       </svg>
 
       <div className="absolute top-1.5 left-2">
-        <span className="text-[6px] font-mono text-blue-300/25 tracking-widest uppercase">
+        <span className="text-[6px] font-mono text-blue-300/40 tracking-widest uppercase">
           Stream
         </span>
       </div>
 
       <div className="absolute top-1.5 right-2">
-        <span className="text-[6px] font-mono text-blue-300/20 tracking-widest uppercase">
+        <span className="text-[6px] font-mono text-blue-300/35 tracking-widest uppercase">
           Analysis
         </span>
       </div>

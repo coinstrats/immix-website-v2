@@ -22,7 +22,7 @@ export const PayVisual = () => {
       >
         <defs>
           <pattern id="pay-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <circle cx="10" cy="10" r="0.5" fill="white" opacity="0.06" />
+            <circle cx="10" cy="10" r="0.5" fill="white" opacity="0.1" />
           </pattern>
         </defs>
 
@@ -34,21 +34,19 @@ export const PayVisual = () => {
           x2="150"
           y2="38"
           stroke="rgb(45,212,191)"
-          strokeOpacity="0.25"
+          strokeOpacity="0.35"
           strokeWidth="1"
           strokeDasharray="3 3"
           initial={{ pathLength: 0 }}
-          whileInView={{ pathLength: 1 }}
-          viewport={{ once: true }}
+          animate={{ pathLength: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         />
         <motion.polygon
           points="148,34 155,38 148,42"
           fill="rgb(45,212,191)"
-          fillOpacity="0.25"
+          fillOpacity="0.35"
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 0.9 }}
         />
 
@@ -58,21 +56,19 @@ export const PayVisual = () => {
           x2="285"
           y2="38"
           stroke="rgb(45,212,191)"
-          strokeOpacity="0.25"
+          strokeOpacity="0.35"
           strokeWidth="1"
           strokeDasharray="3 3"
           initial={{ pathLength: 0 }}
-          whileInView={{ pathLength: 1 }}
-          viewport={{ once: true }}
+          animate={{ pathLength: 1 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         />
         <motion.polygon
           points="283,34 290,38 283,42"
           fill="rgb(45,212,191)"
-          fillOpacity="0.25"
+          fillOpacity="0.35"
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
         />
 
@@ -80,8 +76,7 @@ export const PayVisual = () => {
           <motion.g
             key={stage.label}
             initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.2 }}
           >
             <rect
@@ -91,9 +86,9 @@ export const PayVisual = () => {
               height="26"
               rx="3"
               fill="rgb(45,212,191)"
-              fillOpacity="0.06"
+              fillOpacity="0.08"
               stroke="rgb(45,212,191)"
-              strokeOpacity="0.25"
+              strokeOpacity="0.35"
               strokeWidth="0.8"
             />
             <text
@@ -101,7 +96,7 @@ export const PayVisual = () => {
               y="41"
               textAnchor="middle"
               fill="rgb(45,212,191)"
-              fillOpacity="0.7"
+              fillOpacity="0.8"
               fontSize="7"
               fontFamily="monospace"
               fontWeight="bold"
@@ -116,13 +111,12 @@ export const PayVisual = () => {
           cy="17"
           r="8"
           fill="rgb(45,212,191)"
-          fillOpacity="0.08"
+          fillOpacity="0.1"
           stroke="rgb(45,212,191)"
-          strokeOpacity="0.3"
+          strokeOpacity="0.4"
           strokeWidth="0.6"
           initial={{ opacity: 0, scale: 0 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4 }}
         />
         <text
@@ -130,7 +124,7 @@ export const PayVisual = () => {
           y="20"
           textAnchor="middle"
           fill="rgb(45,212,191)"
-          fillOpacity="0.5"
+          fillOpacity="0.6"
           fontSize="8"
           fontFamily="monospace"
           fontWeight="bold"
@@ -186,12 +180,11 @@ export const PayVisual = () => {
           x2="135"
           y2="80"
           stroke="rgb(45,212,191)"
-          strokeOpacity="0.12"
+          strokeOpacity="0.2"
           strokeWidth="0.5"
           strokeDasharray="2 2"
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 1.2 }}
         />
 
@@ -201,12 +194,11 @@ export const PayVisual = () => {
             d={`M 135 80 C ${branch.cp1x} ${branch.cp1y} ${branch.cp2x} ${branch.cp2y} ${branch.endX} ${branch.endY}`}
             fill="none"
             stroke="rgb(45,212,191)"
-            strokeOpacity="0.12"
+            strokeOpacity="0.2"
             strokeWidth="0.6"
             strokeDasharray="2 3"
             initial={{ pathLength: 0, opacity: 0 }}
-            whileInView={{ pathLength: 1, opacity: 1 }}
-            viewport={{ once: true }}
+            animate={{ pathLength: 1, opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.4 + i * 0.15 }}
           />
         ))}
@@ -236,12 +228,11 @@ export const PayVisual = () => {
           x="120"
           y="77"
           fill="rgb(45,212,191)"
-          fillOpacity="0.25"
+          fillOpacity="0.35"
           fontSize="5"
           fontFamily="monospace"
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 1.3 }}
         >
           SOR
@@ -253,7 +244,7 @@ export const PayVisual = () => {
           x2="290"
           y2="38"
           stroke="rgb(45,212,191)"
-          strokeOpacity="0.1"
+          strokeOpacity="0.15"
           strokeWidth="0.5"
           strokeDasharray="2 2"
         />

@@ -21,15 +21,15 @@ export const EarnVisual = () => {
       >
         <defs>
           <pattern id="earn-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <circle cx="10" cy="10" r="0.5" fill="white" opacity="0.06" />
+            <circle cx="10" cy="10" r="0.5" fill="white" opacity="0.1" />
           </pattern>
           <linearGradient id="yield-fill" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="rgb(56,189,248)" stopOpacity="0.15" />
-            <stop offset="100%" stopColor="rgb(56,189,248)" stopOpacity="0.01" />
+            <stop offset="0%" stopColor="rgb(56,189,248)" stopOpacity="0.2" />
+            <stop offset="100%" stopColor="rgb(56,189,248)" stopOpacity="0.02" />
           </linearGradient>
           <linearGradient id="yield-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgb(56,189,248)" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="rgb(56,189,248)" stopOpacity="0.8" />
+            <stop offset="0%" stopColor="rgb(56,189,248)" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="rgb(56,189,248)" stopOpacity="0.9" />
           </linearGradient>
         </defs>
 
@@ -41,7 +41,7 @@ export const EarnVisual = () => {
           x2="350"
           y2="95"
           stroke="white"
-          strokeOpacity="0.06"
+          strokeOpacity="0.12"
           strokeWidth="0.5"
         />
         <line
@@ -50,7 +50,7 @@ export const EarnVisual = () => {
           x2="30"
           y2="95"
           stroke="white"
-          strokeOpacity="0.06"
+          strokeOpacity="0.12"
           strokeWidth="0.5"
         />
 
@@ -62,7 +62,7 @@ export const EarnVisual = () => {
             x2="350"
             y2={95 - pct * 0.9}
             stroke="white"
-            strokeOpacity="0.04"
+            strokeOpacity="0.08"
             strokeDasharray="2 4"
           />
         ))}
@@ -71,8 +71,7 @@ export const EarnVisual = () => {
           d={fillPath}
           fill="url(#yield-fill)"
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 1.2, delay: 1.2 }}
         />
 
@@ -83,8 +82,7 @@ export const EarnVisual = () => {
           strokeWidth="1.5"
           strokeLinecap="round"
           initial={{ pathLength: 0 }}
-          whileInView={{ pathLength: 1 }}
-          viewport={{ once: true }}
+          animate={{ pathLength: 1 }}
           transition={{ duration: 2, ease: 'easeOut' }}
         />
 
@@ -95,13 +93,12 @@ export const EarnVisual = () => {
               cy={pt.y}
               r="3"
               fill="rgb(56,189,248)"
-              fillOpacity="0.2"
+              fillOpacity="0.25"
               stroke="rgb(56,189,248)"
-              strokeOpacity="0.4"
+              strokeOpacity="0.5"
               strokeWidth="0.5"
               initial={{ opacity: 0, scale: 0 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.8 + i * 0.25 }}
             />
             <motion.text
@@ -109,13 +106,12 @@ export const EarnVisual = () => {
               y={pt.y - 7}
               textAnchor="middle"
               fill="rgb(56,189,248)"
-              fillOpacity="0.5"
+              fillOpacity="0.6"
               fontSize="6"
               fontFamily="monospace"
               fontWeight="bold"
               initial={{ opacity: 0, y: pt.y - 3 }}
-              whileInView={{ opacity: 1, y: pt.y - 7 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: pt.y - 7 }}
               transition={{ delay: 1 + i * 0.25 }}
             >
               +
@@ -126,10 +122,9 @@ export const EarnVisual = () => {
         <motion.polygon
           points="345,2 349,6 345,10 341,6"
           fill="rgb(56,189,248)"
-          fillOpacity="0.5"
+          fillOpacity="0.6"
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 2.2 }}
         />
         <motion.polygon
@@ -144,7 +139,7 @@ export const EarnVisual = () => {
           x="15"
           y="52"
           fill="white"
-          fillOpacity="0.15"
+          fillOpacity="0.3"
           fontSize="5"
           fontFamily="monospace"
           transform="rotate(-90, 15, 52)"
@@ -156,7 +151,7 @@ export const EarnVisual = () => {
           y="103"
           textAnchor="middle"
           fill="white"
-          fillOpacity="0.12"
+          fillOpacity="0.25"
           fontSize="5"
           fontFamily="monospace"
         >
@@ -165,7 +160,7 @@ export const EarnVisual = () => {
       </svg>
 
       <div className="absolute top-1.5 left-2">
-        <span className="text-[6px] font-mono text-sky-400/25 tracking-widest uppercase">
+        <span className="text-[6px] font-mono text-sky-400/40 tracking-widest uppercase">
           Yield
         </span>
       </div>
