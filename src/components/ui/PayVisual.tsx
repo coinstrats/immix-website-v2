@@ -1,0 +1,263 @@
+import { motion } from 'framer-motion';
+
+const stages = [
+  { x: 45, label: 'BUY' },
+  { x: 180, label: 'TRANSFER' },
+  { x: 315, label: 'SELL' },
+];
+
+const sorBranches = [
+  { cp1x: 180, cp1y: 75, cp2x: 220, cp2y: 85, endX: 260, endY: 50 },
+  { cp1x: 180, cp1y: 55, cp2x: 220, cp2y: 40, endX: 260, endY: 50 },
+  { cp1x: 180, cp1y: 65, cp2x: 230, cp2y: 65, endX: 260, endY: 50 },
+];
+
+export const PayVisual = () => {
+  return (
+    <div className="w-full h-full relative">
+      <svg
+        viewBox="0 0 360 110"
+        className="w-full h-full"
+        preserveAspectRatio="xMidYMid meet"
+      >
+        <defs>
+          <pattern id="pay-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="10" cy="10" r="0.5" fill="white" opacity="0.06" />
+          </pattern>
+        </defs>
+
+        <rect width="360" height="110" fill="url(#pay-grid)" />
+
+        <motion.line
+          x1="75"
+          y1="38"
+          x2="150"
+          y2="38"
+          stroke="rgb(45,212,191)"
+          strokeOpacity="0.25"
+          strokeWidth="1"
+          strokeDasharray="3 3"
+          initial={{ pathLength: 0 }}
+          whileInView={{ pathLength: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        />
+        <motion.polygon
+          points="148,34 155,38 148,42"
+          fill="rgb(45,212,191)"
+          fillOpacity="0.25"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.9 }}
+        />
+
+        <motion.line
+          x1="210"
+          y1="38"
+          x2="285"
+          y2="38"
+          stroke="rgb(45,212,191)"
+          strokeOpacity="0.25"
+          strokeWidth="1"
+          strokeDasharray="3 3"
+          initial={{ pathLength: 0 }}
+          whileInView={{ pathLength: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        />
+        <motion.polygon
+          points="283,34 290,38 283,42"
+          fill="rgb(45,212,191)"
+          fillOpacity="0.25"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 1.2 }}
+        />
+
+        {stages.map((stage, i) => (
+          <motion.g
+            key={stage.label}
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.2 }}
+          >
+            <rect
+              x={stage.x - 30}
+              y="25"
+              width="60"
+              height="26"
+              rx="3"
+              fill="rgb(45,212,191)"
+              fillOpacity="0.06"
+              stroke="rgb(45,212,191)"
+              strokeOpacity="0.25"
+              strokeWidth="0.8"
+            />
+            <text
+              x={stage.x}
+              y="41"
+              textAnchor="middle"
+              fill="rgb(45,212,191)"
+              fillOpacity="0.7"
+              fontSize="7"
+              fontFamily="monospace"
+              fontWeight="bold"
+            >
+              {stage.label}
+            </text>
+          </motion.g>
+        ))}
+
+        <motion.circle
+          cx="180"
+          cy="17"
+          r="8"
+          fill="rgb(45,212,191)"
+          fillOpacity="0.08"
+          stroke="rgb(45,212,191)"
+          strokeOpacity="0.3"
+          strokeWidth="0.6"
+          initial={{ opacity: 0, scale: 0 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4 }}
+        />
+        <text
+          x="180"
+          y="20"
+          textAnchor="middle"
+          fill="rgb(45,212,191)"
+          fillOpacity="0.5"
+          fontSize="8"
+          fontFamily="monospace"
+          fontWeight="bold"
+        >
+          $
+        </text>
+
+        {[0, 1.8, 3.6].map((delay) => (
+          <motion.circle
+            key={`dot-fwd-${delay}`}
+            r="2"
+            fill="rgb(45,212,191)"
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: [0, 0.8, 0.8, 0],
+              cx: [80, 150],
+              cy: [38, 38],
+            }}
+            transition={{
+              duration: 1,
+              delay: 1.5 + delay,
+              repeat: Infinity,
+              repeatDelay: 3,
+              ease: 'linear',
+            }}
+          />
+        ))}
+
+        {[0.3, 2.1, 3.9].map((delay) => (
+          <motion.circle
+            key={`dot-fwd2-${delay}`}
+            r="2"
+            fill="rgb(45,212,191)"
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: [0, 0.8, 0.8, 0],
+              cx: [215, 285],
+              cy: [38, 38],
+            }}
+            transition={{
+              duration: 1,
+              delay: 1.8 + delay,
+              repeat: Infinity,
+              repeatDelay: 3,
+              ease: 'linear',
+            }}
+          />
+        ))}
+
+        <motion.line
+          x1="135"
+          y1="60"
+          x2="135"
+          y2="80"
+          stroke="rgb(45,212,191)"
+          strokeOpacity="0.12"
+          strokeWidth="0.5"
+          strokeDasharray="2 2"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 1.2 }}
+        />
+
+        {sorBranches.map((branch, i) => (
+          <motion.path
+            key={`sor-${i}`}
+            d={`M 135 80 C ${branch.cp1x} ${branch.cp1y} ${branch.cp2x} ${branch.cp2y} ${branch.endX} ${branch.endY}`}
+            fill="none"
+            stroke="rgb(45,212,191)"
+            strokeOpacity="0.12"
+            strokeWidth="0.6"
+            strokeDasharray="2 3"
+            initial={{ pathLength: 0, opacity: 0 }}
+            whileInView={{ pathLength: 1, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 1.4 + i * 0.15 }}
+          />
+        ))}
+
+        {sorBranches.map((branch, i) => (
+          <motion.circle
+            key={`sor-dot-${i}`}
+            r="1.2"
+            fill="rgb(45,212,191)"
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: [0, 0.6, 0.6, 0],
+              cx: [135, branch.endX],
+              cy: [80, branch.endY],
+            }}
+            transition={{
+              duration: 1.2 + i * 0.2,
+              delay: 2 + i * 0.4,
+              repeat: Infinity,
+              repeatDelay: 3,
+              ease: 'linear',
+            }}
+          />
+        ))}
+
+        <motion.text
+          x="120"
+          y="77"
+          fill="rgb(45,212,191)"
+          fillOpacity="0.25"
+          fontSize="5"
+          fontFamily="monospace"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 1.3 }}
+        >
+          SOR
+        </motion.text>
+
+        <line
+          x1="260"
+          y1="50"
+          x2="290"
+          y2="38"
+          stroke="rgb(45,212,191)"
+          strokeOpacity="0.1"
+          strokeWidth="0.5"
+          strokeDasharray="2 2"
+        />
+      </svg>
+    </div>
+  );
+};

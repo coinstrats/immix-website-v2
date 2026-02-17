@@ -15,6 +15,12 @@ import {
   Terminal,
 } from 'lucide-react';
 import { AnimatedElement } from '../ui';
+import { MarketsVisual } from '../ui/MarketsVisual';
+import { ConnectVisual } from '../ui/ConnectVisual';
+import { TradeVisual } from '../ui/TradeVisual';
+import { PayVisual } from '../ui/PayVisual';
+import { EarnVisual } from '../ui/EarnVisual';
+import { LabVisual } from '../ui/LabVisual';
 
 type IntegrationLevel = 'ui' | 'sdk' | 'api';
 
@@ -28,6 +34,7 @@ interface Product {
   accentColor: string;
   accentBg: string;
   accentBorder: string;
+  visual: React.ComponentType;
 }
 
 const products: Product[] = [
@@ -46,6 +53,7 @@ const products: Product[] = [
     accentColor: 'text-blue-400',
     accentBg: 'bg-blue-500/10',
     accentBorder: 'border-blue-500/30',
+    visual: MarketsVisual,
   },
   {
     id: 'connect',
@@ -62,6 +70,7 @@ const products: Product[] = [
     accentColor: 'text-cyan-400',
     accentBg: 'bg-cyan-500/10',
     accentBorder: 'border-cyan-500/30',
+    visual: ConnectVisual,
   },
   {
     id: 'trade',
@@ -78,6 +87,7 @@ const products: Product[] = [
     accentColor: 'text-emerald-400',
     accentBg: 'bg-emerald-500/10',
     accentBorder: 'border-emerald-500/30',
+    visual: TradeVisual,
   },
   {
     id: 'pay',
@@ -94,6 +104,7 @@ const products: Product[] = [
     accentColor: 'text-teal-400',
     accentBg: 'bg-teal-500/10',
     accentBorder: 'border-teal-500/30',
+    visual: PayVisual,
   },
   {
     id: 'earn',
@@ -110,6 +121,7 @@ const products: Product[] = [
     accentColor: 'text-sky-400',
     accentBg: 'bg-sky-500/10',
     accentBorder: 'border-sky-500/30',
+    visual: EarnVisual,
   },
   {
     id: 'lab',
@@ -126,6 +138,7 @@ const products: Product[] = [
     accentColor: 'text-blue-300',
     accentBg: 'bg-blue-400/10',
     accentBorder: 'border-blue-400/30',
+    visual: LabVisual,
   },
 ];
 
@@ -154,6 +167,7 @@ const CARD_GAP = 20;
 
 function ProductCard({ product, index }: { product: Product; index: number }) {
   const Icon = product.icon;
+  const Visual = product.visual;
 
   return (
     <motion.div
@@ -195,14 +209,15 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           </div>
 
           <div className={`
-            relative h-[100px] rounded-lg bg-white/[0.03] border border-white/[0.06]
-            flex items-center justify-center overflow-hidden
+            relative h-[160px] rounded-lg bg-white/[0.02] border border-white/[0.06]
+            overflow-hidden
             transition-all duration-300 group-hover:border-white/[0.1]
           `}>
-            <div className={`absolute inset-0 bg-gradient-to-br ${product.accentBg} opacity-30`} />
-            <span className="text-xs text-white/20 font-mono tracking-wider uppercase relative z-10">
-              Screenshot
-            </span>
+            <div className={`absolute inset-0 bg-gradient-to-br ${product.accentBg} opacity-20`} />
+            <div className="relative z-10 w-full h-full">
+              <Visual />
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-[#0a0a0a]/60 to-transparent z-20 pointer-events-none" />
           </div>
 
           <div className="flex items-center gap-2 pt-1">
