@@ -150,7 +150,7 @@ export const FeatureComparisonGrid = () => {
             <th className="py-4 px-3 text-center w-[15%]">
               <div className="space-y-1">
                 <div className="text-amber-400 font-bold">Enterprise</div>
-                <div className="text-white/40 text-xs font-normal">~$25,000/mo</div>
+                <div className="text-white/40 text-xs font-normal">Custom</div>
               </div>
             </th>
           </tr>

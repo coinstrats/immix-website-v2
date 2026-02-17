@@ -95,8 +95,8 @@ const pricingTiers = [
   {
     name: 'Enterprise',
     icon: Shield,
-    price: 'From $25,000',
-    period: 'avg/month',
+    price: 'Custom',
+    period: '',
     description: 'For institutions requiring unlimited scale and white-glove service',
     highlights: [
       'Unlimited strategies',
