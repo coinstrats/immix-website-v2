@@ -50,17 +50,16 @@ export const EcosystemMap = () => {
 
         <motion.div
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
           className="relative"
         >
           <div className="hidden lg:grid grid-cols-12 gap-6 items-center py-16">
             <motion.div
               initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
+  
               className="col-span-3 space-y-4"
             >
               <div className="relative p-6 border border-immix-purple/30 bg-immix-dark/40 backdrop-blur">
@@ -76,9 +75,9 @@ export const EcosystemMap = () => {
                     <motion.div
                       key={item}
                       initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
+                      animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.2 + i * 0.05 }}
-                      viewport={{ once: true }}
+          
                       className="flex items-center gap-2 px-3 py-2 bg-immix-purple/5 border border-immix-purple/20 text-xs font-mono text-white/70 hover:bg-immix-purple/10 hover:border-immix-purple/30 transition-colors"
                     >
                       <Building2 size={14} className="text-white/40" />
@@ -97,9 +96,9 @@ export const EcosystemMap = () => {
 
             <motion.div
               initial={{ opacity: 0, scaleX: 0 }}
-              whileInView={{ opacity: 1, scaleX: 1 }}
+              animate={{ opacity: 1, scaleX: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              viewport={{ once: true }}
+  
               className="col-span-1 flex items-center justify-center relative h-80"
             >
               <div className="relative w-full h-full flex items-center justify-center">
@@ -124,9 +123,9 @@ export const EcosystemMap = () => {
 
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
+  
               className="col-span-4 relative"
             >
               <div className="relative p-8 border-2 border-immix-blue/50 bg-immix-dark/60 backdrop-blur">
@@ -294,9 +293,9 @@ export const EcosystemMap = () => {
                       <motion.div
                         key={feature.label}
                         initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.6 + i * 0.1 }}
-                        viewport={{ once: true }}
+            
                         className="p-3 bg-immix-blue/5 border border-immix-blue/30 hover:bg-immix-blue/10 transition-colors"
                       >
                         <Icon className="text-immix-blue mb-2" size={16} />
@@ -321,9 +320,9 @@ export const EcosystemMap = () => {
 
             <motion.div
               initial={{ opacity: 0, scaleX: 0 }}
-              whileInView={{ opacity: 1, scaleX: 1 }}
+              animate={{ opacity: 1, scaleX: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              viewport={{ once: true }}
+  
               className="col-span-1 flex items-center justify-center relative h-80"
             >
               <div className="relative w-full h-full flex items-center justify-center">
@@ -348,9 +347,9 @@ export const EcosystemMap = () => {
 
             <motion.div
               initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
+  
               className="col-span-3 space-y-4"
             >
               <div className="relative p-6 border border-immix-blue/30 bg-immix-dark/40 backdrop-blur">
@@ -366,9 +365,9 @@ export const EcosystemMap = () => {
                     <motion.div
                       key={item}
                       initial={{ opacity: 0, x: 10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
+                      animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.2 + i * 0.05 }}
-                      viewport={{ once: true }}
+          
                       className="flex items-center gap-2 px-3 py-2 bg-immix-blue/5 border border-immix-blue/20 text-xs font-mono text-white/70 hover:bg-immix-blue/10 hover:border-immix-blue/30 transition-colors"
                     >
                       <Building2 size={14} className="text-white/40" />
@@ -390,9 +389,9 @@ export const EcosystemMap = () => {
             <div className="col-start-3 col-span-8 flex flex-col items-center">
               <motion.div
                 initial={{ opacity: 0, scaleY: 0 }}
-                whileInView={{ opacity: 1, scaleY: 1 }}
+                animate={{ opacity: 1, scaleY: 1 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                viewport={{ once: true }}
+    
                 className="w-full flex items-center justify-center relative h-20 mb-2"
               >
                 <div className="relative w-full h-full flex items-center justify-center">
@@ -443,9 +442,9 @@ export const EcosystemMap = () => {
 
               <motion.div
                 initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                viewport={{ once: true }}
+    
                 className="w-full"
               >
                 <div className="relative p-6 border border-emerald-600/30 bg-immix-dark/40 backdrop-blur">
@@ -459,9 +458,9 @@ export const EcosystemMap = () => {
                   <div className="flex items-center gap-6 mt-2">
                     <motion.div
                       initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
+                      animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: 0.4 }}
-                      viewport={{ once: true }}
+          
                       className="w-16 h-16 bg-emerald-600/10 border-2 border-emerald-600/40 flex items-center justify-center flex-shrink-0"
                     >
                       <Shield className="text-emerald-600" size={32} />

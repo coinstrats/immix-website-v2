@@ -37,16 +37,16 @@ export const EngineeringStats = () => {
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: i * 0.15 }}
-              viewport={{ once: true }}
+
               className="text-center space-y-3"
             >
               <motion.div
                 initial={{ scale: 0.8 }}
-                whileInView={{ scale: 1 }}
+                animate={{ scale: 1 }}
                 transition={{ duration: 0.5, delay: i * 0.15 + 0.2 }}
-                viewport={{ once: true }}
+  
                 className="text-6xl md:text-7xl font-bold bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent"
               >
                 {stat.number}
@@ -62,9 +62,8 @@ export const EngineeringStats = () => {
 
         <motion.div
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          viewport={{ once: true }}
           className="mt-24 pt-16 border-t border-white/5"
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12 max-w-4xl mx-auto">
@@ -77,9 +76,9 @@ export const EngineeringStats = () => {
               <motion.div
                 key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.7 + i * 0.1 }}
-                viewport={{ once: true }}
+  
                 className="text-center space-y-2"
               >
                 <p className="text-3xl font-bold text-immix-blue/80">{stat.value}</p>

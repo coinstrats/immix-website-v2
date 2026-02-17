@@ -172,8 +172,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
       className="group flex-shrink-0 snap-start w-[300px] sm:w-[380px]"
     >

@@ -232,9 +232,8 @@ export const Pricing = () => {
                     <motion.div
                       key={tier.name}
                       initial={{ opacity: 0, y: 40 }}
-                      whileInView={{ opacity: 1, y: 0 }}
+                      animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: index * 0.1 }}
-                      viewport={{ once: true }}
                       className={`relative p-6 flex flex-col h-full group transition-all duration-300 hover:-translate-y-1 ${colors.hoverShadow} ${
                         tier.highlighted
                           ? 'bg-immix-blue/10 border-2 border-immix-blue shadow-glow-lg'
@@ -339,9 +338,8 @@ export const Pricing = () => {
 
         <motion.div
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
           className="text-center pt-8"
         >
           <p className="text-white/40 text-sm">

@@ -70,9 +70,9 @@ export const CaseStudies = () => {
               <motion.div
                 key={study.company}
                 initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                viewport={{ once: true }}
+
                 className={`relative p-6 rounded-lg border ${borderColor} bg-immix-dark/40 backdrop-blur hover:bg-immix-dark/60 transition-colors group`}
               >
                 <div className={`inline-flex p-3 rounded-lg ${bgColor} border ${borderColor} mb-4`}>
@@ -123,9 +123,8 @@ export const CaseStudies = () => {
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          viewport={{ once: true }}
           className="text-center pt-8"
         >
           <p className="text-white/60 mb-6">Ready to build your own success story?</p>

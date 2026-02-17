@@ -13,9 +13,9 @@ export const StartupCreditsBanner = () => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      viewport={{ once: true }}
+
       className="relative overflow-hidden border border-teal-500/30 bg-gradient-to-r from-teal-500/[0.08] via-transparent to-teal-500/[0.08]"
     >
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_50%,_var(--tw-gradient-stops))] from-teal-500/[0.12] via-transparent to-transparent" />

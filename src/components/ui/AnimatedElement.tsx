@@ -38,9 +38,8 @@ export const AnimatedElement = ({
   return (
     <motion.div
       initial={variants[type].initial}
-      whileInView={variants[type].animate}
+      animate={variants[type].animate}
       transition={{ duration, delay }}
-      viewport={{ once: true }}
       className={className}
     >
       {children}

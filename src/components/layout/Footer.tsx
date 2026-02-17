@@ -14,9 +14,9 @@ export const Footer = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
+
             >
               <h4 className="text-lg font-bold mb-4 text-white">IMMIX</h4>
               <p className="text-white/60 text-sm">
@@ -28,9 +28,9 @@ export const Footer = () => {
               <motion.div
                 key={category}
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: (i + 1) * 0.1 }}
-                viewport={{ once: true }}
+  
               >
                 <h5 className="font-semibold mb-4">{category}</h5>
                 <ul className="space-y-2">
@@ -51,9 +51,8 @@ export const Footer = () => {
 
           <motion.div
             initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
             className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between text-sm text-white/60"
           >
             <p>© 2026 IMMIX. All rights reserved.</p>
