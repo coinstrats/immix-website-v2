@@ -1,5 +1,4 @@
-import { motion } from 'framer-motion';
-import { Check, Minus, Info } from 'lucide-react';
+import { Check, Minus, Info, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 
 type FeatureValue = boolean | string;
@@ -166,24 +165,18 @@ export const FeatureComparisonGrid = () => {
               >
                 <td colSpan={6} className="py-3 px-4">
                   <div className="flex items-center gap-2">
-                    <motion.span
-                      initial={false}
-                      animate={{ rotate: expandedCategories.has(category.category) ? 90 : 0 }}
-                      className="text-white/40"
-                    >
-                      ›
-                    </motion.span>
+                    <ChevronRight
+                      size={14}
+                      className={`text-white/40 transition-transform duration-200 ${expandedCategories.has(category.category) ? 'rotate-90' : ''}`}
+                    />
                     <span className="font-semibold text-white/90">{category.category}</span>
                   </div>
                 </td>
               </tr>
               {expandedCategories.has(category.category) &&
                 category.features.map((feature, idx) => (
-                  <motion.tr
+                  <tr
                     key={`${category.category}-${feature.name}`}
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
                     className={`border-b border-white/5 ${idx % 2 === 0 ? 'bg-transparent' : 'bg-white/[0.01]'}`}
                   >
                     <td className="py-3 px-4 pl-8">
@@ -219,7 +212,7 @@ export const FeatureComparisonGrid = () => {
                     <td className="py-3 px-3 text-center">
                       <FeatureCell value={feature.enterprise} />
                     </td>
-                  </motion.tr>
+                  </tr>
                 ))}
             </>
           ))}
