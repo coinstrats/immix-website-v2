@@ -2,26 +2,6 @@ import { motion } from 'framer-motion';
 import { Lock, Zap, TrendingUp, Shield, Terminal, Network, Database, ExternalLink, Server, Building2 } from 'lucide-react';
 import { AnimatedElement, Button } from '../ui';
 
-const DataFlowDot = ({ delay = 0, reverse = false, speed = 1, color = 'bg-immix-blue' }: { delay?: number; reverse?: boolean; speed?: number; color?: string }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{
-      opacity: [0, 1, 1, 0],
-      left: reverse ? ['100%', '0%'] : ['0%', '100%'],
-    }}
-    transition={{
-      duration: speed,
-      delay,
-      repeat: Infinity,
-      repeatDelay: 0.3,
-      ease: 'linear',
-    }}
-    className="absolute top-1/2 -translate-y-1/2 w-2 h-2 -ml-1"
-  >
-    <div className={`w-full h-full ${color} shadow-glow`} />
-  </motion.div>
-);
-
 export const EcosystemMap = () => {
   return (
     <section id="architecture" className="section-wrapper relative overflow-hidden">
@@ -80,22 +60,67 @@ export const EcosystemMap = () => {
             </div>
 
             <div className="col-span-1 flex items-center justify-center relative h-80">
-              <div className="relative w-full h-full flex items-center justify-center">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full h-px bg-gradient-to-r from-immix-purple/30 via-immix-blue/50 to-immix-blue/30" />
-                </div>
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full h-px bg-gradient-to-r from-immix-purple/30 via-immix-blue/50 to-immix-blue/30" />
+              </div>
 
-                {[0, 0.6, 1.2].map((delay) => (
-                  <DataFlowDot key={`left-${delay}`} delay={delay} reverse={false} speed={2} color="bg-immix-purple" />
+              <svg className="absolute inset-0 w-full h-full overflow-visible" style={{ zIndex: 5 }}>
+                <defs>
+                  <filter id="dot-glow-h">
+                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                {[0, 0.8, 1.6].map((delay, i) => (
+                  <motion.circle
+                    key={`l-fwd-${i}`}
+                    r="4"
+                    cy="50%"
+                    fill="rgb(107, 70, 255)"
+                    filter="url(#dot-glow-h)"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: [0, 1, 1, 0],
+                      cx: ['0%', '100%'],
+                    }}
+                    transition={{
+                      duration: 2,
+                      delay,
+                      repeat: Infinity,
+                      repeatDelay: 0.5,
+                      ease: 'linear',
+                    }}
+                  />
                 ))}
-                {[0.3, 0.9].map((delay) => (
-                  <DataFlowDot key={`left-rev-${delay}`} delay={delay} reverse={true} speed={2} color="bg-immix-blue" />
+                {[0.4, 1.2].map((delay, i) => (
+                  <motion.circle
+                    key={`l-rev-${i}`}
+                    r="4"
+                    cy="50%"
+                    fill="rgb(0, 115, 255)"
+                    filter="url(#dot-glow-h)"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: [0, 1, 1, 0],
+                      cx: ['100%', '0%'],
+                    }}
+                    transition={{
+                      duration: 2,
+                      delay,
+                      repeat: Infinity,
+                      repeatDelay: 0.5,
+                      ease: 'linear',
+                    }}
+                  />
                 ))}
+              </svg>
 
-                <div className="absolute left-1/2 top-1/4 -translate-x-1/2">
-                  <div className="px-2 py-1 bg-immix-darker border border-immix-blue/30 text-xs font-mono text-immix-blue">
-                    5&mu;s
-                  </div>
+              <div className="absolute left-1/2 top-1/4 -translate-x-1/2 z-10">
+                <div className="px-2 py-1 bg-immix-darker border border-immix-blue/30 text-xs font-mono text-immix-blue">
+                  5&mu;s
                 </div>
               </div>
             </div>
@@ -269,22 +294,58 @@ export const EcosystemMap = () => {
             </div>
 
             <div className="col-span-1 flex items-center justify-center relative h-80">
-              <div className="relative w-full h-full flex items-center justify-center">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full h-px bg-gradient-to-r from-immix-blue/30 via-immix-blue/50 to-immix-blue/30" />
-                </div>
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full h-px bg-gradient-to-r from-immix-blue/30 via-immix-blue/50 to-immix-blue/30" />
+              </div>
 
-                {[0, 0.4, 0.8, 1.2].map((delay) => (
-                  <DataFlowDot key={`right-${delay}`} delay={delay} reverse={false} speed={0.7} />
+              <svg className="absolute inset-0 w-full h-full overflow-visible" style={{ zIndex: 5 }}>
+                {[0, 0.5, 1.0, 1.5].map((delay, i) => (
+                  <motion.circle
+                    key={`r-fwd-${i}`}
+                    r="4"
+                    cy="50%"
+                    fill="rgb(0, 115, 255)"
+                    filter="url(#dot-glow-h)"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: [0, 1, 1, 0],
+                      cx: ['0%', '100%'],
+                    }}
+                    transition={{
+                      duration: 1.4,
+                      delay,
+                      repeat: Infinity,
+                      repeatDelay: 0.3,
+                      ease: 'linear',
+                    }}
+                  />
                 ))}
-                {[0.2, 0.6, 1.0].map((delay) => (
-                  <DataFlowDot key={`right-rev-${delay}`} delay={delay} reverse={true} speed={0.7} />
+                {[0.25, 0.75, 1.25].map((delay, i) => (
+                  <motion.circle
+                    key={`r-rev-${i}`}
+                    r="4"
+                    cy="50%"
+                    fill="rgb(0, 115, 255)"
+                    filter="url(#dot-glow-h)"
+                    initial={{ opacity: 0 }}
+                    animate={{
+                      opacity: [0, 1, 1, 0],
+                      cx: ['100%', '0%'],
+                    }}
+                    transition={{
+                      duration: 1.4,
+                      delay,
+                      repeat: Infinity,
+                      repeatDelay: 0.3,
+                      ease: 'linear',
+                    }}
+                  />
                 ))}
+              </svg>
 
-                <div className="absolute left-1/2 bottom-1/4 -translate-x-1/2">
-                  <div className="px-2 py-1 bg-immix-darker border border-immix-blue/30 text-xs font-mono text-immix-blue">
-                    70+ venues
-                  </div>
+              <div className="absolute left-1/2 bottom-1/4 -translate-x-1/2 z-10">
+                <div className="px-2 py-1 bg-immix-darker border border-immix-blue/30 text-xs font-mono text-immix-blue">
+                  70+ venues
                 </div>
               </div>
             </div>
@@ -324,47 +385,62 @@ export const EcosystemMap = () => {
               <div className="w-full flex items-center justify-center relative h-20 mb-2">
                 <div className="relative w-full h-full flex items-center justify-center">
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <div className="h-full w-px bg-gradient-to-b from-emerald-600/30 via-emerald-600/50 to-emerald-600/30" />
+                    <div className="h-full w-px bg-gradient-to-b from-immix-blue/30 via-emerald-600/50 to-emerald-600/30" />
                   </div>
 
-                  {[0, 0.4, 0.8].map((delay) => (
-                    <motion.div
-                      key={`down-${delay}`}
-                      className="absolute w-2 h-2 bg-immix-blue border border-immix-blue"
-                      style={{ left: '50%', transform: 'translateX(-50%)' }}
-                      initial={{ top: '0%', opacity: 0 }}
-                      animate={{
-                        top: ['0%', '100%'],
-                        opacity: [0, 1, 1, 0],
-                      }}
-                      transition={{
-                        duration: 1.2,
-                        delay: delay,
-                        repeat: Infinity,
-                        repeatDelay: 1.0,
-                        ease: 'linear',
-                      }}
-                    />
-                  ))}
-                  {[0.2, 0.6].map((delay) => (
-                    <motion.div
-                      key={`up-${delay}`}
-                      className="absolute w-2 h-2 bg-emerald-600 border border-emerald-600"
-                      style={{ left: '50%', transform: 'translateX(-50%)' }}
-                      initial={{ top: '100%', opacity: 0 }}
-                      animate={{
-                        top: ['100%', '0%'],
-                        opacity: [0, 1, 1, 0],
-                      }}
-                      transition={{
-                        duration: 1.2,
-                        delay: delay,
-                        repeat: Infinity,
-                        repeatDelay: 1.0,
-                        ease: 'linear',
-                      }}
-                    />
-                  ))}
+                  <svg className="absolute inset-0 w-full h-full overflow-visible" style={{ zIndex: 5 }}>
+                    <defs>
+                      <filter id="dot-glow-v">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                        <feMerge>
+                          <feMergeNode in="coloredBlur"/>
+                          <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                      </filter>
+                    </defs>
+                    {[0, 0.5, 1.0].map((delay, i) => (
+                      <motion.circle
+                        key={`down-${i}`}
+                        r="4"
+                        cx="50%"
+                        fill="rgb(0, 115, 255)"
+                        filter="url(#dot-glow-v)"
+                        initial={{ opacity: 0 }}
+                        animate={{
+                          opacity: [0, 1, 1, 0],
+                          cy: ['0%', '100%'],
+                        }}
+                        transition={{
+                          duration: 1.2,
+                          delay,
+                          repeat: Infinity,
+                          repeatDelay: 1.0,
+                          ease: 'linear',
+                        }}
+                      />
+                    ))}
+                    {[0.25, 0.75].map((delay, i) => (
+                      <motion.circle
+                        key={`up-${i}`}
+                        r="4"
+                        cx="50%"
+                        fill="rgb(5, 150, 105)"
+                        filter="url(#dot-glow-v)"
+                        initial={{ opacity: 0 }}
+                        animate={{
+                          opacity: [0, 1, 1, 0],
+                          cy: ['100%', '0%'],
+                        }}
+                        transition={{
+                          duration: 1.2,
+                          delay,
+                          repeat: Infinity,
+                          repeatDelay: 1.0,
+                          ease: 'linear',
+                        }}
+                      />
+                    ))}
+                  </svg>
                 </div>
               </div>
 
