@@ -37,52 +37,60 @@ const instruments: Instrument[] = [
   },
 ];
 
-const BAR_HEIGHT = 10;
-const GAP = 3;
-const CENTER_X = 180;
+const BAR_HEIGHT = 14;
+const GAP = 4;
+const CENTER_X = 200;
+const VB_WIDTH = 400;
+const VB_HEIGHT = 180;
+const TOP_OFFSET = 30;
 const ROTATION_INTERVAL = 4500;
 
 const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle: number }) => {
   const { bids, asks, basePrice, step } = instrument;
+  const maxBars = 8;
+  const visibleBids = bids.slice(0, maxBars);
+  const visibleAsks = asks.slice(0, maxBars);
+  const barScale = 1.3;
 
   return (
     <g>
       <line
         x1={CENTER_X}
-        y1="18"
+        y1={TOP_OFFSET - 2}
         x2={CENTER_X}
-        y2="125"
+        y2={TOP_OFFSET + maxBars * (BAR_HEIGHT + GAP)}
         stroke="white"
         strokeOpacity="0.12"
         strokeWidth="0.5"
       />
 
-      {bids.map((w, i) => {
-        const y = 20 + i * (BAR_HEIGHT + GAP);
-        const bidOffset = 2;
+      {visibleBids.map((w, i) => {
+        const y = TOP_OFFSET + i * (BAR_HEIGHT + GAP);
+        const bidOffset = 3;
+        const sw = w * barScale;
         return (
           <g key={`bid-${cycle}-${i}`}>
             <motion.rect
               y={y}
               height={BAR_HEIGHT}
               fill="url(#bid-grad)"
-              rx="1.5"
+              rx="2"
               initial={{ width: 0, x: CENTER_X - bidOffset }}
-              animate={{ width: w, x: CENTER_X - bidOffset - w }}
+              animate={{ width: sw, x: CENTER_X - bidOffset - sw }}
               transition={{ duration: 0.5, delay: i * 0.04, ease: 'easeOut' }}
             />
             <motion.rect
-              x={CENTER_X - bidOffset - w}
+              x={CENTER_X - bidOffset - sw}
               y={y}
-              width={w}
+              width={sw}
               height={BAR_HEIGHT}
               fill="rgb(52,211,153)"
               fillOpacity="0"
-              rx="1.5"
+              rx="2"
               animate={{
                 fillOpacity: i < 3 ? [0, 0.15, 0] : [0, 0, 0],
-                width: [w, w * 0.92, w * 1.08, w],
-                x: [CENTER_X - bidOffset - w, CENTER_X - bidOffset - w * 0.92, CENTER_X - bidOffset - w * 1.08, CENTER_X - bidOffset - w],
+                width: [sw, sw * 0.92, sw * 1.08, sw],
+                x: [CENTER_X - bidOffset - sw, CENTER_X - bidOffset - sw * 0.92, CENTER_X - bidOffset - sw * 1.08, CENTER_X - bidOffset - sw],
               }}
               transition={{
                 duration: 2.8 + i * 0.25,
@@ -92,14 +100,14 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
               }}
             />
             <motion.text
-              x={CENTER_X - 5}
-              y={y + 7.5}
+              x={CENTER_X - 6}
+              y={y + BAR_HEIGHT * 0.72}
               textAnchor="end"
               fill="white"
               fillOpacity="0"
-              fontSize="5"
+              fontSize="7.5"
               fontFamily="monospace"
-              animate={{ fillOpacity: 0.35 }}
+              animate={{ fillOpacity: 0.4 }}
               transition={{ duration: 0.3, delay: 0.2 + i * 0.04 }}
             >
               {(basePrice - i * step).toLocaleString()}
@@ -108,9 +116,10 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
         );
       })}
 
-      {asks.map((w, i) => {
-        const y = 20 + i * (BAR_HEIGHT + GAP);
-        const askOffset = 2;
+      {visibleAsks.map((w, i) => {
+        const y = TOP_OFFSET + i * (BAR_HEIGHT + GAP);
+        const askOffset = 3;
+        const sw = w * barScale;
         return (
           <g key={`ask-${cycle}-${i}`}>
             <motion.rect
@@ -118,22 +127,22 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
               y={y}
               height={BAR_HEIGHT}
               fill="url(#ask-grad)"
-              rx="1.5"
+              rx="2"
               initial={{ width: 0 }}
-              animate={{ width: w }}
+              animate={{ width: sw }}
               transition={{ duration: 0.5, delay: i * 0.04, ease: 'easeOut' }}
             />
             <motion.rect
               x={CENTER_X + askOffset}
               y={y}
-              width={w}
+              width={sw}
               height={BAR_HEIGHT}
               fill="rgb(248,113,113)"
               fillOpacity="0"
-              rx="1.5"
+              rx="2"
               animate={{
                 fillOpacity: i < 3 ? [0, 0.12, 0] : [0, 0, 0],
-                width: [w, w * 1.1, w * 0.88, w],
+                width: [sw, sw * 1.1, sw * 0.88, sw],
               }}
               transition={{
                 duration: 3 + i * 0.2,
@@ -143,14 +152,14 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
               }}
             />
             <motion.text
-              x={CENTER_X + 5}
-              y={y + 7.5}
+              x={CENTER_X + 6}
+              y={y + BAR_HEIGHT * 0.72}
               textAnchor="start"
               fill="white"
               fillOpacity="0"
-              fontSize="5"
+              fontSize="7.5"
               fontFamily="monospace"
-              animate={{ fillOpacity: 0.35 }}
+              animate={{ fillOpacity: 0.4 }}
               transition={{ duration: 0.3, delay: 0.2 + i * 0.04 }}
             >
               {(basePrice + step + i * step).toLocaleString()}
@@ -160,13 +169,13 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
       })}
 
       <motion.rect
-        x={CENTER_X - 2 - bids[0]}
-        y={20}
-        width={bids[0]}
+        x={CENTER_X - 3 - visibleBids[0] * barScale}
+        y={TOP_OFFSET}
+        width={visibleBids[0] * barScale}
         height={BAR_HEIGHT * 3 + GAP * 2}
         fill="rgb(52,211,153)"
         fillOpacity="0"
-        rx="1.5"
+        rx="2"
         animate={{ fillOpacity: [0, 0.18, 0] }}
         transition={{
           duration: 1.2,
@@ -183,13 +192,13 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
 const BidFlowDot = ({ startX, delay }: { startX: number; delay: number }) => (
   <motion.circle
     cx={startX}
-    cy={13}
-    r={1.5}
+    cy={18}
+    r={2}
     fill="rgb(52,211,153)"
     initial={{ opacity: 0, cx: startX }}
     animate={{
       opacity: [0, 0.6, 0.6, 0],
-      cx: [startX, CENTER_X - 20],
+      cx: [startX, CENTER_X - 25],
     }}
     transition={{
       duration: 1.6,
@@ -204,13 +213,13 @@ const BidFlowDot = ({ startX, delay }: { startX: number; delay: number }) => (
 const AskFlowDot = ({ startX, delay }: { startX: number; delay: number }) => (
   <motion.circle
     cx={startX}
-    cy={13}
-    r={1.5}
+    cy={18}
+    r={2}
     fill="rgb(248,113,113)"
     initial={{ opacity: 0, cx: startX }}
     animate={{
       opacity: [0, 0.6, 0.6, 0],
-      cx: [startX, CENTER_X + 20],
+      cx: [startX, CENTER_X + 25],
     }}
     transition={{
       duration: 1.6,
@@ -252,15 +261,15 @@ export const TradeVisual = () => {
   }, [isInView]);
 
   const current = instruments[activeIndex];
-  const bidVenuePositions = [30, 80, 130];
-  const askVenuePositions = [230, 280, 330];
+  const bidVenuePositions = [40, 100, 155];
+  const askVenuePositions = [250, 310, 365];
 
   return (
     <div className="w-full h-full relative" ref={containerRef}>
       <svg
-        viewBox="0 0 360 135"
+        viewBox={`0 0 ${VB_WIDTH} ${VB_HEIGHT}`}
         className="w-full h-full"
-        preserveAspectRatio="xMidYMid meet"
+        preserveAspectRatio="xMidYMid slice"
       >
         <defs>
           <pattern id="trade-grid" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -280,7 +289,7 @@ export const TradeVisual = () => {
           </linearGradient>
         </defs>
 
-        <rect width="360" height="135" fill="url(#trade-grid)" />
+        <rect width={VB_WIDTH} height={VB_HEIGHT} fill="url(#trade-grid)" />
 
         {current.venues.map((_, vi) => (
           <BidFlowDot
@@ -310,11 +319,11 @@ export const TradeVisual = () => {
         </AnimatePresence>
       </svg>
 
-      <div className="absolute top-1 left-2 flex items-center gap-2">
+      <div className="absolute top-1.5 left-2.5 flex items-center gap-2">
         <AnimatePresence mode="wait">
           <motion.span
             key={current.pair}
-            className="text-[7px] font-mono text-emerald-400/60 tracking-wider font-semibold"
+            className="text-[9px] lg:text-[10px] font-mono text-emerald-400/60 tracking-wider font-semibold"
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
@@ -325,7 +334,7 @@ export const TradeVisual = () => {
         </AnimatePresence>
       </div>
 
-      <div className="absolute top-1 left-[72px] flex items-center gap-1">
+      <div className="absolute top-1.5 left-[80px] lg:left-[90px] flex items-center gap-1">
         <AnimatePresence mode="wait">
           <motion.div
             key={`venues-${cycle}`}
@@ -338,7 +347,7 @@ export const TradeVisual = () => {
             {current.venues.map((venue) => (
               <span
                 key={venue}
-                className="text-[4.5px] font-mono text-white/20 bg-white/[0.04] px-1 py-[1px] rounded-sm"
+                className="text-[6px] lg:text-[7px] font-mono text-white/25 bg-white/[0.04] px-1.5 py-[1px] rounded-sm"
               >
                 {venue}
               </span>
@@ -347,18 +356,18 @@ export const TradeVisual = () => {
         </AnimatePresence>
       </div>
 
-      <div className="absolute top-1 right-2 flex gap-3">
-        <span className="text-[5px] font-mono text-emerald-400/40">BID</span>
-        <span className="text-[5px] font-mono text-red-400/40">ASK</span>
+      <div className="absolute top-1.5 right-2.5 flex gap-3">
+        <span className="text-[7px] lg:text-[8px] font-mono text-emerald-400/40 font-semibold">BID</span>
+        <span className="text-[7px] lg:text-[8px] font-mono text-red-400/40 font-semibold">ASK</span>
       </div>
 
-      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-1.5">
+      <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 flex gap-1.5">
         {instruments.map((_, i) => (
           <motion.div
             key={i}
             className="rounded-full"
             animate={{
-              width: i === activeIndex ? 5 : 3,
+              width: i === activeIndex ? 6 : 3,
               height: 3,
               backgroundColor: i === activeIndex ? 'rgb(52,211,153)' : 'rgb(255,255,255)',
               opacity: i === activeIndex ? 0.5 : 0.15,
