@@ -25,13 +25,13 @@ export const Hero = () => {
         />
       </div>
 
-      <div className="absolute inset-0 lg:hidden pointer-events-none overflow-hidden">
+      <div className="absolute top-20 left-0 right-0 bottom-0 lg:hidden pointer-events-none overflow-hidden">
         <img
           src="/hero-platform-showcase.png"
           alt=""
-          className="w-[140%] max-w-none h-auto opacity-[0.22] -translate-x-[10%] translate-y-[5%]"
+          className="w-[210%] max-w-none h-auto opacity-[0.28] -translate-x-[15%]"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/10 via-[#0a0a0a]/40 to-[#0a0a0a]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0a0a]/35 to-[#0a0a0a]" />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
