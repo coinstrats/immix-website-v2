@@ -296,7 +296,7 @@ function PricingCarousel() {
     if (isDragging.current) endDrag();
   }, [endDrag]);
 
-  const containerHeight = cardWidth === PRICING_CARD_WIDTH_DESKTOP ? 580 : 600;
+  const containerHeight = cardWidth === PRICING_CARD_WIDTH_DESKTOP ? 580 : 660;
 
   return (
     <div>
