@@ -13,32 +13,32 @@ interface Instrument {
 const instruments: Instrument[] = [
   {
     pair: 'BTC / USD',
-    bids: [65, 80, 55, 45, 70, 60, 40, 50],
-    asks: [50, 60, 45, 70, 55, 40, 65, 48],
+    bids: [85, 100, 72, 58, 90, 78, 52, 65],
+    asks: [65, 78, 58, 90, 72, 52, 85, 62],
     basePrice: 67150,
     step: 25,
     venues: ['Binance', 'OKX', 'Coinbase'],
   },
   {
     pair: 'GOLD / USD',
-    bids: [75, 50, 68, 42, 58, 35, 62, 44],
-    asks: [55, 72, 40, 65, 48, 60, 38, 52],
+    bids: [95, 65, 88, 55, 75, 45, 80, 57],
+    asks: [72, 92, 52, 85, 62, 78, 50, 68],
     basePrice: 2418,
     step: 2,
     venues: ['CME', 'Coinbase', 'OKX'],
   },
   {
     pair: 'ETH / USD',
-    bids: [58, 72, 40, 65, 48, 55, 70, 38],
-    asks: [62, 45, 75, 50, 68, 42, 55, 60],
+    bids: [75, 92, 52, 85, 62, 72, 90, 50],
+    asks: [80, 58, 95, 65, 88, 55, 72, 78],
     basePrice: 3285,
     step: 5,
     venues: ['Hyperliquid', 'Binance', 'Polymarket'],
   },
 ];
 
-const BAR_HEIGHT = 8;
-const GAP = 2.5;
+const BAR_HEIGHT = 10;
+const GAP = 3;
 const CENTER_X = 180;
 const ROTATION_INTERVAL = 4500;
 
@@ -49,23 +49,23 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
     <g>
       <line
         x1={CENTER_X}
-        y1="22"
+        y1="18"
         x2={CENTER_X}
-        y2="105"
+        y2="125"
         stroke="white"
         strokeOpacity="0.12"
         strokeWidth="0.5"
       />
 
       {bids.map((w, i) => {
-        const y = 24 + i * (BAR_HEIGHT + GAP);
+        const y = 20 + i * (BAR_HEIGHT + GAP);
         return (
           <g key={`bid-${cycle}-${i}`}>
             <motion.rect
               y={y}
               height={BAR_HEIGHT}
               fill="url(#bid-grad)"
-              rx="1"
+              rx="1.5"
               initial={{ width: 0, x: CENTER_X }}
               animate={{ width: w, x: CENTER_X - w }}
               transition={{ duration: 0.5, delay: i * 0.04, ease: 'easeOut' }}
@@ -77,7 +77,7 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
               height={BAR_HEIGHT}
               fill="rgb(52,211,153)"
               fillOpacity="0"
-              rx="1"
+              rx="1.5"
               animate={{
                 fillOpacity: i < 3 ? [0, 0.15, 0] : [0, 0, 0],
                 width: [w, w * 0.92, w * 1.08, w],
@@ -91,14 +91,14 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
               }}
             />
             <motion.text
-              x={CENTER_X - 4}
-              y={y + 6.5}
+              x={CENTER_X - 5}
+              y={y + 7.5}
               textAnchor="end"
               fill="white"
               fillOpacity="0"
-              fontSize="4"
+              fontSize="5"
               fontFamily="monospace"
-              animate={{ fillOpacity: 0.3 }}
+              animate={{ fillOpacity: 0.35 }}
               transition={{ duration: 0.3, delay: 0.2 + i * 0.04 }}
             >
               {(basePrice - i * step).toLocaleString()}
@@ -108,7 +108,7 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
       })}
 
       {asks.map((w, i) => {
-        const y = 24 + i * (BAR_HEIGHT + GAP);
+        const y = 20 + i * (BAR_HEIGHT + GAP);
         return (
           <g key={`ask-${cycle}-${i}`}>
             <motion.rect
@@ -116,7 +116,7 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
               y={y}
               height={BAR_HEIGHT}
               fill="url(#ask-grad)"
-              rx="1"
+              rx="1.5"
               initial={{ width: 0 }}
               animate={{ width: w }}
               transition={{ duration: 0.5, delay: i * 0.04, ease: 'easeOut' }}
@@ -128,9 +128,9 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
               height={BAR_HEIGHT}
               fill="rgb(248,113,113)"
               fillOpacity="0"
-              rx="1"
+              rx="1.5"
               animate={{
-                fillOpacity: [0, 0, 0],
+                fillOpacity: i < 3 ? [0, 0.12, 0] : [0, 0, 0],
                 width: [w, w * 1.1, w * 0.88, w],
               }}
               transition={{
@@ -141,14 +141,14 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
               }}
             />
             <motion.text
-              x={CENTER_X + 4}
-              y={y + 6.5}
+              x={CENTER_X + 5}
+              y={y + 7.5}
               textAnchor="start"
               fill="white"
               fillOpacity="0"
-              fontSize="4"
+              fontSize="5"
               fontFamily="monospace"
-              animate={{ fillOpacity: 0.3 }}
+              animate={{ fillOpacity: 0.35 }}
               transition={{ duration: 0.3, delay: 0.2 + i * 0.04 }}
             >
               {(basePrice + step + i * step).toLocaleString()}
@@ -159,12 +159,12 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
 
       <motion.rect
         x={CENTER_X - bids[0]}
-        y={24}
+        y={20}
         width={bids[0]}
         height={BAR_HEIGHT * 3 + GAP * 2}
         fill="rgb(52,211,153)"
         fillOpacity="0"
-        rx="1"
+        rx="1.5"
         animate={{ fillOpacity: [0, 0.18, 0] }}
         transition={{
           duration: 1.2,
@@ -178,22 +178,43 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
   );
 };
 
-const FlowDot = ({ startX, delay }: { startX: number; delay: number }) => (
+const BidFlowDot = ({ startX, delay }: { startX: number; delay: number }) => (
   <motion.circle
     cx={startX}
-    cy={17}
-    r={1.2}
+    cy={13}
+    r={1.5}
     fill="rgb(52,211,153)"
     initial={{ opacity: 0, cx: startX }}
     animate={{
-      opacity: [0, 0.5, 0.5, 0],
-      cx: [startX, startX + (CENTER_X - startX) * 0.6],
+      opacity: [0, 0.6, 0.6, 0],
+      cx: [startX, CENTER_X - 20],
     }}
     transition={{
-      duration: 1.8,
+      duration: 1.6,
       delay,
       repeat: Infinity,
-      repeatDelay: 2.5,
+      repeatDelay: 2.8,
+      ease: 'easeInOut',
+    }}
+  />
+);
+
+const AskFlowDot = ({ startX, delay }: { startX: number; delay: number }) => (
+  <motion.circle
+    cx={startX}
+    cy={13}
+    r={1.5}
+    fill="rgb(248,113,113)"
+    initial={{ opacity: 0, cx: startX }}
+    animate={{
+      opacity: [0, 0.6, 0.6, 0],
+      cx: [startX, CENTER_X + 20],
+    }}
+    transition={{
+      duration: 1.6,
+      delay,
+      repeat: Infinity,
+      repeatDelay: 2.8,
       ease: 'easeInOut',
     }}
   />
@@ -229,12 +250,13 @@ export const TradeVisual = () => {
   }, [isInView]);
 
   const current = instruments[activeIndex];
-  const venuePositions = [40, 100, 160];
+  const bidVenuePositions = [30, 80, 130];
+  const askVenuePositions = [230, 280, 330];
 
   return (
     <div className="w-full h-full relative" ref={containerRef}>
       <svg
-        viewBox="0 0 360 110"
+        viewBox="0 0 360 135"
         className="w-full h-full"
         preserveAspectRatio="xMidYMid meet"
       >
@@ -252,13 +274,20 @@ export const TradeVisual = () => {
           </linearGradient>
         </defs>
 
-        <rect width="360" height="110" fill="url(#trade-grid)" />
+        <rect width="360" height="135" fill="url(#trade-grid)" />
 
         {current.venues.map((_, vi) => (
-          <FlowDot
-            key={`dot-${cycle}-${vi}`}
-            startX={venuePositions[vi]}
-            delay={0.3 + vi * 0.4}
+          <BidFlowDot
+            key={`bid-dot-${cycle}-${vi}`}
+            startX={bidVenuePositions[vi]}
+            delay={0.3 + vi * 0.35}
+          />
+        ))}
+        {current.venues.map((_, vi) => (
+          <AskFlowDot
+            key={`ask-dot-${cycle}-${vi}`}
+            startX={askVenuePositions[vi]}
+            delay={0.5 + vi * 0.35}
           />
         ))}
 
@@ -317,7 +346,7 @@ export const TradeVisual = () => {
         <span className="text-[5px] font-mono text-red-400/40">ASK</span>
       </div>
 
-      <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 flex gap-1.5">
+      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-1.5">
         {instruments.map((_, i) => (
           <motion.div
             key={i}
