@@ -22,9 +22,9 @@ const STATS = [
 ];
 
 const CONFERENCES = [
+  { name: 'AIIB Beijing', short: 'AIIB', url: 'https://www.aiib.org/en/index.html' },
   { name: 'QuantMinds International', short: 'QuantMinds', url: 'https://informaconnect.com/quantminds-international/' },
   { name: 'Aeron', short: 'Aeron', url: 'https://aeron.io/' },
-  { name: 'AIIB Beijing', short: 'AIIB', url: 'https://www.aiib.org/en/index.html' },
 ];
 
 const GATEWAY_TEXT = 'Bridge your internal systems directly into the core sequencer. Models, treasury operations, and proprietary data streams are consolidated into a unified, fault-tolerant sequenced stream for maximum operational efficiency.';
