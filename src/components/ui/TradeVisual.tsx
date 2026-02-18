@@ -1,14 +1,238 @@
-import { motion } from 'framer-motion';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const bidWidths = [65, 80, 55, 45, 70, 60, 40, 50];
-const askWidths = [50, 60, 45, 70, 55, 40, 65, 48];
-const barHeight = 8;
-const gap = 2.5;
-const centerX = 180;
+interface Instrument {
+  pair: string;
+  bids: number[];
+  asks: number[];
+  basePrice: number;
+  step: number;
+  venues: string[];
+}
+
+const instruments: Instrument[] = [
+  {
+    pair: 'BTC / USD',
+    bids: [65, 80, 55, 45, 70, 60, 40, 50],
+    asks: [50, 60, 45, 70, 55, 40, 65, 48],
+    basePrice: 67150,
+    step: 25,
+    venues: ['Binance', 'OKX', 'Coinbase'],
+  },
+  {
+    pair: 'GOLD / USD',
+    bids: [75, 50, 68, 42, 58, 35, 62, 44],
+    asks: [55, 72, 40, 65, 48, 60, 38, 52],
+    basePrice: 2418,
+    step: 2,
+    venues: ['CME', 'Coinbase', 'OKX'],
+  },
+  {
+    pair: 'ETH / USD',
+    bids: [58, 72, 40, 65, 48, 55, 70, 38],
+    asks: [62, 45, 75, 50, 68, 42, 55, 60],
+    basePrice: 3285,
+    step: 5,
+    venues: ['Hyperliquid', 'Binance', 'Polymarket'],
+  },
+];
+
+const BAR_HEIGHT = 8;
+const GAP = 2.5;
+const CENTER_X = 180;
+const ROTATION_INTERVAL = 4500;
+
+const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle: number }) => {
+  const { bids, asks, basePrice, step } = instrument;
+
+  return (
+    <g>
+      <line
+        x1={CENTER_X}
+        y1="22"
+        x2={CENTER_X}
+        y2="105"
+        stroke="white"
+        strokeOpacity="0.12"
+        strokeWidth="0.5"
+      />
+
+      {bids.map((w, i) => {
+        const y = 24 + i * (BAR_HEIGHT + GAP);
+        return (
+          <g key={`bid-${cycle}-${i}`}>
+            <motion.rect
+              y={y}
+              height={BAR_HEIGHT}
+              fill="url(#bid-grad)"
+              rx="1"
+              initial={{ width: 0, x: CENTER_X }}
+              animate={{ width: w, x: CENTER_X - w }}
+              transition={{ duration: 0.5, delay: i * 0.04, ease: 'easeOut' }}
+            />
+            <motion.rect
+              x={CENTER_X - w}
+              y={y}
+              width={w}
+              height={BAR_HEIGHT}
+              fill="rgb(52,211,153)"
+              fillOpacity="0"
+              rx="1"
+              animate={{
+                fillOpacity: i < 3 ? [0, 0.15, 0] : [0, 0, 0],
+                width: [w, w * 0.92, w * 1.08, w],
+                x: [CENTER_X - w, CENTER_X - w * 0.92, CENTER_X - w * 1.08, CENTER_X - w],
+              }}
+              transition={{
+                duration: 2.8 + i * 0.25,
+                delay: 0.8 + i * 0.1,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            <motion.text
+              x={CENTER_X - 4}
+              y={y + 6.5}
+              textAnchor="end"
+              fill="white"
+              fillOpacity="0"
+              fontSize="4"
+              fontFamily="monospace"
+              animate={{ fillOpacity: 0.3 }}
+              transition={{ duration: 0.3, delay: 0.2 + i * 0.04 }}
+            >
+              {(basePrice - i * step).toLocaleString()}
+            </motion.text>
+          </g>
+        );
+      })}
+
+      {asks.map((w, i) => {
+        const y = 24 + i * (BAR_HEIGHT + GAP);
+        return (
+          <g key={`ask-${cycle}-${i}`}>
+            <motion.rect
+              x={CENTER_X}
+              y={y}
+              height={BAR_HEIGHT}
+              fill="url(#ask-grad)"
+              rx="1"
+              initial={{ width: 0 }}
+              animate={{ width: w }}
+              transition={{ duration: 0.5, delay: i * 0.04, ease: 'easeOut' }}
+            />
+            <motion.rect
+              x={CENTER_X}
+              y={y}
+              width={w}
+              height={BAR_HEIGHT}
+              fill="rgb(248,113,113)"
+              fillOpacity="0"
+              rx="1"
+              animate={{
+                fillOpacity: [0, 0, 0],
+                width: [w, w * 1.1, w * 0.88, w],
+              }}
+              transition={{
+                duration: 3 + i * 0.2,
+                delay: 1 + i * 0.08,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            />
+            <motion.text
+              x={CENTER_X + 4}
+              y={y + 6.5}
+              textAnchor="start"
+              fill="white"
+              fillOpacity="0"
+              fontSize="4"
+              fontFamily="monospace"
+              animate={{ fillOpacity: 0.3 }}
+              transition={{ duration: 0.3, delay: 0.2 + i * 0.04 }}
+            >
+              {(basePrice + step + i * step).toLocaleString()}
+            </motion.text>
+          </g>
+        );
+      })}
+
+      <motion.rect
+        x={CENTER_X - bids[0]}
+        y={24}
+        width={bids[0]}
+        height={BAR_HEIGHT * 3 + GAP * 2}
+        fill="rgb(52,211,153)"
+        fillOpacity="0"
+        rx="1"
+        animate={{ fillOpacity: [0, 0.18, 0] }}
+        transition={{
+          duration: 1.2,
+          delay: 1.5,
+          repeat: Infinity,
+          repeatDelay: 3.5,
+          ease: 'easeInOut',
+        }}
+      />
+    </g>
+  );
+};
+
+const FlowDot = ({ startX, delay }: { startX: number; delay: number }) => (
+  <motion.circle
+    cx={startX}
+    cy={17}
+    r={1.2}
+    fill="rgb(52,211,153)"
+    initial={{ opacity: 0, cx: startX }}
+    animate={{
+      opacity: [0, 0.5, 0.5, 0],
+      cx: [startX, startX + (CENTER_X - startX) * 0.6],
+    }}
+    transition={{
+      duration: 1.8,
+      delay,
+      repeat: Infinity,
+      repeatDelay: 2.5,
+      ease: 'easeInOut',
+    }}
+  />
+);
 
 export const TradeVisual = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [cycle, setCycle] = useState(0);
+  const [isInView, setIsInView] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleInView = useCallback((entries: IntersectionObserverEntry[]) => {
+    entries.forEach((entry) => {
+      setIsInView(entry.isIntersecting);
+    });
+  }, []);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(handleInView, { threshold: 0.3 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [handleInView]);
+
+  useEffect(() => {
+    if (!isInView) return;
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % instruments.length);
+      setCycle((prev) => prev + 1);
+    }, ROTATION_INTERVAL);
+    return () => clearInterval(interval);
+  }, [isInView]);
+
+  const current = instruments[activeIndex];
+  const venuePositions = [40, 100, 160];
+
   return (
-    <div className="w-full h-full relative">
+    <div className="w-full h-full relative" ref={containerRef}>
       <svg
         viewBox="0 0 360 110"
         className="w-full h-full"
@@ -30,148 +254,83 @@ export const TradeVisual = () => {
 
         <rect width="360" height="110" fill="url(#trade-grid)" />
 
-        <line
-          x1={centerX}
-          y1="12"
-          x2={centerX}
-          y2="105"
-          stroke="white"
-          strokeOpacity="0.15"
-          strokeWidth="0.5"
-        />
+        {current.venues.map((_, vi) => (
+          <FlowDot
+            key={`dot-${cycle}-${vi}`}
+            startX={venuePositions[vi]}
+            delay={0.3 + vi * 0.4}
+          />
+        ))}
 
-        {bidWidths.map((w, i) => {
-          const y = 15 + i * (barHeight + gap);
-          return (
-            <g key={`bid-${i}`}>
-              <motion.rect
-                x={centerX - w}
-                y={y}
-                width={w}
-                height={barHeight}
-                fill="url(#bid-grad)"
-                rx="1"
-                initial={{ width: 0, x: centerX }}
-                whileInView={{ width: w, x: centerX - w }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.8, delay: i * 0.06 }}
-              />
-              <motion.rect
-                x={centerX - w}
-                y={y}
-                width={w}
-                height={barHeight}
-                fill="rgb(52,211,153)"
-                fillOpacity="0"
-                rx="1"
-                whileInView={{
-                  fillOpacity: i < 3 ? [0, 0.15, 0] : [0, 0, 0],
-                  width: [w, w * (0.9 + Math.random() * 0.2), w],
-                  x: [centerX - w, centerX - w * (0.9 + Math.random() * 0.2), centerX - w],
-                }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{
-                  duration: 3 + i * 0.3,
-                  delay: 2 + i * 0.15,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              />
-              <text
-                x={centerX - 4}
-                y={y + 6.5}
-                textAnchor="end"
-                fill="white"
-                fillOpacity="0.3"
-                fontSize="4"
-                fontFamily="monospace"
-              >
-                {(42150 - i * 25).toLocaleString()}
-              </text>
-            </g>
-          );
-        })}
-
-        {askWidths.map((w, i) => {
-          const y = 15 + i * (barHeight + gap);
-          return (
-            <g key={`ask-${i}`}>
-              <motion.rect
-                x={centerX}
-                y={y}
-                width={w}
-                height={barHeight}
-                fill="url(#ask-grad)"
-                rx="1"
-                initial={{ width: 0 }}
-                whileInView={{ width: w }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.8, delay: i * 0.06 }}
-              />
-              <motion.rect
-                x={centerX}
-                y={y}
-                width={w}
-                height={barHeight}
-                fill="rgb(248,113,113)"
-                fillOpacity="0"
-                rx="1"
-                whileInView={{
-                  fillOpacity: [0, 0, 0],
-                  width: [w, w * (0.85 + Math.random() * 0.3), w],
-                }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{
-                  duration: 3.5 + i * 0.2,
-                  delay: 2.2 + i * 0.1,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              />
-              <text
-                x={centerX + 4}
-                y={y + 6.5}
-                textAnchor="start"
-                fill="white"
-                fillOpacity="0.3"
-                fontSize="4"
-                fontFamily="monospace"
-              >
-                {(42175 + i * 25).toLocaleString()}
-              </text>
-            </g>
-          );
-        })}
-
-        <motion.rect
-          x={centerX - bidWidths[0]}
-          y={15}
-          width={bidWidths[0]}
-          height={barHeight * 3 + gap * 2}
-          fill="rgb(52,211,153)"
-          fillOpacity="0"
-          rx="1"
-          whileInView={{ fillOpacity: [0, 0.2, 0] }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{
-            duration: 1.2,
-            delay: 3,
-            repeat: Infinity,
-            repeatDelay: 4,
-            ease: 'easeInOut',
-          }}
-        />
+        <AnimatePresence mode="wait">
+          <motion.g
+            key={`book-${cycle}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <OrderBookContent instrument={current} cycle={cycle} />
+          </motion.g>
+        </AnimatePresence>
       </svg>
 
-      <div className="absolute top-1.5 left-2">
-        <span className="text-[6px] font-mono text-emerald-400/40 tracking-widest uppercase">
-          VWAP
-        </span>
+      <div className="absolute top-1 left-2 flex items-center gap-2">
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={current.pair}
+            className="text-[7px] font-mono text-emerald-400/60 tracking-wider font-semibold"
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.25 }}
+          >
+            {current.pair}
+          </motion.span>
+        </AnimatePresence>
       </div>
 
-      <div className="absolute top-1.5 right-2 flex gap-3">
+      <div className="absolute top-1 left-[72px] flex items-center gap-1">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`venues-${cycle}`}
+            className="flex items-center gap-1"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            {current.venues.map((venue) => (
+              <span
+                key={venue}
+                className="text-[4.5px] font-mono text-white/20 bg-white/[0.04] px-1 py-[1px] rounded-sm"
+              >
+                {venue}
+              </span>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      <div className="absolute top-1 right-2 flex gap-3">
         <span className="text-[5px] font-mono text-emerald-400/40">BID</span>
         <span className="text-[5px] font-mono text-red-400/40">ASK</span>
+      </div>
+
+      <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 flex gap-1.5">
+        {instruments.map((_, i) => (
+          <motion.div
+            key={i}
+            className="rounded-full"
+            animate={{
+              width: i === activeIndex ? 5 : 3,
+              height: 3,
+              backgroundColor: i === activeIndex ? 'rgb(52,211,153)' : 'rgb(255,255,255)',
+              opacity: i === activeIndex ? 0.5 : 0.15,
+            }}
+            transition={{ duration: 0.3 }}
+          />
+        ))}
       </div>
     </div>
   );
