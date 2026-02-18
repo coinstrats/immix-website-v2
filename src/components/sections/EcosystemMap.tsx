@@ -18,7 +18,7 @@ const STATS = [
   { value: '0', label: 'Downtime Upgrades' },
   { value: '5\u00B5s', label: 'Round-Trip Latency' },
   { value: '~10ms', label: 'Failover Recovery' },
-  { value: '365/24/7', label: 'Continuous Operations' },
+  { value: '365/24/7', label: 'Operations' },
 ];
 
 const CONFERENCES = [
@@ -114,7 +114,7 @@ const SequencerCore = ({ inView }: { inView: boolean }) => (
       <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 bg-immix-darker">
         <div className="text-xs font-mono text-immix-blue flex items-center gap-2">
           <span className="w-2 h-2 bg-immix-blue animate-pulse"></span>
-          <span>IMMIX CORE CLUSTER</span>
+          <span>CORE CLUSTER</span>
           <span className="w-2 h-2 bg-immix-blue animate-pulse"></span>
         </div>
       </div>

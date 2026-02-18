@@ -13,61 +13,63 @@ export const LeftHorizontalConnector = ({ inView }: ConnectorProps) => (
       <div className="w-full h-px bg-gradient-to-r from-immix-purple/30 via-immix-blue/50 to-immix-blue/30" />
     </div>
 
-    <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ zIndex: 5 }}>
-      <defs>
-        <filter id="dot-glow-h">
-          <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-          <feMerge>
-            <feMergeNode in="coloredBlur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-      {[0, 0.8, 1.6].map((delay, i) => (
-        <motion.rect
-          key={`l-fwd-${i}`}
-          width={SQUARE_SIZE}
-          height={SQUARE_SIZE}
-          y={50 - HALF}
-          fill="rgb(107, 70, 255)"
-          filter="url(#dot-glow-h)"
-          initial={{ opacity: 0, x: -HALF }}
-          animate={inView ? {
-            opacity: [0, 1, 1, 0],
-            x: [-HALF, 100 - HALF],
-          } : undefined}
-          transition={{
-            duration: 2,
-            delay,
-            repeat: Infinity,
-            repeatDelay: 0.5,
-            ease: 'linear',
-          }}
-        />
-      ))}
-      {[0.4, 1.2].map((delay, i) => (
-        <motion.rect
-          key={`l-rev-${i}`}
-          width={SQUARE_SIZE}
-          height={SQUARE_SIZE}
-          y={50 - HALF}
-          fill="rgb(0, 115, 255)"
-          filter="url(#dot-glow-h)"
-          initial={{ opacity: 0, x: 100 - HALF }}
-          animate={inView ? {
-            opacity: [0, 1, 1, 0],
-            x: [100 - HALF, -HALF],
-          } : undefined}
-          transition={{
-            duration: 2,
-            delay,
-            repeat: Infinity,
-            repeatDelay: 0.5,
-            ease: 'linear',
-          }}
-        />
-      ))}
-    </svg>
+    <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-3" style={{ zIndex: 5 }}>
+      <svg className="w-full h-full overflow-visible" viewBox="0 0 200 12" preserveAspectRatio="none" style={{ overflow: 'visible' }}>
+        <defs>
+          <filter id="dot-glow-h">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+            <feMerge>
+              <feMergeNode in="coloredBlur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        {[0, 0.8, 1.6].map((delay, i) => (
+          <motion.rect
+            key={`l-fwd-${i}`}
+            width={SQUARE_SIZE}
+            height={SQUARE_SIZE}
+            y={6 - HALF}
+            fill="rgb(107, 70, 255)"
+            filter="url(#dot-glow-h)"
+            initial={{ opacity: 0, x: -HALF }}
+            animate={inView ? {
+              opacity: [0, 1, 1, 0],
+              x: [-HALF, 200 - HALF],
+            } : undefined}
+            transition={{
+              duration: 2,
+              delay,
+              repeat: Infinity,
+              repeatDelay: 0.5,
+              ease: 'linear',
+            }}
+          />
+        ))}
+        {[0.4, 1.2].map((delay, i) => (
+          <motion.rect
+            key={`l-rev-${i}`}
+            width={SQUARE_SIZE}
+            height={SQUARE_SIZE}
+            y={6 - HALF}
+            fill="rgb(0, 115, 255)"
+            filter="url(#dot-glow-h)"
+            initial={{ opacity: 0, x: 200 - HALF }}
+            animate={inView ? {
+              opacity: [0, 1, 1, 0],
+              x: [200 - HALF, -HALF],
+            } : undefined}
+            transition={{
+              duration: 2,
+              delay,
+              repeat: Infinity,
+              repeatDelay: 0.5,
+              ease: 'linear',
+            }}
+          />
+        ))}
+      </svg>
+    </div>
 
     <div className="absolute left-1/2 top-1/4 -translate-x-1/2 z-10">
       <div className="px-2 py-1 bg-immix-darker border border-immix-blue/30 text-xs font-mono text-immix-blue">
@@ -83,52 +85,63 @@ export const RightHorizontalConnector = ({ inView }: ConnectorProps) => (
       <div className="w-full h-px bg-gradient-to-r from-immix-blue/30 via-immix-blue/50 to-immix-blue/30" />
     </div>
 
-    <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ zIndex: 5 }}>
-      {[0, 0.5, 1.0, 1.5].map((delay, i) => (
-        <motion.rect
-          key={`r-fwd-${i}`}
-          width={SQUARE_SIZE}
-          height={SQUARE_SIZE}
-          y={50 - HALF}
-          fill="rgb(0, 115, 255)"
-          filter="url(#dot-glow-h)"
-          initial={{ opacity: 0, x: -HALF }}
-          animate={inView ? {
-            opacity: [0, 1, 1, 0],
-            x: [-HALF, 100 - HALF],
-          } : undefined}
-          transition={{
-            duration: 1.4,
-            delay,
-            repeat: Infinity,
-            repeatDelay: 0.3,
-            ease: 'linear',
-          }}
-        />
-      ))}
-      {[0.25, 0.75, 1.25].map((delay, i) => (
-        <motion.rect
-          key={`r-rev-${i}`}
-          width={SQUARE_SIZE}
-          height={SQUARE_SIZE}
-          y={50 - HALF}
-          fill="rgb(0, 115, 255)"
-          filter="url(#dot-glow-h)"
-          initial={{ opacity: 0, x: 100 - HALF }}
-          animate={inView ? {
-            opacity: [0, 1, 1, 0],
-            x: [100 - HALF, -HALF],
-          } : undefined}
-          transition={{
-            duration: 1.4,
-            delay,
-            repeat: Infinity,
-            repeatDelay: 0.3,
-            ease: 'linear',
-          }}
-        />
-      ))}
-    </svg>
+    <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-3" style={{ zIndex: 5 }}>
+      <svg className="w-full h-full overflow-visible" viewBox="0 0 200 12" preserveAspectRatio="none" style={{ overflow: 'visible' }}>
+        <defs>
+          <filter id="dot-glow-h2">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+            <feMerge>
+              <feMergeNode in="coloredBlur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        {[0, 0.5, 1.0, 1.5].map((delay, i) => (
+          <motion.rect
+            key={`r-fwd-${i}`}
+            width={SQUARE_SIZE}
+            height={SQUARE_SIZE}
+            y={6 - HALF}
+            fill="rgb(0, 115, 255)"
+            filter="url(#dot-glow-h2)"
+            initial={{ opacity: 0, x: -HALF }}
+            animate={inView ? {
+              opacity: [0, 1, 1, 0],
+              x: [-HALF, 200 - HALF],
+            } : undefined}
+            transition={{
+              duration: 1.4,
+              delay,
+              repeat: Infinity,
+              repeatDelay: 0.3,
+              ease: 'linear',
+            }}
+          />
+        ))}
+        {[0.25, 0.75, 1.25].map((delay, i) => (
+          <motion.rect
+            key={`r-rev-${i}`}
+            width={SQUARE_SIZE}
+            height={SQUARE_SIZE}
+            y={6 - HALF}
+            fill="rgb(0, 115, 255)"
+            filter="url(#dot-glow-h2)"
+            initial={{ opacity: 0, x: 200 - HALF }}
+            animate={inView ? {
+              opacity: [0, 1, 1, 0],
+              x: [200 - HALF, -HALF],
+            } : undefined}
+            transition={{
+              duration: 1.4,
+              delay,
+              repeat: Infinity,
+              repeatDelay: 0.3,
+              ease: 'linear',
+            }}
+          />
+        ))}
+      </svg>
+    </div>
 
     <div className="absolute left-1/2 bottom-1/4 -translate-x-1/2 z-10">
       <div className="px-2 py-1 bg-immix-darker border border-immix-blue/30 text-xs font-mono text-immix-blue">
