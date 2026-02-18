@@ -588,7 +588,7 @@ const VideoAndConferences = () => (
 
 export const EcosystemMap = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(sectionRef, { once: true, amount: 0.05 });
+  const inView = useInView(sectionRef, { once: true, margin: "200px 0px 0px 0px" });
 
   return (
     <section id="architecture" className="section-wrapper relative overflow-hidden">

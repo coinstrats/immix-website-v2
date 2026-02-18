@@ -397,7 +397,7 @@ export const Pricing = () => {
             <div className="space-y-10">
               <MobilePricingCarousel />
 
-              <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+              <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 xl:gap-8">
                 {pricingTiers.map((tier) => (
                   <PricingCard key={tier.name} tier={tier} />
                 ))}

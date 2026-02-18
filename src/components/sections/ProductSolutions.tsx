@@ -512,7 +512,7 @@ export const ProductSolutions = () => {
 
   return (
     <section id="solutions" className="section-wrapper lg:pt-[4.5rem] overflow-hidden">
-      <div className="container-max space-y-8 lg:space-y-6">
+      <div className="container-max space-y-8">
         <div className="text-center space-y-4">
           <AnimatedElement type="fadeInUp">
             <h2 className="text-4xl md:text-5xl font-bold">
@@ -546,7 +546,7 @@ export const ProductSolutions = () => {
           </div>
         </AnimatedElement>
 
-        <AnimatedElement type="fadeInUp" delay={0.2} className="lg:-mx-8">
+        <AnimatedElement type="fadeInUp" delay={0.2} className="lg:-mx-8 lg:mt-10">
           <DesktopCarousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
           <MobileCarousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
 
