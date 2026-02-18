@@ -451,7 +451,7 @@ function MobileCarousel({
     <div className="lg:hidden">
       <div
         className="relative overflow-hidden"
-        style={{ height: 580 }}
+        style={{ height: 540 }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -496,8 +496,8 @@ export const ProductSolutions = () => {
   const [activeIndex, setActiveIndex] = useState(DEFAULT_CENTER);
 
   return (
-    <section id="solutions" className="section-wrapper lg:pt-[4.5rem] overflow-hidden">
-      <div className="container-max space-y-8">
+    <section id="solutions" className="section-wrapper lg:pt-24 overflow-hidden">
+      <div className="container-max space-y-8 lg:space-y-10">
         <div className="text-center space-y-4">
           <AnimatedElement type="fadeInUp">
             <h2 className="text-4xl md:text-5xl font-bold">
@@ -513,7 +513,7 @@ export const ProductSolutions = () => {
         </div>
 
         <AnimatedElement type="fadeInUp" delay={0.15}>
-          <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-8">
+          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-8">
             {integrationModes.map((mode) => {
               const ModeIcon = mode.icon;
               return (
@@ -531,7 +531,7 @@ export const ProductSolutions = () => {
           </div>
         </AnimatedElement>
 
-        <AnimatedElement type="fadeInUp" delay={0.2} className="lg:-mx-8 lg:mt-10">
+        <AnimatedElement type="fadeInUp" delay={0.2} className="lg:-mx-8 lg:mt-8">
           <DesktopCarousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
           <MobileCarousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
 

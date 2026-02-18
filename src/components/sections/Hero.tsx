@@ -5,7 +5,7 @@ import { HeroCodeCard } from '../ui/HeroCodeCard';
 
 export const Hero = () => {
   return (
-    <section className="pt-32 pb-8 px-6 md:px-12 relative overflow-hidden">
+    <section className="pt-32 pb-12 lg:pb-24 px-5 md:px-12 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           animate={{
@@ -63,8 +63,8 @@ export const Hero = () => {
             </AnimatedElement>
 
             <AnimatedElement type="fadeInUp" delay={0.5}>
-              <div className="pt-4 lg:pt-12 space-y-4">
-                <div className="grid grid-cols-3 gap-8">
+              <div className="pt-6 lg:pt-10 space-y-4">
+                <div className="grid grid-cols-3 gap-4 lg:gap-8">
                   <div>
                     <div className="text-3xl lg:text-4xl font-bold text-immix-blue mb-2">$20B+</div>
                     <p className="text-sm text-white/60 font-mono uppercase tracking-wider">Processed</p>

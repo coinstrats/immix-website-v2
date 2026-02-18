@@ -190,7 +190,7 @@ const SequencerCore = ({ inView }: { inView: boolean }) => (
 );
 
 const GatewaySection = ({ inView }: { inView: boolean }) => (
-  <div className="hidden lg:grid grid-cols-12 gap-6 -mt-8">
+  <div className="hidden lg:grid grid-cols-12 gap-6 -mt-4">
     <div className="col-start-3 col-span-8 flex flex-col items-center">
       <VerticalConnector inView={inView} />
 
@@ -544,7 +544,7 @@ const MobileLayout = () => {
 
 const VideoAndConferences = () => (
   <AnimatedElement type="fadeInUp" delay={0.15}>
-    <div className="pt-6 space-y-8">
+    <div className="pt-8 lg:pt-12 space-y-8">
       <div className="flex justify-center">
         <a
           href="https://www.youtube.com/watch?v=dqQvHgqOuc4"
@@ -603,7 +603,7 @@ export const EcosystemMap = () => {
         </svg>
       </div>
 
-      <div className="container-max space-y-8 lg:space-y-16 relative z-10">
+      <div className="container-max space-y-10 lg:space-y-12 relative z-10">
         <div className="text-center space-y-4">
           <AnimatedElement type="fadeInUp">
             <h2 className="text-4xl md:text-5xl font-bold">Your Operational Edge, Unified</h2>
@@ -619,7 +619,7 @@ export const EcosystemMap = () => {
         <StatCards />
 
         <div ref={sectionRef} className="relative">
-          <div className="hidden lg:grid grid-cols-12 gap-6 items-center py-16">
+          <div className="hidden lg:grid grid-cols-12 gap-6 items-center pt-16 pb-8">
             <CustodyPanel />
             <LeftHorizontalConnector inView={inView} />
             <SequencerCore inView={inView} />

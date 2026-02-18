@@ -296,7 +296,7 @@ function PricingCarousel() {
     if (isDragging.current) endDrag();
   }, [endDrag]);
 
-  const containerHeight = cardWidth === PRICING_CARD_WIDTH_DESKTOP ? 580 : 650;
+  const containerHeight = cardWidth === PRICING_CARD_WIDTH_DESKTOP ? 580 : 600;
 
   return (
     <div>
@@ -447,7 +447,7 @@ export const Pricing = () => {
 
         <div className="min-h-[600px]">
           {activeTab === 'tiers' && (
-            <div className="space-y-10">
+            <div className="space-y-8">
               <PricingCarousel />
 
               <div className="flex items-center gap-4">
@@ -469,7 +469,7 @@ export const Pricing = () => {
           )}
         </div>
 
-        <div className="text-center pt-8">
+        <div className="text-center pt-4 lg:pt-8">
           <p className="text-white/40 text-sm">
             All plans include 24/7 infrastructure monitoring, automatic failover, and regular
             security audits.
