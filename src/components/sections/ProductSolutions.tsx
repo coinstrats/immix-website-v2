@@ -447,8 +447,6 @@ function MobileCarousel({
     setDragOffset(0);
   }, [activeIndex, setActiveIndex]);
 
-  const mobileSpacing = CARD_WIDTH_MOBILE + 20;
-
   return (
     <div className="lg:hidden">
       <div
@@ -461,33 +459,20 @@ function MobileCarousel({
         <div className="absolute inset-0 flex items-start justify-center">
           {products.map((product, i) => {
             const offset = i - activeIndex;
-            const absOffset = Math.abs(offset);
-            const baseTranslateX = offset * mobileSpacing + dragOffset;
-
-            let scale = 1;
-            let opacity = 1;
-            let zIndex = 30;
-
-            if (absOffset === 1) {
-              scale = 0.85;
-              opacity = 0.4;
-              zIndex = 20;
-            } else if (absOffset >= 2) {
-              scale = 0.75;
-              opacity = 0;
-              zIndex = 10;
-            }
+            const style = getCardStyle(offset);
+            const translateX = style.translateX + dragOffset;
 
             return (
               <div
                 key={product.id}
                 className="absolute"
                 style={{
-                  transform: `translateX(${baseTranslateX}px) scale(${scale})`,
-                  opacity,
-                  zIndex,
-                  transition: isDragging.current ? 'none' : 'all 400ms cubic-bezier(0.4, 0, 0.2, 1)',
-                  pointerEvents: absOffset === 0 ? 'auto' : 'none',
+                  transform: `translateX(${translateX}px) scale(${style.scale})`,
+                  opacity: style.opacity,
+                  zIndex: style.zIndex,
+                  filter: style.blur > 0 ? `blur(${style.blur}px)` : 'none',
+                  transition: isDragging.current ? 'none' : 'all 500ms cubic-bezier(0.4, 0, 0.2, 1)',
+                  pointerEvents: Math.abs(offset) > 2 ? 'none' : 'auto',
                 }}
               >
                 <ProductCard
