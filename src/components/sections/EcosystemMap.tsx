@@ -378,6 +378,7 @@ export const EcosystemMap = () => {
         <div className="text-center space-y-4">
           <AnimatedElement type="fadeInUp">
             <h2 className="text-4xl md:text-5xl font-bold">Your Operational Edge, Unified</h2>
+            <div className="mt-4 mx-auto w-16 h-[2px] bg-gradient-to-r from-transparent via-immix-blue to-transparent" />
           </AnimatedElement>
           <AnimatedElement type="fadeInUp" delay={0.1}>
             <p className="text-lg text-white/60 max-w-3xl mx-auto leading-relaxed">

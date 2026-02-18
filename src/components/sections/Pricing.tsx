@@ -9,7 +9,7 @@ import {
   ArrowRight,
   Sparkles,
 } from 'lucide-react';
-import { AnimatedElement, Button } from '../ui';
+import { AnimatedElement } from '../ui';
 import { FeatureComparisonGrid } from './FeatureComparisonGrid';
 import { StartupCreditsBanner } from './StartupCreditsBanner';
 
@@ -20,12 +20,6 @@ const pricingTiers = [
     price: 'From $500',
     period: 'avg/month',
     description: 'For analysts and teams needing view-only access to markets and data',
-    highlights: [
-      'View-only Markets',
-      'Read-only API',
-      'Python SDK',
-      'Pay per message',
-    ],
     features: [
       'Markets analytics dashboard',
       'View-only trade workspaces',
@@ -46,12 +40,6 @@ const pricingTiers = [
     price: 'From $2,500',
     period: 'avg/month',
     description: 'For traders and funds ready to execute with algorithmic strategies',
-    highlights: [
-      'Full trading access',
-      '1 Strategy',
-      'Earn ($10K limit)',
-      'Pay per usage',
-    ],
     features: [
       'Everything in Lite, plus:',
       'Full trading capabilities',
@@ -72,12 +60,6 @@ const pricingTiers = [
     price: 'From $5,000',
     period: 'avg/month',
     description: 'For institutions needing transfers, yield, and advanced automation',
-    highlights: [
-      'Transfers access',
-      '2 Strategies',
-      'Earn ($100K limit)',
-      'Volume discounts',
-    ],
     features: [
       'Everything in Pro, plus:',
       'Transfers product access',
@@ -98,12 +80,6 @@ const pricingTiers = [
     price: 'Custom',
     period: '',
     description: 'For institutions requiring unlimited scale and white-glove service',
-    highlights: [
-      'Unlimited strategies',
-      'Earn ($10M limit)',
-      'All SDKs',
-      'Custom pricing',
-    ],
     features: [
       'Everything in Ultra, plus:',
       'Unlimited strategies',
@@ -132,40 +108,32 @@ const tabs: { id: TabId; label: string }[] = [
 
 const tierColorMap = {
   slate: {
-    badge: 'bg-slate-500/20 text-slate-300 border-slate-500/30',
     icon: 'bg-slate-500/20 text-slate-300',
     highlight: 'text-slate-300',
     accent: 'from-slate-500 to-slate-400',
     hoverShadow: 'hover:shadow-[0_0_30px_rgba(148,163,184,0.12)]',
     glow: 'from-slate-400/10 via-transparent to-transparent',
-    cta: '',
   },
   emerald: {
-    badge: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
     icon: 'bg-emerald-500/20 text-emerald-400',
     highlight: 'text-emerald-400',
     accent: 'from-emerald-500 to-emerald-400',
     hoverShadow: 'hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]',
     glow: 'from-emerald-400/10 via-transparent to-transparent',
-    cta: '',
   },
   blue: {
-    badge: 'bg-immix-blue/20 text-immix-blue border-immix-blue/30',
     icon: 'bg-immix-blue/20 text-immix-blue',
     highlight: 'text-immix-blue',
     accent: 'from-blue-500 to-blue-400',
     hoverShadow: 'hover:shadow-[0_0_30px_rgba(0,115,255,0.15)]',
     glow: 'from-immix-blue/10 via-transparent to-transparent',
-    cta: '',
   },
   amber: {
-    badge: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
     icon: 'bg-amber-500/20 text-amber-400',
     highlight: 'text-amber-400',
     accent: 'from-amber-500 to-amber-400',
     hoverShadow: 'hover:shadow-[0_0_30px_rgba(245,158,11,0.15)]',
     glow: 'from-amber-400/10 via-transparent to-transparent',
-    cta: 'border-amber-500/50 hover:border-amber-500 hover:bg-amber-500/10',
   },
 };
 
@@ -262,17 +230,6 @@ export const Pricing = () => {
                           <p className="mt-3 text-sm text-white/60 leading-relaxed">{tier.description}</p>
                         </div>
 
-                        <div className="grid grid-cols-2 gap-1.5">
-                          {tier.highlights.map((highlight) => (
-                            <div
-                              key={highlight}
-                              className={`px-2.5 py-2 text-[11px] font-medium border text-center ${colors.badge}`}
-                            >
-                              {highlight}
-                            </div>
-                          ))}
-                        </div>
-
                         <ul className="space-y-2.5 flex-grow">
                           {tier.features.map((feature) => (
                             <li key={feature} className="flex items-start gap-2.5">
@@ -286,17 +243,22 @@ export const Pricing = () => {
                         </ul>
 
                         <div className="mt-auto pt-5">
-                          <Button
-                            variant={tier.highlighted ? 'primary' : 'secondary'}
-                            size="md"
-                            className={`w-full justify-center group/btn ${colors.cta}`}
+                          <a
+                            href="#"
+                            className={`w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium transition-all duration-200 group/btn ${
+                              tier.tierColor === 'amber'
+                                ? 'border border-amber-500/40 text-amber-400 hover:border-amber-400 hover:bg-amber-500/10'
+                                : tier.highlighted
+                                ? 'bg-immix-blue/15 border border-immix-blue/40 text-immix-blue hover:bg-immix-blue/25 hover:border-immix-blue/60'
+                                : 'border border-white/15 text-white/70 hover:border-white/30 hover:text-white/90'
+                            }`}
                           >
-                            {tier.cta}
+                            <span>{tier.cta}</span>
                             <ArrowRight
-                              size={15}
-                              className="ml-1.5 transition-transform group-hover/btn:translate-x-1"
+                              size={14}
+                              className="transition-transform group-hover/btn:translate-x-0.5"
                             />
-                          </Button>
+                          </a>
                         </div>
                       </div>
                     </div>

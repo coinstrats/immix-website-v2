@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
 import {
   BarChart3,
   Link,
@@ -175,7 +174,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
         className={`
           relative h-full rounded-xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm
           transition-all duration-300
-          hover:border-white/[0.15] hover:-translate-y-1
+          hover:border-white/[0.15] hover:bg-white/[0.04]
           overflow-hidden
         `}
       >
@@ -280,6 +279,7 @@ export const ProductSolutions = () => {
             <h2 className="text-4xl md:text-5xl font-bold">
               The full stack for digital assets.
             </h2>
+            <div className="mt-4 mx-auto w-16 h-[2px] bg-gradient-to-r from-transparent via-immix-blue to-transparent" />
           </AnimatedElement>
           <AnimatedElement type="fadeInUp" delay={0.1}>
             <p className="text-lg text-white/50 max-w-2xl mx-auto">
@@ -348,21 +348,6 @@ export const ProductSolutions = () => {
           </div>
         </div>
 
-        <AnimatedElement type="fadeInUp" delay={0.2}>
-          <div className="text-center space-y-5">
-            <p className="text-base text-white/40">
-              Combine products to match your workflow. Pricing scales with what you use.
-            </p>
-            <motion.button
-              onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="button-secondary px-6 py-3 inline-flex items-center gap-2 font-semibold"
-            >
-              See Pricing
-            </motion.button>
-          </div>
-        </AnimatedElement>
       </div>
     </section>
   );

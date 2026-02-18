@@ -83,7 +83,7 @@ export const Navigation = () => {
             onClick={() => handleNavClick('#architecture')}
             className="nav-link text-sm font-medium"
           >
-            Architecture
+            Edge
           </a>
 
           <a
@@ -175,7 +175,7 @@ export const Navigation = () => {
                 className="block nav-link text-sm font-medium py-3"
                 onClick={() => setIsOpen(false)}
               >
-                Architecture
+                Edge
               </a>
               <a
                 href={location.pathname === '/' ? '#pricing' : '/#pricing'}
