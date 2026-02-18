@@ -535,7 +535,7 @@ const MobileLayout = () => {
         </button>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-12">
         <MobileGatewayCard />
       </div>
     </div>
@@ -588,7 +588,7 @@ const VideoAndConferences = () => (
 
 export const EcosystemMap = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(sectionRef, { once: true, amount: 0.2 });
+  const inView = useInView(sectionRef, { once: true, amount: 0.05 });
 
   return (
     <section id="architecture" className="section-wrapper relative overflow-hidden">
