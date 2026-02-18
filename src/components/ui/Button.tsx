@@ -44,7 +44,7 @@ export const Button = ({
       whileHover={{ scale: disabled ? 1 : 1.02 }}
       whileTap={{ scale: disabled ? 1 : 0.98 }}
       {...componentProps}
-      className={`${variantClasses[variant]} ${sizeClasses[size]} ${className} inline-flex items-center gap-2 font-semibold disabled:opacity-50 disabled:cursor-not-allowed`}
+      className={`${variantClasses[variant]} ${sizeClasses[size]} ${className} inline-flex items-center gap-2 font-semibold whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed`}
     >
       {icon && <span className="flex items-center">{icon}</span>}
       <span>{children}</span>

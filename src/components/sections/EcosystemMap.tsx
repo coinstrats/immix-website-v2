@@ -371,12 +371,14 @@ function MobileGatewayCard() {
   );
 }
 
-const MobileLayout = ({ inView }: { inView: boolean }) => {
+const MobileLayout = () => {
   const [activeIndex, setActiveIndex] = useState(1);
   const touchStartX = useRef(0);
   const touchDeltaX = useRef(0);
   const [dragOffset, setDragOffset] = useState(0);
   const isDragging = useRef(false);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const carouselInView = useInView(carouselRef, { once: true, amount: 0.3 });
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -406,20 +408,36 @@ const MobileLayout = ({ inView }: { inView: boolean }) => {
 
   const cards = [
     <MobileCustodyCard key="custody" />,
-    <MobileSequencerCard key="sequencer" inView={inView} />,
+    <MobileSequencerCard key="sequencer" inView={carouselInView} />,
     <MobileVenuesCard key="venues" />,
   ];
 
   return (
-    <div className="lg:hidden space-y-6">
-      <div className="grid grid-cols-2 gap-3">
-        {STATS.map((stat, i) => (
+    <div className="lg:hidden space-y-4">
+      <div className="flex flex-wrap justify-center gap-3">
+        {STATS.slice(0, 3).map((stat, i) => (
           <motion.div
             key={stat.label}
             initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : undefined}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
             transition={{ delay: 0.1 + i * 0.08, duration: 0.5 }}
-            className="p-3 border border-white/10 bg-immix-dark/40 text-center"
+            className="p-3 border border-white/10 bg-immix-dark/40 text-center flex-1 min-w-[100px]"
+          >
+            <p className="text-xl font-mono font-bold text-immix-blue tabular-nums">{stat.value}</p>
+            <p className="text-[9px] font-mono text-white/50 uppercase tracking-wider mt-1">{stat.label}</p>
+          </motion.div>
+        ))}
+      </div>
+      <div className="flex justify-center gap-3">
+        {STATS.slice(3).map((stat, i) => (
+          <motion.div
+            key={stat.label}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.35 + i * 0.08, duration: 0.5 }}
+            className="p-3 border border-white/10 bg-immix-dark/40 text-center flex-1 max-w-[180px]"
           >
             <p className="text-xl font-mono font-bold text-immix-blue tabular-nums">{stat.value}</p>
             <p className="text-[9px] font-mono text-white/50 uppercase tracking-wider mt-1">{stat.label}</p>
@@ -428,8 +446,9 @@ const MobileLayout = ({ inView }: { inView: boolean }) => {
       </div>
 
       <div
+        ref={carouselRef}
         className="relative overflow-hidden"
-        style={{ height: 460 }}
+        style={{ height: 440 }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -473,15 +492,18 @@ const MobileLayout = ({ inView }: { inView: boolean }) => {
         </div>
       </div>
 
-      <div className="flex justify-center items-center gap-3">
+      <div className="flex justify-between items-center px-4">
         <button
           onClick={() => activeIndex > 0 && setActiveIndex(activeIndex - 1)}
-          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
-            activeIndex > 0 ? 'opacity-50 hover:opacity-80' : 'opacity-10 pointer-events-none'
+          className={`flex items-center gap-1.5 transition-all duration-200 min-w-[80px] ${
+            activeIndex > 0 ? 'opacity-50 hover:opacity-80' : 'opacity-0 pointer-events-none'
           }`}
           aria-label="Previous"
         >
-          <ChevronLeft size={16} className="text-white/60" />
+          <ChevronLeft size={14} className="text-white/50" />
+          <span className="text-xs font-mono text-white/50 uppercase tracking-wider">
+            {activeIndex > 0 ? MOBILE_ECOSYSTEM_CARDS[activeIndex - 1].label : ''}
+          </span>
         </button>
 
         <div className="flex items-center gap-1.5">
@@ -501,12 +523,15 @@ const MobileLayout = ({ inView }: { inView: boolean }) => {
 
         <button
           onClick={() => activeIndex < 2 && setActiveIndex(activeIndex + 1)}
-          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
-            activeIndex < 2 ? 'opacity-50 hover:opacity-80' : 'opacity-10 pointer-events-none'
+          className={`flex items-center gap-1.5 transition-all duration-200 min-w-[80px] justify-end ${
+            activeIndex < 2 ? 'opacity-50 hover:opacity-80' : 'opacity-0 pointer-events-none'
           }`}
           aria-label="Next"
         >
-          <ChevronRight size={16} className="text-white/60" />
+          <span className="text-xs font-mono text-white/50 uppercase tracking-wider">
+            {activeIndex < 2 ? MOBILE_ECOSYSTEM_CARDS[activeIndex + 1].label : ''}
+          </span>
+          <ChevronRight size={14} className="text-white/50" />
         </button>
       </div>
 
@@ -576,7 +601,7 @@ export const EcosystemMap = () => {
         </svg>
       </div>
 
-      <div className="container-max space-y-16 relative z-10">
+      <div className="container-max space-y-8 lg:space-y-16 relative z-10">
         <div className="text-center space-y-4">
           <AnimatedElement type="fadeInUp">
             <h2 className="text-4xl md:text-5xl font-bold">Your Operational Edge, Unified</h2>
@@ -601,7 +626,7 @@ export const EcosystemMap = () => {
           </div>
 
           <GatewaySection inView={inView} />
-          <MobileLayout inView={inView} />
+          <MobileLayout />
         </div>
 
         <VideoAndConferences />

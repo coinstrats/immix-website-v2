@@ -300,15 +300,18 @@ function MobilePricingCarousel() {
         </div>
       </div>
 
-      <div className="flex justify-center items-center gap-3 mt-4">
+      <div className="flex justify-between items-center px-4 mt-4">
         <button
           onClick={() => activeIndex > 0 && setActiveIndex(activeIndex - 1)}
-          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
-            activeIndex > 0 ? 'opacity-50 hover:opacity-80' : 'opacity-10 pointer-events-none'
+          className={`flex items-center gap-1.5 transition-all duration-200 min-w-[80px] ${
+            activeIndex > 0 ? 'opacity-50 hover:opacity-80' : 'opacity-0 pointer-events-none'
           }`}
           aria-label="Previous tier"
         >
-          <ChevronLeft size={16} className="text-white/60" />
+          <ChevronLeft size={14} className="text-white/50" />
+          <span className="text-xs font-mono text-white/50 uppercase tracking-wider">
+            {activeIndex > 0 ? pricingTiers[activeIndex - 1].name : ''}
+          </span>
         </button>
 
         <div className="flex items-center gap-1.5">
@@ -328,12 +331,15 @@ function MobilePricingCarousel() {
 
         <button
           onClick={() => activeIndex < pricingTiers.length - 1 && setActiveIndex(activeIndex + 1)}
-          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
-            activeIndex < pricingTiers.length - 1 ? 'opacity-50 hover:opacity-80' : 'opacity-10 pointer-events-none'
+          className={`flex items-center gap-1.5 transition-all duration-200 min-w-[80px] justify-end ${
+            activeIndex < pricingTiers.length - 1 ? 'opacity-50 hover:opacity-80' : 'opacity-0 pointer-events-none'
           }`}
           aria-label="Next tier"
         >
-          <ChevronRight size={16} className="text-white/60" />
+          <span className="text-xs font-mono text-white/50 uppercase tracking-wider">
+            {activeIndex < pricingTiers.length - 1 ? pricingTiers[activeIndex + 1].name : ''}
+          </span>
+          <ChevronRight size={14} className="text-white/50" />
         </button>
       </div>
     </div>

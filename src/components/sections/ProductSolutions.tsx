@@ -211,19 +211,21 @@ function ProductCard({
   product,
   isActive,
   onClick,
+  cardWidth,
 }: {
   product: Product;
   isActive: boolean;
   onClick: () => void;
+  cardWidth: number;
 }) {
   const Icon = product.icon;
   const Visual = product.visual;
 
   return (
     <div
-      className={`group w-[${CARD_WIDTH_MOBILE}px] lg:w-[${CARD_WIDTH_DESKTOP}px]`}
+      className="group"
       onClick={onClick}
-      style={{ width: typeof window !== 'undefined' && window.innerWidth >= 1024 ? CARD_WIDTH_DESKTOP : CARD_WIDTH_MOBILE }}
+      style={{ width: cardWidth }}
     >
       <div
         className={`
@@ -309,6 +311,60 @@ function ProductCard({
   );
 }
 
+function CarouselNavLabels<T extends { name?: string; label?: string }>({
+  items,
+  activeIndex,
+  setActiveIndex,
+}: {
+  items: T[];
+  activeIndex: number;
+  setActiveIndex: (i: number) => void;
+}) {
+  const prevName = activeIndex > 0 ? (items[activeIndex - 1].name || items[activeIndex - 1].label) : null;
+  const nextName = activeIndex < items.length - 1 ? (items[activeIndex + 1].name || items[activeIndex + 1].label) : null;
+
+  return (
+    <div className="flex justify-between items-center px-4 mt-4">
+      <button
+        onClick={() => activeIndex > 0 && setActiveIndex(activeIndex - 1)}
+        className={`flex items-center gap-1.5 transition-all duration-200 min-w-[80px] ${
+          prevName ? 'opacity-50 hover:opacity-80' : 'opacity-0 pointer-events-none'
+        }`}
+        aria-label="Previous"
+      >
+        <ChevronLeft size={14} className="text-white/50" />
+        <span className="text-xs font-mono text-white/50 uppercase tracking-wider">{prevName}</span>
+      </button>
+
+      <div className="flex items-center gap-1.5">
+        {items.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setActiveIndex(i)}
+            className={`rounded-full transition-all duration-300 ${
+              i === activeIndex
+                ? 'w-6 h-1.5 bg-[#0073FF]/80'
+                : 'w-1.5 h-1.5 bg-white/15 hover:bg-white/30'
+            }`}
+            aria-label={`Go to item ${i + 1}`}
+          />
+        ))}
+      </div>
+
+      <button
+        onClick={() => activeIndex < items.length - 1 && setActiveIndex(activeIndex + 1)}
+        className={`flex items-center gap-1.5 transition-all duration-200 min-w-[80px] justify-end ${
+          nextName ? 'opacity-50 hover:opacity-80' : 'opacity-0 pointer-events-none'
+        }`}
+        aria-label="Next"
+      >
+        <span className="text-xs font-mono text-white/50 uppercase tracking-wider">{nextName}</span>
+        <ChevronRight size={14} className="text-white/50" />
+      </button>
+    </div>
+  );
+}
+
 function DesktopCarousel({
   activeIndex,
   setActiveIndex,
@@ -317,7 +373,7 @@ function DesktopCarousel({
   setActiveIndex: (i: number) => void;
 }) {
   return (
-    <div className="hidden lg:block relative" style={{ height: 520 }}>
+    <div className="hidden lg:block relative" style={{ height: 560 }}>
       <div className="absolute inset-0 flex items-start justify-center">
         {products.map((product, i) => {
           const offset = i - activeIndex;
@@ -340,6 +396,7 @@ function DesktopCarousel({
                 product={product}
                 isActive={i === activeIndex}
                 onClick={() => setActiveIndex(i)}
+                cardWidth={CARD_WIDTH_DESKTOP}
               />
             </div>
           );
@@ -437,6 +494,7 @@ function MobileCarousel({
                   product={product}
                   isActive={i === activeIndex}
                   onClick={() => setActiveIndex(i)}
+                  cardWidth={CARD_WIDTH_MOBILE}
                 />
               </div>
             );
@@ -444,42 +502,7 @@ function MobileCarousel({
         </div>
       </div>
 
-      <div className="flex justify-center items-center gap-2 mt-4">
-        <button
-          onClick={() => activeIndex > 0 && setActiveIndex(activeIndex - 1)}
-          className={`w-8 h-8 rounded-full bg-white/[0.06] border border-white/[0.1] flex items-center justify-center transition-all duration-200 ${
-            activeIndex > 0 ? 'opacity-100 hover:bg-white/[0.12]' : 'opacity-20 pointer-events-none'
-          }`}
-          aria-label="Previous"
-        >
-          <ChevronLeft size={14} className="text-white/70" />
-        </button>
-
-        <div className="flex items-center gap-1.5 mx-2">
-          {products.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveIndex(i)}
-              className={`rounded-full transition-all duration-300 ${
-                i === activeIndex
-                  ? 'w-6 h-2 bg-[#0073FF]'
-                  : 'w-2 h-2 bg-white/20 hover:bg-white/40'
-              }`}
-              aria-label={`Go to ${products[i].name}`}
-            />
-          ))}
-        </div>
-
-        <button
-          onClick={() => activeIndex < products.length - 1 && setActiveIndex(activeIndex + 1)}
-          className={`w-8 h-8 rounded-full bg-white/[0.06] border border-white/[0.1] flex items-center justify-center transition-all duration-200 ${
-            activeIndex < products.length - 1 ? 'opacity-100 hover:bg-white/[0.12]' : 'opacity-20 pointer-events-none'
-          }`}
-          aria-label="Next"
-        >
-          <ChevronRight size={14} className="text-white/70" />
-        </button>
-      </div>
+      <CarouselNavLabels items={products} activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
     </div>
   );
 }
