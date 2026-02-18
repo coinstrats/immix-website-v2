@@ -162,7 +162,7 @@ const integrationModes = [
   },
 ];
 
-const DEFAULT_CENTER = 2;
+const DEFAULT_CENTER = 1;
 const CARD_WIDTH_DESKTOP = 340;
 const CARD_WIDTH_MOBILE = 300;
 const CARD_SPACING = 360;
@@ -527,26 +527,26 @@ export const ProductSolutions = () => {
           <DesktopCarousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
           <MobileCarousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
 
-          <div className="hidden lg:flex justify-center items-center gap-2 mt-8">
+          <div className="hidden lg:flex justify-center items-center gap-3 mt-8">
             <button
               onClick={() => activeIndex > 0 && setActiveIndex(activeIndex - 1)}
-              className={`w-10 h-10 rounded-full bg-white/[0.06] border border-white/[0.1] flex items-center justify-center transition-all duration-200 ${
-                activeIndex > 0 ? 'opacity-100 hover:bg-white/[0.12] hover:border-white/[0.2]' : 'opacity-20 pointer-events-none'
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
+                activeIndex > 0 ? 'opacity-50 hover:opacity-80' : 'opacity-10 pointer-events-none'
               }`}
               aria-label="Previous card"
             >
-              <ChevronLeft size={18} className="text-white/70" />
+              <ChevronLeft size={16} className="text-white/60" />
             </button>
 
-            <div className="flex items-center gap-2 mx-3">
+            <div className="flex items-center gap-1.5">
               {products.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setActiveIndex(i)}
                   className={`rounded-full transition-all duration-300 ${
                     i === activeIndex
-                      ? 'w-8 h-2.5 bg-[#0073FF] shadow-[0_0_10px_rgba(0,115,255,0.5)]'
-                      : 'w-2.5 h-2.5 bg-white/20 hover:bg-white/40'
+                      ? 'w-6 h-1.5 bg-[#0073FF]/80'
+                      : 'w-1.5 h-1.5 bg-white/15 hover:bg-white/30'
                   }`}
                   aria-label={`Go to ${products[i].name}`}
                 />
@@ -555,12 +555,12 @@ export const ProductSolutions = () => {
 
             <button
               onClick={() => activeIndex < products.length - 1 && setActiveIndex(activeIndex + 1)}
-              className={`w-10 h-10 rounded-full bg-white/[0.06] border border-white/[0.1] flex items-center justify-center transition-all duration-200 ${
-                activeIndex < products.length - 1 ? 'opacity-100 hover:bg-white/[0.12] hover:border-white/[0.2]' : 'opacity-20 pointer-events-none'
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
+                activeIndex < products.length - 1 ? 'opacity-50 hover:opacity-80' : 'opacity-10 pointer-events-none'
               }`}
               aria-label="Next card"
             >
-              <ChevronRight size={18} className="text-white/70" />
+              <ChevronRight size={16} className="text-white/60" />
             </button>
           </div>
         </AnimatedElement>
