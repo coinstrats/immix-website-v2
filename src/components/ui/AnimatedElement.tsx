@@ -47,7 +47,7 @@ export const AnimatedElement = ({
       ref={ref}
       className={`${isVisible ? animationMap[type] : ''} ${className}`}
       style={{
-        opacity: isVisible ? undefined : 0,
+        opacity: 0,
         animationDelay: delay ? `${delay}s` : undefined,
       }}
     >

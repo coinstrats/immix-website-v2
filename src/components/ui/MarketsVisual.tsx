@@ -100,7 +100,8 @@ export const MarketsVisual = () => {
             strokeLinejoin="round"
             opacity={trace.opacity}
             initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: trace.opacity }}
+            whileInView={{ pathLength: 1, opacity: trace.opacity }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{
               pathLength: { duration: 1.8, delay: trace.dashDelay, ease: 'easeOut' },
               opacity: { duration: 0.4, delay: trace.dashDelay },
@@ -119,7 +120,8 @@ export const MarketsVisual = () => {
               r="2.5"
               fill={trace.color}
               initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: [0, 1, 0.5, 1], scale: [0, 1.3, 1, 1] }}
+              whileInView={{ opacity: [0, 1, 0.5, 1], scale: [0, 1.3, 1, 1] }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{
                 delay: 1.8 + trace.dashDelay,
                 duration: 2,

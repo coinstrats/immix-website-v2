@@ -66,11 +66,12 @@ export const LabVisual = () => {
                   rx="1"
                   fill="rgb(147,197,253)"
                   fillOpacity="0"
-                  animate={{
+                  whileInView={{
                     fillOpacity: isHot
                       ? [0.06, 0.3, 0.06]
                       : [0.06, 0.14, 0.06],
                   }}
+                  viewport={{ once: true, amount: 0.3 }}
                   transition={{
                     duration: isHot ? 1.5 : 3,
                     delay: waveDelay,
@@ -88,7 +89,8 @@ export const LabVisual = () => {
                     rx="1"
                     fill="rgb(147,197,253)"
                     fillOpacity="0"
-                    animate={{ fillOpacity: [0, 0.4, 0] }}
+                    whileInView={{ fillOpacity: [0, 0.4, 0] }}
+                    viewport={{ once: true, amount: 0.3 }}
                     transition={{
                       duration: 0.8,
                       delay: 2 + waveDelay * 2,
@@ -111,7 +113,8 @@ export const LabVisual = () => {
           rx="1"
           fill="rgb(147,197,253)"
           fillOpacity="0.5"
-          animate={{ fillOpacity: [0.5, 0, 0.5] }}
+          whileInView={{ fillOpacity: [0.5, 0, 0.5] }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 1, repeat: Infinity, ease: 'steps(2)' }}
         />
 
@@ -125,7 +128,8 @@ export const LabVisual = () => {
             rx="1"
             fill="rgb(147,197,253)"
             fillOpacity="0"
-            animate={{ fillOpacity: [0, 0.08, 0] }}
+            whileInView={{ fillOpacity: [0, 0.08, 0] }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{
               duration: 0.4,
               delay: c * 0.15,

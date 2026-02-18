@@ -52,7 +52,8 @@ export const TradeVisual = () => {
                 fill="url(#bid-grad)"
                 rx="1"
                 initial={{ width: 0, x: centerX }}
-                animate={{ width: w, x: centerX - w }}
+                whileInView={{ width: w, x: centerX - w }}
+                viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.8, delay: i * 0.06 }}
               />
               <motion.rect
@@ -63,11 +64,12 @@ export const TradeVisual = () => {
                 fill="rgb(52,211,153)"
                 fillOpacity="0"
                 rx="1"
-                animate={{
+                whileInView={{
                   fillOpacity: i < 3 ? [0, 0.15, 0] : [0, 0, 0],
                   width: [w, w * (0.9 + Math.random() * 0.2), w],
                   x: [centerX - w, centerX - w * (0.9 + Math.random() * 0.2), centerX - w],
                 }}
+                viewport={{ once: true, amount: 0.3 }}
                 transition={{
                   duration: 3 + i * 0.3,
                   delay: 2 + i * 0.15,
@@ -102,7 +104,8 @@ export const TradeVisual = () => {
                 fill="url(#ask-grad)"
                 rx="1"
                 initial={{ width: 0 }}
-                animate={{ width: w }}
+                whileInView={{ width: w }}
+                viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.8, delay: i * 0.06 }}
               />
               <motion.rect
@@ -113,10 +116,11 @@ export const TradeVisual = () => {
                 fill="rgb(248,113,113)"
                 fillOpacity="0"
                 rx="1"
-                animate={{
+                whileInView={{
                   fillOpacity: [0, 0, 0],
                   width: [w, w * (0.85 + Math.random() * 0.3), w],
                 }}
+                viewport={{ once: true, amount: 0.3 }}
                 transition={{
                   duration: 3.5 + i * 0.2,
                   delay: 2.2 + i * 0.1,
@@ -147,7 +151,8 @@ export const TradeVisual = () => {
           fill="rgb(52,211,153)"
           fillOpacity="0"
           rx="1"
-          animate={{ fillOpacity: [0, 0.2, 0] }}
+          whileInView={{ fillOpacity: [0, 0.2, 0] }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{
             duration: 1.2,
             delay: 3,

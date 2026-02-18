@@ -64,7 +64,7 @@ export const EcosystemMap = () => {
                 <div className="w-full h-px bg-gradient-to-r from-immix-purple/30 via-immix-blue/50 to-immix-blue/30" />
               </div>
 
-              <svg className="absolute inset-0 w-full h-full overflow-visible" style={{ zIndex: 5 }}>
+              <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ zIndex: 5 }}>
                 <defs>
                   <filter id="dot-glow-h">
                     <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -78,14 +78,15 @@ export const EcosystemMap = () => {
                   <motion.circle
                     key={`l-fwd-${i}`}
                     r="4"
-                    cy="50%"
+                    cy={50}
                     fill="rgb(107, 70, 255)"
                     filter="url(#dot-glow-h)"
-                    initial={{ opacity: 0 }}
-                    animate={{
+                    initial={{ opacity: 0, cx: 0 }}
+                    whileInView={{
                       opacity: [0, 1, 1, 0],
-                      cx: ['0%', '100%'],
+                      cx: [0, 100],
                     }}
+                    viewport={{ once: true, amount: 0.3 }}
                     transition={{
                       duration: 2,
                       delay,
@@ -99,14 +100,15 @@ export const EcosystemMap = () => {
                   <motion.circle
                     key={`l-rev-${i}`}
                     r="4"
-                    cy="50%"
+                    cy={50}
                     fill="rgb(0, 115, 255)"
                     filter="url(#dot-glow-h)"
-                    initial={{ opacity: 0 }}
-                    animate={{
+                    initial={{ opacity: 0, cx: 100 }}
+                    whileInView={{
                       opacity: [0, 1, 1, 0],
-                      cx: ['100%', '0%'],
+                      cx: [100, 0],
                     }}
+                    viewport={{ once: true, amount: 0.3 }}
                     transition={{
                       duration: 2,
                       delay,
@@ -141,9 +143,9 @@ export const EcosystemMap = () => {
                 </div>
 
                 <div className="flex flex-col items-center relative h-64 mb-6">
-                  <svg className="absolute inset-0 w-full h-full" style={{ zIndex: 1 }}>
+                  <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ zIndex: 1 }}>
                     <defs>
-                      <filter id="glow">
+                      <filter id="sequencer-glow">
                         <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
                         <feMerge>
                           <feMergeNode in="coloredBlur"/>
@@ -152,19 +154,20 @@ export const EcosystemMap = () => {
                       </filter>
                     </defs>
 
-                    <line x1="50%" y1="15%" x2="30%" y2="80%" stroke="rgb(148, 163, 184)" strokeOpacity="0.2" strokeWidth="1.5" strokeDasharray="4,4" />
-                    <line x1="50%" y1="15%" x2="70%" y2="80%" stroke="rgb(148, 163, 184)" strokeOpacity="0.2" strokeWidth="1.5" strokeDasharray="4,4" />
+                    <line x1="50" y1="15" x2="30" y2="80" stroke="rgb(148, 163, 184)" strokeOpacity="0.2" strokeWidth="1.5" strokeDasharray="4,4" />
+                    <line x1="50" y1="15" x2="70" y2="80" stroke="rgb(148, 163, 184)" strokeOpacity="0.2" strokeWidth="1.5" strokeDasharray="4,4" />
 
                     <motion.circle
                       r="3"
                       fill="rgb(59, 130, 246)"
-                      filter="url(#glow)"
-                      initial={{ opacity: 0 }}
-                      animate={{
+                      filter="url(#sequencer-glow)"
+                      initial={{ opacity: 0, cx: 50, cy: 15 }}
+                      whileInView={{
                         opacity: [0, 1, 1, 0],
-                        cx: ['50%', '30%'],
-                        cy: ['15%', '80%'],
+                        cx: [50, 30],
+                        cy: [15, 80],
                       }}
+                      viewport={{ once: true, amount: 0.3 }}
                       transition={{
                         duration: 0.7,
                         delay: 0,
@@ -177,13 +180,14 @@ export const EcosystemMap = () => {
                     <motion.circle
                       r="3"
                       fill="rgb(59, 130, 246)"
-                      filter="url(#glow)"
-                      initial={{ opacity: 0 }}
-                      animate={{
+                      filter="url(#sequencer-glow)"
+                      initial={{ opacity: 0, cx: 50, cy: 15 }}
+                      whileInView={{
                         opacity: [0, 1, 1, 0],
-                        cx: ['50%', '70%'],
-                        cy: ['15%', '80%'],
+                        cx: [50, 70],
+                        cy: [15, 80],
                       }}
+                      viewport={{ once: true, amount: 0.3 }}
                       transition={{
                         duration: 0.7,
                         delay: 0,
@@ -196,13 +200,14 @@ export const EcosystemMap = () => {
                     <motion.circle
                       r="3"
                       fill="rgb(59, 130, 246)"
-                      filter="url(#glow)"
-                      initial={{ opacity: 0 }}
-                      animate={{
+                      filter="url(#sequencer-glow)"
+                      initial={{ opacity: 0, cx: 30, cy: 80 }}
+                      whileInView={{
                         opacity: [0, 1, 1, 0],
-                        cx: ['30%', '50%'],
-                        cy: ['80%', '15%'],
+                        cx: [30, 50],
+                        cy: [80, 15],
                       }}
+                      viewport={{ once: true, amount: 0.3 }}
                       transition={{
                         duration: 0.7,
                         delay: 0.7,
@@ -215,13 +220,14 @@ export const EcosystemMap = () => {
                     <motion.circle
                       r="3"
                       fill="rgb(59, 130, 246)"
-                      filter="url(#glow)"
-                      initial={{ opacity: 0 }}
-                      animate={{
+                      filter="url(#sequencer-glow)"
+                      initial={{ opacity: 0, cx: 70, cy: 80 }}
+                      whileInView={{
                         opacity: [0, 1, 1, 0],
-                        cx: ['70%', '50%'],
-                        cy: ['80%', '15%'],
+                        cx: [70, 50],
+                        cy: [80, 15],
                       }}
+                      viewport={{ once: true, amount: 0.3 }}
                       transition={{
                         duration: 0.7,
                         delay: 0.7,
@@ -298,19 +304,20 @@ export const EcosystemMap = () => {
                 <div className="w-full h-px bg-gradient-to-r from-immix-blue/30 via-immix-blue/50 to-immix-blue/30" />
               </div>
 
-              <svg className="absolute inset-0 w-full h-full overflow-visible" style={{ zIndex: 5 }}>
+              <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ zIndex: 5 }}>
                 {[0, 0.5, 1.0, 1.5].map((delay, i) => (
                   <motion.circle
                     key={`r-fwd-${i}`}
                     r="4"
-                    cy="50%"
+                    cy={50}
                     fill="rgb(0, 115, 255)"
                     filter="url(#dot-glow-h)"
-                    initial={{ opacity: 0 }}
-                    animate={{
+                    initial={{ opacity: 0, cx: 0 }}
+                    whileInView={{
                       opacity: [0, 1, 1, 0],
-                      cx: ['0%', '100%'],
+                      cx: [0, 100],
                     }}
+                    viewport={{ once: true, amount: 0.3 }}
                     transition={{
                       duration: 1.4,
                       delay,
@@ -324,14 +331,15 @@ export const EcosystemMap = () => {
                   <motion.circle
                     key={`r-rev-${i}`}
                     r="4"
-                    cy="50%"
+                    cy={50}
                     fill="rgb(0, 115, 255)"
                     filter="url(#dot-glow-h)"
-                    initial={{ opacity: 0 }}
-                    animate={{
+                    initial={{ opacity: 0, cx: 100 }}
+                    whileInView={{
                       opacity: [0, 1, 1, 0],
-                      cx: ['100%', '0%'],
+                      cx: [100, 0],
                     }}
+                    viewport={{ once: true, amount: 0.3 }}
                     transition={{
                       duration: 1.4,
                       delay,
@@ -388,7 +396,7 @@ export const EcosystemMap = () => {
                     <div className="h-full w-px bg-gradient-to-b from-immix-blue/30 via-emerald-600/50 to-emerald-600/30" />
                   </div>
 
-                  <svg className="absolute inset-0 w-full h-full overflow-visible" style={{ zIndex: 5 }}>
+                  <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ zIndex: 5 }}>
                     <defs>
                       <filter id="dot-glow-v">
                         <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
@@ -402,14 +410,15 @@ export const EcosystemMap = () => {
                       <motion.circle
                         key={`down-${i}`}
                         r="4"
-                        cx="50%"
+                        cx={50}
                         fill="rgb(0, 115, 255)"
                         filter="url(#dot-glow-v)"
-                        initial={{ opacity: 0 }}
-                        animate={{
+                        initial={{ opacity: 0, cy: 0 }}
+                        whileInView={{
                           opacity: [0, 1, 1, 0],
-                          cy: ['0%', '100%'],
+                          cy: [0, 100],
                         }}
+                        viewport={{ once: true, amount: 0.3 }}
                         transition={{
                           duration: 1.2,
                           delay,
@@ -423,14 +432,15 @@ export const EcosystemMap = () => {
                       <motion.circle
                         key={`up-${i}`}
                         r="4"
-                        cx="50%"
+                        cx={50}
                         fill="rgb(5, 150, 105)"
                         filter="url(#dot-glow-v)"
-                        initial={{ opacity: 0 }}
-                        animate={{
+                        initial={{ opacity: 0, cy: 100 }}
+                        whileInView={{
                           opacity: [0, 1, 1, 0],
-                          cy: ['100%', '0%'],
+                          cy: [100, 0],
                         }}
+                        viewport={{ once: true, amount: 0.3 }}
                         transition={{
                           duration: 1.2,
                           delay,

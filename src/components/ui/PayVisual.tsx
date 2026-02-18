@@ -120,11 +120,12 @@ export const PayVisual = () => {
             r="2"
             fill="rgb(45,212,191)"
             initial={{ opacity: 0 }}
-            animate={{
+            whileInView={{
               opacity: [0, 0.8, 0.8, 0],
               cx: [80, 150],
               cy: [38, 38],
             }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{
               duration: 1,
               delay: 1.5 + delay,
@@ -141,11 +142,12 @@ export const PayVisual = () => {
             r="2"
             fill="rgb(45,212,191)"
             initial={{ opacity: 0 }}
-            animate={{
+            whileInView={{
               opacity: [0, 0.8, 0.8, 0],
               cx: [215, 285],
               cy: [38, 38],
             }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{
               duration: 1,
               delay: 1.8 + delay,
@@ -185,11 +187,12 @@ export const PayVisual = () => {
             r="1.2"
             fill="rgb(45,212,191)"
             initial={{ opacity: 0 }}
-            animate={{
+            whileInView={{
               opacity: [0, 0.6, 0.6, 0],
               cx: [135, branch.endX],
               cy: [80, branch.endY],
             }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{
               duration: 1.2 + i * 0.2,
               delay: 2 + i * 0.4,

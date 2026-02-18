@@ -116,7 +116,8 @@ export const EarnVisual = () => {
           points="345,2 349,6 345,10 341,6"
           fill="rgb(56,189,248)"
           fillOpacity="0"
-          animate={{ fillOpacity: [0, 0.4, 0] }}
+          whileInView={{ fillOpacity: [0, 0.4, 0] }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
         />
 

@@ -80,11 +80,12 @@ export const ConnectVisual = () => {
               r="1.5"
               fill="rgb(34,211,238)"
               initial={{ opacity: 0 }}
-              animate={{
+              whileInView={{
                 opacity: [0, 0.9, 0.9, 0],
                 cx: [conn.from.x, conn.from.x + dx],
                 cy: [conn.from.y, conn.from.y + dy],
               }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{
                 duration: 1.5 + (i % 3) * 0.3,
                 delay: i * 0.25,
@@ -105,11 +106,12 @@ export const ConnectVisual = () => {
               r="1"
               fill="white"
               initial={{ opacity: 0 }}
-              animate={{
+              whileInView={{
                 opacity: [0, 0.5, 0.5, 0],
                 cx: [conn.from.x + dx, conn.from.x],
                 cy: [conn.from.y + dy, conn.from.y],
               }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{
                 duration: 1.8 + (i % 2) * 0.4,
                 delay: i * 0.3 + 0.8,
@@ -143,7 +145,8 @@ export const ConnectVisual = () => {
               stroke="rgb(34,211,238)"
               strokeOpacity="0.3"
               strokeWidth="0.5"
-              animate={{ strokeOpacity: [0.3, 0.7, 0.3] }}
+              whileInView={{ strokeOpacity: [0.3, 0.7, 0.3] }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{
                 duration: 2,
                 delay: i * 0.3,
@@ -177,10 +180,11 @@ export const ConnectVisual = () => {
           stroke="rgb(34,211,238)"
           strokeOpacity="0.6"
           strokeWidth="1"
-          animate={{
+          whileInView={{
             strokeOpacity: [0.6, 1, 0.6],
             fillOpacity: [0.15, 0.3, 0.15],
           }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
         />
       </svg>
