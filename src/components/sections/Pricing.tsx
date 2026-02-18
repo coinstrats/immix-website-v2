@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   Check,
@@ -210,32 +210,54 @@ function PricingCard({ tier }: { tier: typeof pricingTiers[number] }) {
 }
 
 const PRICING_DEFAULT_INDEX = 2;
-const PRICING_CARD_WIDTH = 280;
+const PRICING_CARD_WIDTH_MOBILE = 280;
+const PRICING_CARD_WIDTH_DESKTOP = 420;
 const PRICING_SWIPE_THRESHOLD = 50;
 
-function MobilePricingCarousel() {
+function useCardWidth() {
+  const [width, setWidth] = useState(
+    typeof window !== 'undefined' && window.innerWidth >= 768
+      ? PRICING_CARD_WIDTH_DESKTOP
+      : PRICING_CARD_WIDTH_MOBILE
+  );
+
+  const handleResize = useCallback(() => {
+    setWidth(window.innerWidth >= 768 ? PRICING_CARD_WIDTH_DESKTOP : PRICING_CARD_WIDTH_MOBILE);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [handleResize]);
+
+  return width;
+}
+
+function PricingCarousel() {
   const [activeIndex, setActiveIndex] = useState(PRICING_DEFAULT_INDEX);
-  const touchStartX = useRef(0);
-  const touchDeltaX = useRef(0);
+  const startX = useRef(0);
+  const deltaX = useRef(0);
   const [dragOffset, setDragOffset] = useState(0);
   const isDragging = useRef(false);
+  const cardWidth = useCardWidth();
+  const spacing = cardWidth + 24;
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
+  const beginDrag = useCallback((x: number) => {
+    startX.current = x;
     isDragging.current = true;
     setDragOffset(0);
   }, []);
 
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+  const moveDrag = useCallback((x: number) => {
     if (!isDragging.current) return;
-    const delta = e.touches[0].clientX - touchStartX.current;
-    touchDeltaX.current = delta;
+    const delta = x - startX.current;
+    deltaX.current = delta;
     setDragOffset(delta * 0.4);
   }, []);
 
-  const handleTouchEnd = useCallback(() => {
+  const endDrag = useCallback(() => {
     isDragging.current = false;
-    const delta = touchDeltaX.current;
+    const delta = deltaX.current;
 
     if (Math.abs(delta) > PRICING_SWIPE_THRESHOLD) {
       if (delta < 0 && activeIndex < pricingTiers.length - 1) {
@@ -245,20 +267,49 @@ function MobilePricingCarousel() {
       }
     }
 
-    touchDeltaX.current = 0;
+    deltaX.current = 0;
     setDragOffset(0);
   }, [activeIndex]);
 
-  const spacing = PRICING_CARD_WIDTH + 20;
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    beginDrag(e.touches[0].clientX);
+  }, [beginDrag]);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    moveDrag(e.touches[0].clientX);
+  }, [moveDrag]);
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    beginDrag(e.clientX);
+  }, [beginDrag]);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    moveDrag(e.clientX);
+  }, [moveDrag]);
+
+  const handleMouseUp = useCallback(() => {
+    endDrag();
+  }, [endDrag]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (isDragging.current) endDrag();
+  }, [endDrag]);
+
+  const containerHeight = cardWidth === PRICING_CARD_WIDTH_DESKTOP ? 580 : 650;
 
   return (
-    <div className="md:hidden">
+    <div>
       <div
-        className="relative overflow-hidden"
-        style={{ height: 650 }}
+        className="relative overflow-hidden select-none"
+        style={{ height: containerHeight }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
+        onTouchEnd={endDrag}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
       >
         <div className="absolute inset-0 flex items-start justify-center pt-4">
           {pricingTiers.map((tier, i) => {
@@ -285,13 +336,15 @@ function MobilePricingCarousel() {
                 key={tier.name}
                 className="absolute"
                 style={{
-                  width: PRICING_CARD_WIDTH,
+                  width: cardWidth,
                   transform: `translateX(${baseTranslateX}px) scale(${scale})`,
                   opacity,
                   zIndex,
                   transition: isDragging.current ? 'none' : 'all 400ms cubic-bezier(0.4, 0, 0.2, 1)',
-                  pointerEvents: absOffset === 0 ? 'auto' : 'none',
+                  pointerEvents: absOffset === 0 ? 'auto' : absOffset === 1 ? 'auto' : 'none',
+                  cursor: absOffset === 1 ? 'pointer' : 'default',
                 }}
+                onClick={absOffset === 1 ? () => setActiveIndex(i) : undefined}
               >
                 <PricingCard tier={tier} />
               </div>
@@ -300,7 +353,7 @@ function MobilePricingCarousel() {
         </div>
       </div>
 
-      <div className="flex justify-between items-center px-4 mt-4">
+      <div className="flex justify-between items-center px-4 mt-4 max-w-md mx-auto">
         <button
           onClick={() => activeIndex > 0 && setActiveIndex(activeIndex - 1)}
           className={`flex items-center gap-1.5 transition-all duration-200 min-w-[80px] ${
@@ -395,13 +448,7 @@ export const Pricing = () => {
         <div className="min-h-[600px]">
           {activeTab === 'tiers' && (
             <div className="space-y-10">
-              <MobilePricingCarousel />
-
-              <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 xl:gap-8">
-                {pricingTiers.map((tier) => (
-                  <PricingCard key={tier.name} tier={tier} />
-                ))}
-              </div>
+              <PricingCarousel />
 
               <div className="flex items-center gap-4">
                 <div className="flex-1 h-px bg-gradient-to-r from-transparent to-white/10" />
