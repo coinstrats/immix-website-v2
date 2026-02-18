@@ -35,7 +35,7 @@ export const AnimatedElement = ({
           observer.unobserve(el);
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0, rootMargin: '50px 0px' }
     );
 
     observer.observe(el);
@@ -45,11 +45,8 @@ export const AnimatedElement = ({
   return (
     <div
       ref={ref}
-      className={`${isVisible ? animationMap[type] : ''} ${className}`}
-      style={{
-        opacity: 0,
-        animationDelay: delay ? `${delay}s` : undefined,
-      }}
+      className={`${isVisible ? animationMap[type] : 'opacity-0'} ${className}`}
+      style={isVisible ? { animationDelay: delay ? `${delay}s` : undefined } : undefined}
     >
       {children}
     </div>
