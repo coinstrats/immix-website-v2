@@ -47,7 +47,7 @@ export const Hero = () => {
 
             <AnimatedElement type="fadeInUp" delay={0.3}>
               <p className="text-xl text-white/70 leading-relaxed max-w-lg">
-                The programmable operating system for institutional digital assets. Unify custodians, venues, and custom logic into fault-tolerant trading, treasury, and payment workflows—accessible via high-performance APIs and SDKs ready for your AI agents.
+                Unify custodians, venues, and business logic into fault-tolerant trading, treasury, and payment workflows—accessible via high-performance APIs ready for your AI agents
               </p>
             </AnimatedElement>
 
