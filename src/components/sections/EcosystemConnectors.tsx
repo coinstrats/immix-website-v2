@@ -140,15 +140,15 @@ export const RightHorizontalConnector = ({ inView }: ConnectorProps) => (
 
 export const VerticalConnector = ({ inView }: ConnectorProps) => (
   <div className="w-full flex items-center justify-center relative h-20 mb-2">
-    <div className="relative w-full h-full flex items-center justify-center">
+    <div className="relative w-6 h-full flex items-center justify-center">
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <div className="h-full w-px bg-gradient-to-b from-immix-blue/30 via-emerald-600/50 to-emerald-600/30" />
       </div>
 
-      <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ zIndex: 5 }}>
+      <svg className="absolute inset-0 w-full h-full overflow-visible" viewBox="0 0 24 80" preserveAspectRatio="none" style={{ zIndex: 5 }}>
         <defs>
           <filter id="dot-glow-v">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+            <feGaussianBlur stdDeviation="2" result="coloredBlur" />
             <feMerge>
               <feMergeNode in="coloredBlur" />
               <feMergeNode in="SourceGraphic" />
@@ -160,13 +160,13 @@ export const VerticalConnector = ({ inView }: ConnectorProps) => (
             key={`down-${i}`}
             width={SQUARE_SIZE}
             height={SQUARE_SIZE}
-            x={50 - HALF}
+            x={12 - HALF}
             fill="rgb(0, 115, 255)"
             filter="url(#dot-glow-v)"
             initial={{ opacity: 0, y: -HALF }}
             animate={inView ? {
               opacity: [0, 1, 1, 0],
-              y: [-HALF, 100 - HALF],
+              y: [-HALF, 80 - HALF],
             } : undefined}
             transition={{
               duration: 1.2,
@@ -182,13 +182,13 @@ export const VerticalConnector = ({ inView }: ConnectorProps) => (
             key={`up-${i}`}
             width={SQUARE_SIZE}
             height={SQUARE_SIZE}
-            x={50 - HALF}
+            x={12 - HALF}
             fill="rgb(5, 150, 105)"
             filter="url(#dot-glow-v)"
-            initial={{ opacity: 0, y: 100 - HALF }}
+            initial={{ opacity: 0, y: 80 - HALF }}
             animate={inView ? {
               opacity: [0, 1, 1, 0],
-              y: [100 - HALF, -HALF],
+              y: [80 - HALF, -HALF],
             } : undefined}
             transition={{
               duration: 1.2,
@@ -205,14 +205,14 @@ export const VerticalConnector = ({ inView }: ConnectorProps) => (
 );
 
 export const SequencerInternalAnimation = ({ inView }: ConnectorProps) => {
-  const SQ = 5;
+  const SQ = 2.5;
   const SQ_HALF = SQ / 2;
 
   return (
     <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ zIndex: 1 }}>
       <defs>
         <filter id="sequencer-glow">
-          <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+          <feGaussianBlur stdDeviation="1.5" result="coloredBlur" />
           <feMerge>
             <feMergeNode in="coloredBlur" />
             <feMergeNode in="SourceGraphic" />

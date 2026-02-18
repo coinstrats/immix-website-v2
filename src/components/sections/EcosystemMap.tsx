@@ -22,19 +22,19 @@ const STATS = [
 ];
 
 const CONFERENCES = [
-  { name: 'QuantMinds International', short: 'QuantMinds' },
-  { name: 'Aeron', short: 'Aeron' },
-  { name: 'AIIB Beijing', short: 'AIIB' },
+  { name: 'QuantMinds International', short: 'QuantMinds', url: 'https://informaconnect.com/quantminds-international/' },
+  { name: 'Aeron', short: 'Aeron', url: 'https://aeron.io/' },
+  { name: 'AIIB Beijing', short: 'AIIB', url: 'https://www.aiib.org/en/index.html' },
 ];
 
 const GATEWAY_TEXT = 'Bridge your internal systems directly into the core sequencer. Models, treasury operations, and proprietary data streams are consolidated into a unified, fault-tolerant sequenced stream for maximum operational efficiency.';
 
 const StatCards = () => (
   <AnimatedElement type="fadeInUp" delay={0.2}>
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4 max-w-5xl mx-auto">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 lg:gap-4 max-w-5xl mx-auto items-stretch">
       {STATS.map((stat, i) => (
-        <AnimatedElement key={stat.label} type="fadeInUp" delay={0.25 + i * 0.08}>
-          <div className="relative p-4 lg:p-5 border border-white/10 bg-immix-dark/40 backdrop-blur text-center group hover:border-immix-blue/30 transition-colors">
+        <AnimatedElement key={stat.label} type="fadeInUp" delay={0.25 + i * 0.08} className="h-full">
+          <div className="relative p-4 lg:p-5 border border-white/10 bg-immix-dark/40 backdrop-blur text-center group hover:border-immix-blue/30 transition-colors h-full flex flex-col items-center justify-center">
             <p className="text-2xl lg:text-3xl font-mono font-bold text-immix-blue mb-1 tabular-nums">
               {stat.value}
             </p>
@@ -336,8 +336,11 @@ const VideoAndConferences = () => (
         <p className="text-[10px] font-mono text-white/30 uppercase tracking-[0.2em]">Presented At</p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
           {CONFERENCES.map((conf) => (
-            <div
+            <a
               key={conf.name}
+              href={conf.url}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group flex items-center gap-2 px-4 py-2 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-500"
             >
               <div className="w-8 h-8 border border-white/20 bg-white/5 flex items-center justify-center text-xs font-mono font-bold text-white/40 group-hover:text-white/80 group-hover:border-white/40 transition-all">
@@ -346,7 +349,7 @@ const VideoAndConferences = () => (
               <span className="text-xs font-mono text-white/40 group-hover:text-white/70 transition-colors whitespace-nowrap">
                 {conf.name}
               </span>
-            </div>
+            </a>
           ))}
         </div>
       </div>
