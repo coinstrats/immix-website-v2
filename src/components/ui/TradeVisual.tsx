@@ -59,6 +59,7 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
 
       {bids.map((w, i) => {
         const y = 20 + i * (BAR_HEIGHT + GAP);
+        const bidOffset = 2;
         return (
           <g key={`bid-${cycle}-${i}`}>
             <motion.rect
@@ -66,12 +67,12 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
               height={BAR_HEIGHT}
               fill="url(#bid-grad)"
               rx="1.5"
-              initial={{ width: 0, x: CENTER_X }}
-              animate={{ width: w, x: CENTER_X - w }}
+              initial={{ width: 0, x: CENTER_X - bidOffset }}
+              animate={{ width: w, x: CENTER_X - bidOffset - w }}
               transition={{ duration: 0.5, delay: i * 0.04, ease: 'easeOut' }}
             />
             <motion.rect
-              x={CENTER_X - w}
+              x={CENTER_X - bidOffset - w}
               y={y}
               width={w}
               height={BAR_HEIGHT}
@@ -81,7 +82,7 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
               animate={{
                 fillOpacity: i < 3 ? [0, 0.15, 0] : [0, 0, 0],
                 width: [w, w * 0.92, w * 1.08, w],
-                x: [CENTER_X - w, CENTER_X - w * 0.92, CENTER_X - w * 1.08, CENTER_X - w],
+                x: [CENTER_X - bidOffset - w, CENTER_X - bidOffset - w * 0.92, CENTER_X - bidOffset - w * 1.08, CENTER_X - bidOffset - w],
               }}
               transition={{
                 duration: 2.8 + i * 0.25,
@@ -109,10 +110,11 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
 
       {asks.map((w, i) => {
         const y = 20 + i * (BAR_HEIGHT + GAP);
+        const askOffset = 2;
         return (
           <g key={`ask-${cycle}-${i}`}>
             <motion.rect
-              x={CENTER_X}
+              x={CENTER_X + askOffset}
               y={y}
               height={BAR_HEIGHT}
               fill="url(#ask-grad)"
@@ -122,7 +124,7 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
               transition={{ duration: 0.5, delay: i * 0.04, ease: 'easeOut' }}
             />
             <motion.rect
-              x={CENTER_X}
+              x={CENTER_X + askOffset}
               y={y}
               width={w}
               height={BAR_HEIGHT}
@@ -158,7 +160,7 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
       })}
 
       <motion.rect
-        x={CENTER_X - bids[0]}
+        x={CENTER_X - 2 - bids[0]}
         y={20}
         width={bids[0]}
         height={BAR_HEIGHT * 3 + GAP * 2}
@@ -264,13 +266,17 @@ export const TradeVisual = () => {
           <pattern id="trade-grid" width="20" height="20" patternUnits="userSpaceOnUse">
             <circle cx="10" cy="10" r="0.5" fill="white" opacity="0.1" />
           </pattern>
-          <linearGradient id="bid-grad" x1="100%" y1="0%" x2="0%" y2="0%">
-            <stop offset="0%" stopColor="rgb(52,211,153)" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="rgb(52,211,153)" stopOpacity="0.1" />
+          <linearGradient id="bid-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="rgb(52,211,153)" stopOpacity="0.05" />
+            <stop offset="50%" stopColor="rgb(52,211,153)" stopOpacity="0.45" />
+            <stop offset="85%" stopColor="rgb(52,211,153)" stopOpacity="0.55" />
+            <stop offset="100%" stopColor="rgb(52,211,153)" stopOpacity="0.3" />
           </linearGradient>
           <linearGradient id="ask-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="rgb(248,113,113)" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="rgb(248,113,113)" stopOpacity="0.08" />
+            <stop offset="0%" stopColor="rgb(248,113,113)" stopOpacity="0.3" />
+            <stop offset="15%" stopColor="rgb(248,113,113)" stopOpacity="0.5" />
+            <stop offset="50%" stopColor="rgb(248,113,113)" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="rgb(248,113,113)" stopOpacity="0.05" />
           </linearGradient>
         </defs>
 
