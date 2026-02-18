@@ -115,7 +115,7 @@ export const LabVisual = () => {
           fillOpacity="0.5"
           whileInView={{ fillOpacity: [0.5, 0, 0.5] }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 1, repeat: Infinity, ease: 'steps(2)' }}
+          transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
         />
 
         {Array.from({ length: cols }).map((_, c) => (
