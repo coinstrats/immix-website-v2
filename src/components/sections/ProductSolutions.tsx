@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import {
   BarChart3,
   Link,
@@ -38,23 +38,6 @@ interface Product {
 
 const products: Product[] = [
   {
-    id: 'markets',
-    name: 'Markets',
-    icon: BarChart3,
-    tagline: 'Analytics across the derivative term structure, funding rates, and arbitrage opportunities.',
-    capabilities: [
-      'Term structure analytics',
-      'Funding rate monitoring',
-      'Arbitrage opportunity detection',
-      'Market-wide insights dashboard',
-    ],
-    integrations: ['ui', 'api'],
-    accentColor: 'text-blue-400',
-    accentBg: 'bg-blue-500/10',
-    accentBorder: 'border-blue-500/30',
-    visual: MarketsVisual,
-  },
-  {
     id: 'connect',
     name: 'Connect',
     icon: Link,
@@ -87,23 +70,6 @@ const products: Product[] = [
     accentBg: 'bg-emerald-500/10',
     accentBorder: 'border-emerald-500/30',
     visual: TradeVisual,
-  },
-  {
-    id: 'pay',
-    name: 'Pay',
-    icon: CreditCard,
-    tagline: 'Configurable payment corridors for cross-border settlement via stablecoin transport with minimal slippage.',
-    capabilities: [
-      'Any source-to-target fiat corridor',
-      'Stablecoin cross-border transport',
-      'Smart order router for speed',
-      'Configurable payment workflows',
-    ],
-    integrations: ['ui', 'sdk', 'api'],
-    accentColor: 'text-teal-400',
-    accentBg: 'bg-teal-500/10',
-    accentBorder: 'border-teal-500/30',
-    visual: PayVisual,
   },
   {
     id: 'earn',
@@ -139,6 +105,40 @@ const products: Product[] = [
     accentBorder: 'border-blue-400/30',
     visual: LabVisual,
   },
+  {
+    id: 'markets',
+    name: 'Markets',
+    icon: BarChart3,
+    tagline: 'Analytics across the derivative term structure, funding rates, and arbitrage opportunities.',
+    capabilities: [
+      'Term structure analytics',
+      'Funding rate monitoring',
+      'Arbitrage opportunity detection',
+      'Market-wide insights dashboard',
+    ],
+    integrations: ['ui', 'api'],
+    accentColor: 'text-blue-400',
+    accentBg: 'bg-blue-500/10',
+    accentBorder: 'border-blue-500/30',
+    visual: MarketsVisual,
+  },
+  {
+    id: 'pay',
+    name: 'Pay',
+    icon: CreditCard,
+    tagline: 'Configurable payment corridors for cross-border settlement via stablecoin transport with minimal slippage.',
+    capabilities: [
+      'Any source-to-target fiat corridor',
+      'Stablecoin cross-border transport',
+      'Smart order router for speed',
+      'Configurable payment workflows',
+    ],
+    integrations: ['ui', 'sdk', 'api'],
+    accentColor: 'text-teal-400',
+    accentBg: 'bg-teal-500/10',
+    accentBorder: 'border-teal-500/30',
+    visual: PayVisual,
+  },
 ];
 
 const integrationModes = [
@@ -162,25 +162,95 @@ const integrationModes = [
   },
 ];
 
-const CARD_GAP = 20;
+const DEFAULT_CENTER = 2;
+const CARD_WIDTH_DESKTOP = 340;
+const CARD_WIDTH_MOBILE = 300;
+const CARD_SPACING = 360;
+const SWIPE_THRESHOLD = 50;
 
-function ProductCard({ product, index }: { product: Product; index: number }) {
+function getCardStyle(offset: number) {
+  const absOffset = Math.abs(offset);
+
+  if (absOffset === 0) {
+    return {
+      scale: 1,
+      opacity: 1,
+      zIndex: 30,
+      blur: 0,
+      translateX: 0,
+    };
+  }
+  if (absOffset === 1) {
+    return {
+      scale: 0.88,
+      opacity: 0.55,
+      zIndex: 20,
+      blur: 0,
+      translateX: offset * CARD_SPACING,
+    };
+  }
+  if (absOffset === 2) {
+    return {
+      scale: 0.78,
+      opacity: 0.35,
+      zIndex: 10,
+      blur: 1,
+      translateX: offset * CARD_SPACING,
+    };
+  }
+  return {
+    scale: 0.7,
+    opacity: 0.15,
+    zIndex: 5,
+    blur: 2,
+    translateX: offset * CARD_SPACING,
+  };
+}
+
+function ProductCard({
+  product,
+  isActive,
+  onClick,
+}: {
+  product: Product;
+  isActive: boolean;
+  onClick: () => void;
+}) {
   const Icon = product.icon;
   const Visual = product.visual;
 
   return (
-    <div className="group flex-shrink-0 snap-start w-[300px] sm:w-[380px]">
+    <div
+      className={`group w-[${CARD_WIDTH_MOBILE}px] lg:w-[${CARD_WIDTH_DESKTOP}px]`}
+      onClick={onClick}
+      style={{ width: typeof window !== 'undefined' && window.innerWidth >= 1024 ? CARD_WIDTH_DESKTOP : CARD_WIDTH_MOBILE }}
+    >
       <div
         className={`
-          relative h-full rounded-xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm
-          transition-all duration-300
-          hover:border-white/[0.15] hover:bg-white/[0.04]
+          relative h-full rounded-xl border backdrop-blur-sm
+          transition-all duration-500
           overflow-hidden
+          ${isActive
+            ? 'border-[#0073FF]/40 bg-white/[0.04] shadow-[0_0_30px_rgba(0,115,255,0.25),0_0_60px_rgba(0,115,255,0.1)]'
+            : 'border-white/[0.08] bg-white/[0.02] cursor-pointer hover:border-white/[0.15] hover:bg-white/[0.04]'
+          }
         `}
       >
-        <div className={`absolute top-0 left-0 right-0 h-px ${product.accentBorder.replace('border-', 'bg-').replace('/30', '/50')}`} />
+        {isActive && (
+          <div className="absolute inset-0 rounded-xl pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse at 50% 0%, rgba(0,115,255,0.08) 0%, transparent 60%)',
+            }}
+          />
+        )}
 
-        <div className="p-6 flex flex-col gap-5">
+        <div className={`absolute top-0 left-0 right-0 h-px transition-colors duration-500 ${
+          isActive
+            ? 'bg-[#0073FF]/60'
+            : product.accentBorder.replace('border-', 'bg-').replace('/30', '/50')
+        }`} />
+
+        <div className="p-5 lg:p-6 flex flex-col gap-4 lg:gap-5">
           <div className="flex items-center gap-3.5">
             <div className={`w-10 h-10 rounded-lg ${product.accentBg} flex items-center justify-center`}>
               <Icon size={20} className={product.accentColor} />
@@ -202,7 +272,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           </div>
 
           <div className={`
-            relative h-[160px] rounded-lg bg-white/[0.02] border border-white/[0.06]
+            relative h-[140px] lg:h-[160px] rounded-lg bg-white/[0.02] border border-white/[0.06]
             overflow-hidden
             transition-all duration-300 group-hover:border-white/[0.1]
           `}>
@@ -239,37 +309,183 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
   );
 }
 
-export const ProductSolutions = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+function DesktopCarousel({
+  activeIndex,
+  setActiveIndex,
+}: {
+  activeIndex: number;
+  setActiveIndex: (i: number) => void;
+}) {
+  return (
+    <div className="hidden lg:block relative" style={{ height: 520 }}>
+      <div className="absolute inset-0 flex items-start justify-center">
+        {products.map((product, i) => {
+          const offset = i - activeIndex;
+          const style = getCardStyle(offset);
 
-  const checkScroll = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 10);
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
+          return (
+            <div
+              key={product.id}
+              className="absolute"
+              style={{
+                transform: `translateX(${style.translateX}px) scale(${style.scale})`,
+                opacity: style.opacity,
+                zIndex: style.zIndex,
+                filter: style.blur > 0 ? `blur(${style.blur}px)` : 'none',
+                transition: 'all 500ms cubic-bezier(0.4, 0, 0.2, 1)',
+                pointerEvents: Math.abs(offset) > 2 ? 'none' : 'auto',
+              }}
+            >
+              <ProductCard
+                product={product}
+                isActive={i === activeIndex}
+                onClick={() => setActiveIndex(i)}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function MobileCarousel({
+  activeIndex,
+  setActiveIndex,
+}: {
+  activeIndex: number;
+  setActiveIndex: (i: number) => void;
+}) {
+  const touchStartX = useRef(0);
+  const touchDeltaX = useRef(0);
+  const [dragOffset, setDragOffset] = useState(0);
+  const isDragging = useRef(false);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    isDragging.current = true;
+    setDragOffset(0);
   }, []);
 
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    checkScroll();
-    el.addEventListener('scroll', checkScroll, { passive: true });
-    window.addEventListener('resize', checkScroll);
-    return () => {
-      el.removeEventListener('scroll', checkScroll);
-      window.removeEventListener('resize', checkScroll);
-    };
-  }, [checkScroll]);
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!isDragging.current) return;
+    const delta = e.touches[0].clientX - touchStartX.current;
+    touchDeltaX.current = delta;
+    setDragOffset(delta * 0.4);
+  }, []);
 
-  const scroll = (direction: 'left' | 'right') => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const cardWidth = window.innerWidth < 640 ? 300 : 380;
-    const amount = direction === 'left' ? -(cardWidth + CARD_GAP) : cardWidth + CARD_GAP;
-    el.scrollBy({ left: amount, behavior: 'smooth' });
-  };
+  const handleTouchEnd = useCallback(() => {
+    isDragging.current = false;
+    const delta = touchDeltaX.current;
+
+    if (Math.abs(delta) > SWIPE_THRESHOLD) {
+      if (delta < 0 && activeIndex < products.length - 1) {
+        setActiveIndex(activeIndex + 1);
+      } else if (delta > 0 && activeIndex > 0) {
+        setActiveIndex(activeIndex - 1);
+      }
+    }
+
+    touchDeltaX.current = 0;
+    setDragOffset(0);
+  }, [activeIndex, setActiveIndex]);
+
+  const mobileSpacing = CARD_WIDTH_MOBILE + 20;
+
+  return (
+    <div className="lg:hidden">
+      <div
+        className="relative overflow-hidden"
+        style={{ height: 490 }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div className="absolute inset-0 flex items-start justify-center">
+          {products.map((product, i) => {
+            const offset = i - activeIndex;
+            const absOffset = Math.abs(offset);
+            const baseTranslateX = offset * mobileSpacing + dragOffset;
+
+            let scale = 1;
+            let opacity = 1;
+            let zIndex = 30;
+
+            if (absOffset === 1) {
+              scale = 0.85;
+              opacity = 0.4;
+              zIndex = 20;
+            } else if (absOffset >= 2) {
+              scale = 0.75;
+              opacity = 0;
+              zIndex = 10;
+            }
+
+            return (
+              <div
+                key={product.id}
+                className="absolute"
+                style={{
+                  transform: `translateX(${baseTranslateX}px) scale(${scale})`,
+                  opacity,
+                  zIndex,
+                  transition: isDragging.current ? 'none' : 'all 400ms cubic-bezier(0.4, 0, 0.2, 1)',
+                  pointerEvents: absOffset === 0 ? 'auto' : 'none',
+                }}
+              >
+                <ProductCard
+                  product={product}
+                  isActive={i === activeIndex}
+                  onClick={() => setActiveIndex(i)}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="flex justify-center items-center gap-2 mt-4">
+        <button
+          onClick={() => activeIndex > 0 && setActiveIndex(activeIndex - 1)}
+          className={`w-8 h-8 rounded-full bg-white/[0.06] border border-white/[0.1] flex items-center justify-center transition-all duration-200 ${
+            activeIndex > 0 ? 'opacity-100 hover:bg-white/[0.12]' : 'opacity-20 pointer-events-none'
+          }`}
+          aria-label="Previous"
+        >
+          <ChevronLeft size={14} className="text-white/70" />
+        </button>
+
+        <div className="flex items-center gap-1.5 mx-2">
+          {products.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveIndex(i)}
+              className={`rounded-full transition-all duration-300 ${
+                i === activeIndex
+                  ? 'w-6 h-2 bg-[#0073FF]'
+                  : 'w-2 h-2 bg-white/20 hover:bg-white/40'
+              }`}
+              aria-label={`Go to ${products[i].name}`}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={() => activeIndex < products.length - 1 && setActiveIndex(activeIndex + 1)}
+          className={`w-8 h-8 rounded-full bg-white/[0.06] border border-white/[0.1] flex items-center justify-center transition-all duration-200 ${
+            activeIndex < products.length - 1 ? 'opacity-100 hover:bg-white/[0.12]' : 'opacity-20 pointer-events-none'
+          }`}
+          aria-label="Next"
+        >
+          <ChevronRight size={14} className="text-white/70" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export const ProductSolutions = () => {
+  const [activeIndex, setActiveIndex] = useState(DEFAULT_CENTER);
 
   return (
     <section id="solutions" className="section-wrapper overflow-hidden">
@@ -307,47 +523,47 @@ export const ProductSolutions = () => {
           </div>
         </AnimatedElement>
 
-        <div className="relative">
-          <div
-            ref={scrollRef}
-            className="flex gap-5 overflow-x-auto pb-4 no-scrollbar lg:no-scrollbar"
-            style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}
-          >
-            {products.map((product, i) => (
-              <ProductCard key={product.id} product={product} index={i} />
-            ))}
-          </div>
+        <AnimatedElement type="fadeInUp" delay={0.2}>
+          <DesktopCarousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
+          <MobileCarousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
 
-          <div className="hidden lg:flex justify-center gap-3 mt-6">
+          <div className="hidden lg:flex justify-center items-center gap-2 mt-8">
             <button
-              onClick={() => scroll('left')}
-              className={`
-                w-10 h-10 rounded-full bg-white/[0.06] border border-white/[0.1]
-                flex items-center justify-center
-                hover:bg-white/[0.12] hover:border-white/[0.2]
-                transition-all duration-200
-                ${canScrollLeft ? 'opacity-100' : 'opacity-30 pointer-events-none'}
-              `}
-              aria-label="Scroll left"
+              onClick={() => activeIndex > 0 && setActiveIndex(activeIndex - 1)}
+              className={`w-10 h-10 rounded-full bg-white/[0.06] border border-white/[0.1] flex items-center justify-center transition-all duration-200 ${
+                activeIndex > 0 ? 'opacity-100 hover:bg-white/[0.12] hover:border-white/[0.2]' : 'opacity-20 pointer-events-none'
+              }`}
+              aria-label="Previous card"
             >
               <ChevronLeft size={18} className="text-white/70" />
             </button>
+
+            <div className="flex items-center gap-2 mx-3">
+              {products.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveIndex(i)}
+                  className={`rounded-full transition-all duration-300 ${
+                    i === activeIndex
+                      ? 'w-8 h-2.5 bg-[#0073FF] shadow-[0_0_10px_rgba(0,115,255,0.5)]'
+                      : 'w-2.5 h-2.5 bg-white/20 hover:bg-white/40'
+                  }`}
+                  aria-label={`Go to ${products[i].name}`}
+                />
+              ))}
+            </div>
+
             <button
-              onClick={() => scroll('right')}
-              className={`
-                w-10 h-10 rounded-full bg-white/[0.06] border border-white/[0.1]
-                flex items-center justify-center
-                hover:bg-white/[0.12] hover:border-white/[0.2]
-                transition-all duration-200
-                ${canScrollRight ? 'opacity-100' : 'opacity-30 pointer-events-none'}
-              `}
-              aria-label="Scroll right"
+              onClick={() => activeIndex < products.length - 1 && setActiveIndex(activeIndex + 1)}
+              className={`w-10 h-10 rounded-full bg-white/[0.06] border border-white/[0.1] flex items-center justify-center transition-all duration-200 ${
+                activeIndex < products.length - 1 ? 'opacity-100 hover:bg-white/[0.12] hover:border-white/[0.2]' : 'opacity-20 pointer-events-none'
+              }`}
+              aria-label="Next card"
             >
               <ChevronRight size={18} className="text-white/70" />
             </button>
           </div>
-        </div>
-
+        </AnimatedElement>
       </div>
     </section>
   );
