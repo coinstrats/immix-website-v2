@@ -1,17 +1,17 @@
 import { motion } from 'framer-motion';
 
 const nodes = [
-  { x: 45, y: 35, label: 'CME' },
-  { x: 80, y: 65, label: 'Coinbase' },
-  { x: 140, y: 25, label: 'Cboe' },
-  { x: 180, y: 50, label: '' },
-  { x: 220, y: 30, label: 'Kraken' },
-  { x: 260, y: 70, label: 'Bitstamp' },
-  { x: 310, y: 25, label: 'Binance' },
-  { x: 330, y: 55, label: 'OKX' },
+  { x: 60, y: 55, label: 'CME' },
+  { x: 115, y: 110, label: 'Coinbase' },
+  { x: 195, y: 35, label: 'Cboe' },
+  { x: 250, y: 80, label: '' },
+  { x: 310, y: 45, label: 'Kraken' },
+  { x: 370, y: 115, label: 'Bitstamp' },
+  { x: 430, y: 40, label: 'Binance' },
+  { x: 455, y: 90, label: 'OKX' },
 ];
 
-const hub = { x: 180, y: 50 };
+const hub = { x: 250, y: 80 };
 
 const connections = nodes
   .filter((n) => n.x !== hub.x || n.y !== hub.y)
@@ -21,13 +21,13 @@ export const ConnectVisual = () => {
   return (
     <div className="w-full h-full relative">
       <svg
-        viewBox="0 0 360 100"
+        viewBox="0 0 500 155"
         className="w-full h-full"
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
-          <pattern id="connect-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-            <circle cx="10" cy="10" r="0.5" fill="white" opacity="0.1" />
+          <pattern id="connect-grid" width="28" height="28" patternUnits="userSpaceOnUse">
+            <circle cx="14" cy="14" r="0.7" fill="white" opacity="0.1" />
           </pattern>
           <radialGradient id="globe-glow" cx="50%" cy="50%">
             <stop offset="0%" stopColor="rgb(34,211,238)" stopOpacity="0.12" />
@@ -35,27 +35,27 @@ export const ConnectVisual = () => {
           </radialGradient>
         </defs>
 
-        <rect width="360" height="100" fill="url(#connect-grid)" />
+        <rect width="500" height="155" fill="url(#connect-grid)" />
 
         <ellipse
-          cx="180"
-          cy="50"
-          rx="160"
-          ry="42"
+          cx="250"
+          cy="78"
+          rx="220"
+          ry="65"
           fill="none"
           stroke="white"
           strokeOpacity="0.1"
-          strokeDasharray="3 6"
+          strokeDasharray="4 8"
         />
         <ellipse
-          cx="180"
-          cy="50"
-          rx="100"
-          ry="30"
+          cx="250"
+          cy="78"
+          rx="140"
+          ry="45"
           fill="url(#globe-glow)"
           stroke="white"
           strokeOpacity="0.08"
-          strokeDasharray="2 4"
+          strokeDasharray="3 6"
         />
 
         {connections.map((conn, i) => (
@@ -67,7 +67,7 @@ export const ConnectVisual = () => {
             y2={conn.to.y}
             stroke="rgb(34,211,238)"
             strokeOpacity="0.3"
-            strokeWidth="0.8"
+            strokeWidth="1"
           />
         ))}
 
@@ -77,7 +77,7 @@ export const ConnectVisual = () => {
           return (
             <motion.circle
               key={`flow-${i}`}
-              r="1.5"
+              r="2.5"
               fill="rgb(34,211,238)"
               initial={{ opacity: 0 }}
               whileInView={{
@@ -103,7 +103,7 @@ export const ConnectVisual = () => {
           return (
             <motion.circle
               key={`flow-rev-${i}`}
-              r="1"
+              r="1.5"
               fill="white"
               initial={{ opacity: 0 }}
               whileInView={{
@@ -126,25 +126,27 @@ export const ConnectVisual = () => {
         {nodes.map((node, i) => (
           <g key={`node-${i}`}>
             <rect
-              x={node.x - 3}
-              y={node.y - 3}
-              width="6"
-              height="6"
+              x={node.x - 5}
+              y={node.y - 5}
+              width="10"
+              height="10"
+              rx="2"
               fill="rgb(34,211,238)"
               fillOpacity="0.3"
               stroke="rgb(34,211,238)"
               strokeOpacity="0.5"
-              strokeWidth="0.5"
+              strokeWidth="0.8"
             />
             <motion.rect
-              x={node.x - 3}
-              y={node.y - 3}
-              width="6"
-              height="6"
+              x={node.x - 5}
+              y={node.y - 5}
+              width="10"
+              height="10"
+              rx="2"
               fill="none"
               stroke="rgb(34,211,238)"
               strokeOpacity="0.3"
-              strokeWidth="0.5"
+              strokeWidth="0.8"
               whileInView={{ strokeOpacity: [0.3, 0.7, 0.3] }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{
@@ -157,11 +159,11 @@ export const ConnectVisual = () => {
             {node.label && (
               <text
                 x={node.x}
-                y={node.y + 12}
+                y={node.y + 17}
                 textAnchor="middle"
                 fill="white"
-                fillOpacity="0.35"
-                fontSize="5"
+                fillOpacity="0.5"
+                fontSize="9"
                 fontFamily="monospace"
               >
                 {node.label}
@@ -171,15 +173,16 @@ export const ConnectVisual = () => {
         ))}
 
         <motion.rect
-          x={hub.x - 5}
-          y={hub.y - 5}
-          width="10"
-          height="10"
+          x={hub.x - 8}
+          y={hub.y - 8}
+          width="16"
+          height="16"
+          rx="3"
           fill="rgb(34,211,238)"
           fillOpacity="0.15"
           stroke="rgb(34,211,238)"
           strokeOpacity="0.6"
-          strokeWidth="1"
+          strokeWidth="1.2"
           whileInView={{
             strokeOpacity: [0.6, 1, 0.6],
             fillOpacity: [0.15, 0.3, 0.15],
