@@ -1,8 +1,12 @@
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
 import { Lock, Zap, TrendingUp, Shield, Terminal, Network, Database, ExternalLink, Server, Building2 } from 'lucide-react';
 import { AnimatedElement, Button } from '../ui';
 
 export const EcosystemMap = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(sectionRef, { once: true, amount: 0.2 });
+
   return (
     <section id="architecture" className="section-wrapper relative overflow-hidden">
       <div className="absolute inset-0 opacity-5">
@@ -28,7 +32,7 @@ export const EcosystemMap = () => {
           </AnimatedElement>
         </div>
 
-        <div className="relative">
+        <div ref={sectionRef} className="relative">
           <div className="hidden lg:grid grid-cols-12 gap-6 items-center py-16">
             <div className="col-span-3 space-y-4">
               <div className="relative p-6 border border-immix-purple/30 bg-immix-dark/40 backdrop-blur">
@@ -82,11 +86,10 @@ export const EcosystemMap = () => {
                     fill="rgb(107, 70, 255)"
                     filter="url(#dot-glow-h)"
                     initial={{ opacity: 0, cx: 0 }}
-                    whileInView={{
+                    animate={inView ? {
                       opacity: [0, 1, 1, 0],
                       cx: [0, 100],
-                    }}
-                    viewport={{ once: true, amount: 0.3 }}
+                    } : undefined}
                     transition={{
                       duration: 2,
                       delay,
@@ -104,11 +107,10 @@ export const EcosystemMap = () => {
                     fill="rgb(0, 115, 255)"
                     filter="url(#dot-glow-h)"
                     initial={{ opacity: 0, cx: 100 }}
-                    whileInView={{
+                    animate={inView ? {
                       opacity: [0, 1, 1, 0],
                       cx: [100, 0],
-                    }}
-                    viewport={{ once: true, amount: 0.3 }}
+                    } : undefined}
                     transition={{
                       duration: 2,
                       delay,
@@ -162,12 +164,11 @@ export const EcosystemMap = () => {
                       fill="rgb(59, 130, 246)"
                       filter="url(#sequencer-glow)"
                       initial={{ opacity: 0, cx: 50, cy: 15 }}
-                      whileInView={{
+                      animate={inView ? {
                         opacity: [0, 1, 1, 0],
                         cx: [50, 30],
                         cy: [15, 80],
-                      }}
-                      viewport={{ once: true, amount: 0.3 }}
+                      } : undefined}
                       transition={{
                         duration: 0.7,
                         delay: 0,
@@ -182,12 +183,11 @@ export const EcosystemMap = () => {
                       fill="rgb(59, 130, 246)"
                       filter="url(#sequencer-glow)"
                       initial={{ opacity: 0, cx: 50, cy: 15 }}
-                      whileInView={{
+                      animate={inView ? {
                         opacity: [0, 1, 1, 0],
                         cx: [50, 70],
                         cy: [15, 80],
-                      }}
-                      viewport={{ once: true, amount: 0.3 }}
+                      } : undefined}
                       transition={{
                         duration: 0.7,
                         delay: 0,
@@ -202,12 +202,11 @@ export const EcosystemMap = () => {
                       fill="rgb(59, 130, 246)"
                       filter="url(#sequencer-glow)"
                       initial={{ opacity: 0, cx: 30, cy: 80 }}
-                      whileInView={{
+                      animate={inView ? {
                         opacity: [0, 1, 1, 0],
                         cx: [30, 50],
                         cy: [80, 15],
-                      }}
-                      viewport={{ once: true, amount: 0.3 }}
+                      } : undefined}
                       transition={{
                         duration: 0.7,
                         delay: 0.7,
@@ -222,12 +221,11 @@ export const EcosystemMap = () => {
                       fill="rgb(59, 130, 246)"
                       filter="url(#sequencer-glow)"
                       initial={{ opacity: 0, cx: 70, cy: 80 }}
-                      whileInView={{
+                      animate={inView ? {
                         opacity: [0, 1, 1, 0],
                         cx: [70, 50],
                         cy: [80, 15],
-                      }}
-                      viewport={{ once: true, amount: 0.3 }}
+                      } : undefined}
                       transition={{
                         duration: 0.7,
                         delay: 0.7,
@@ -313,11 +311,10 @@ export const EcosystemMap = () => {
                     fill="rgb(0, 115, 255)"
                     filter="url(#dot-glow-h)"
                     initial={{ opacity: 0, cx: 0 }}
-                    whileInView={{
+                    animate={inView ? {
                       opacity: [0, 1, 1, 0],
                       cx: [0, 100],
-                    }}
-                    viewport={{ once: true, amount: 0.3 }}
+                    } : undefined}
                     transition={{
                       duration: 1.4,
                       delay,
@@ -335,11 +332,10 @@ export const EcosystemMap = () => {
                     fill="rgb(0, 115, 255)"
                     filter="url(#dot-glow-h)"
                     initial={{ opacity: 0, cx: 100 }}
-                    whileInView={{
+                    animate={inView ? {
                       opacity: [0, 1, 1, 0],
                       cx: [100, 0],
-                    }}
-                    viewport={{ once: true, amount: 0.3 }}
+                    } : undefined}
                     transition={{
                       duration: 1.4,
                       delay,
@@ -414,11 +410,10 @@ export const EcosystemMap = () => {
                         fill="rgb(0, 115, 255)"
                         filter="url(#dot-glow-v)"
                         initial={{ opacity: 0, cy: 0 }}
-                        whileInView={{
+                        animate={inView ? {
                           opacity: [0, 1, 1, 0],
                           cy: [0, 100],
-                        }}
-                        viewport={{ once: true, amount: 0.3 }}
+                        } : undefined}
                         transition={{
                           duration: 1.2,
                           delay,
@@ -436,11 +431,10 @@ export const EcosystemMap = () => {
                         fill="rgb(5, 150, 105)"
                         filter="url(#dot-glow-v)"
                         initial={{ opacity: 0, cy: 100 }}
-                        whileInView={{
+                        animate={inView ? {
                           opacity: [0, 1, 1, 0],
                           cy: [100, 0],
-                        }}
-                        viewport={{ once: true, amount: 0.3 }}
+                        } : undefined}
                         transition={{
                           duration: 1.2,
                           delay,
