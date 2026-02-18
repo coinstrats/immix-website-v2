@@ -210,8 +210,8 @@ function PricingCard({ tier }: { tier: typeof pricingTiers[number] }) {
 }
 
 const PRICING_DEFAULT_INDEX = 2;
-const PRICING_CARD_WIDTH_MOBILE = 280;
-const PRICING_CARD_WIDTH_DESKTOP = 420;
+const PRICING_CARD_WIDTH_MOBILE = 260;
+const PRICING_CARD_WIDTH_DESKTOP = 315;
 const PRICING_SWIPE_THRESHOLD = 50;
 
 function useCardWidth() {
