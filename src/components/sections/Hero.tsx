@@ -26,15 +26,6 @@ export const Hero = () => {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="absolute inset-0 lg:hidden pointer-events-none overflow-hidden">
-          <img
-            src="/hero-platform-showcase.png"
-            alt="IMMIX Multi-Asset Trading Workspace"
-            className="w-[140%] max-w-none h-auto opacity-15 -translate-x-[10%] translate-y-[10%]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/40 via-[#050505]/60 to-[#050505]" />
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative">
           <div className="space-y-8 relative z-10">
             <AnimatedElement type="fadeInUp" delay={0.1}>
@@ -52,7 +43,7 @@ export const Hero = () => {
             </AnimatedElement>
 
             <AnimatedElement type="fadeInUp" delay={0.4}>
-              <div className="flex flex-col md:flex-row gap-3">
+              <div className="flex flex-row gap-3">
                 <Button variant="primary" size="md" icon={<TrendingUp size={18} />} href="https://app.immix.xyz">
                   Get Started
                 </Button>
@@ -62,8 +53,24 @@ export const Hero = () => {
               </div>
             </AnimatedElement>
 
-            <AnimatedElement type="fadeInUp" delay={0.5}>
-              <div className="pt-12 space-y-4">
+            <div className="lg:hidden">
+              <AnimatedElement type="fadeInUp" delay={0.5}>
+                <div className="relative rounded-lg overflow-hidden border border-white/[0.08]">
+                  <img
+                    src="/hero-platform-showcase.png"
+                    alt="IMMIX Multi-Asset Trading Workspace"
+                    className="w-full h-auto block opacity-70"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent" />
+                  <div className="absolute bottom-3 left-3 z-10 transform scale-[0.75] origin-bottom-left">
+                    <HeroCodeCard />
+                  </div>
+                </div>
+              </AnimatedElement>
+            </div>
+
+            <AnimatedElement type="fadeInUp" delay={0.6}>
+              <div className="pt-4 lg:pt-12 space-y-4">
                 <div className="grid grid-cols-3 gap-8">
                   <div>
                     <div className="text-3xl lg:text-4xl font-bold text-immix-blue mb-2">$20B+</div>
