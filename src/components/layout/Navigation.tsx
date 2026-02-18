@@ -71,19 +71,19 @@ export const Navigation = () => {
 
         <div className="hidden md:flex items-center gap-8">
           <a
-            href={location.pathname === '/' ? '#architecture' : '/#architecture'}
-            onClick={() => handleNavClick('#architecture')}
-            className="nav-link text-sm font-medium"
-          >
-            Architecture
-          </a>
-
-          <a
             href={location.pathname === '/' ? '#solutions' : '/#solutions'}
             onClick={() => handleNavClick('#solutions')}
             className="nav-link text-sm font-medium"
           >
             Solutions
+          </a>
+
+          <a
+            href={location.pathname === '/' ? '#architecture' : '/#architecture'}
+            onClick={() => handleNavClick('#architecture')}
+            className="nav-link text-sm font-medium"
+          >
+            Architecture
           </a>
 
           <a
@@ -164,18 +164,18 @@ export const Navigation = () => {
           >
             <div className="px-6 py-4 space-y-1">
               <a
-                href={location.pathname === '/' ? '#architecture' : '/#architecture'}
-                className="block nav-link text-sm font-medium py-3"
-                onClick={() => setIsOpen(false)}
-              >
-                Architecture
-              </a>
-              <a
                 href={location.pathname === '/' ? '#solutions' : '/#solutions'}
                 className="block nav-link text-sm font-medium py-3"
                 onClick={() => setIsOpen(false)}
               >
                 Solutions
+              </a>
+              <a
+                href={location.pathname === '/' ? '#architecture' : '/#architecture'}
+                className="block nav-link text-sm font-medium py-3"
+                onClick={() => setIsOpen(false)}
+              >
+                Architecture
               </a>
               <a
                 href={location.pathname === '/' ? '#pricing' : '/#pricing'}
