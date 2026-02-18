@@ -255,7 +255,7 @@ function MobilePricingCarousel() {
     <div className="md:hidden">
       <div
         className="relative overflow-hidden"
-        style={{ height: 520 }}
+        style={{ height: 570 }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}

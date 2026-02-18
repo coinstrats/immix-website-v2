@@ -5,7 +5,7 @@ import { HeroCodeCard } from '../ui/HeroCodeCard';
 
 export const Hero = () => {
   return (
-    <section className="pt-32 pb-16 px-6 md:px-12 relative overflow-hidden">
+    <section className="pt-32 pb-8 px-6 md:px-12 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           animate={{
@@ -29,9 +29,9 @@ export const Hero = () => {
         <img
           src="/hero-platform-showcase.png"
           alt=""
-          className="w-[140%] max-w-none h-auto opacity-[0.12] -translate-x-[10%] translate-y-[15%]"
+          className="w-[140%] max-w-none h-auto opacity-[0.22] -translate-x-[10%] translate-y-[5%]"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/30 via-[#050505]/50 to-[#050505]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/10 via-[#0a0a0a]/40 to-[#0a0a0a]" />
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">

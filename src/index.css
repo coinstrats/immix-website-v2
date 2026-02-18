@@ -53,7 +53,7 @@
   }
 
   .section-wrapper {
-    @apply py-24 px-6 md:px-12 lg:px-16;
+    @apply py-12 px-6 md:px-12 lg:px-16;
   }
 
   .container-max {

@@ -13,7 +13,7 @@ export const Footer = () => {
             <div>
               <h4 className="text-lg font-bold mb-4 text-white">IMMIX</h4>
               <p className="text-white/60 text-sm">
-                The unified operating system for institutions
+                Programmable Digital Asset Infrastructure
               </p>
             </div>
 
