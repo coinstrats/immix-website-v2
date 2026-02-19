@@ -451,7 +451,7 @@ function MobileCarousel({
     <div className="lg:hidden">
       <div
         className="relative overflow-hidden"
-        style={{ height: 455 }}
+        style={{ height: 560 }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
