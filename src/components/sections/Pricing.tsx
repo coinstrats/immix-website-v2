@@ -5,7 +5,6 @@ import {
   Eye,
   TrendingUp,
   ArrowLeftRight,
-  Shield,
   ArrowRight,
   Sparkles,
   ChevronLeft,
@@ -14,8 +13,9 @@ import {
 import { AnimatedElement } from '../ui';
 import { FeatureComparisonGrid } from './FeatureComparisonGrid';
 import { StartupCreditsBanner } from './StartupCreditsBanner';
+import { EnterpriseBanner } from './EnterpriseBanner';
 
-const pricingTiers = [
+const coreTiers = [
   {
     name: 'Lite',
     icon: Eye,
@@ -32,7 +32,6 @@ const pricingTiers = [
       'Email support',
     ],
     cta: 'Get Started',
-    ctaLink: '#',
     highlighted: false,
     tierColor: 'slate' as const,
   },
@@ -52,7 +51,6 @@ const pricingTiers = [
       'Priority support (8h SLA)',
     ],
     cta: 'Get Started',
-    ctaLink: '#',
     highlighted: false,
     tierColor: 'emerald' as const,
   },
@@ -72,32 +70,8 @@ const pricingTiers = [
       'Priority support (4h SLA)',
     ],
     cta: 'Get Started',
-    ctaLink: '#',
     highlighted: true,
     tierColor: 'blue' as const,
-  },
-  {
-    name: 'Enterprise',
-    icon: Shield,
-    price: 'Custom',
-    period: '',
-    description: 'For institutions requiring unlimited scale and white-glove service',
-    features: [
-      'Everything in Ultra, plus:',
-      'Unlimited strategies',
-      'Earn product ($10M allocation)',
-      'Java, Rust, C++ SDKs',
-      'Full historical archive',
-      'Data Lab (ClickHouse)',
-      'Private Connectivity',
-      'White Label',
-      'Dedicated success manager',
-      '1h SLA response time',
-    ],
-    cta: 'Talk to Sales',
-    ctaLink: '#',
-    highlighted: false,
-    tierColor: 'amber' as const,
   },
 ];
 
@@ -130,16 +104,9 @@ const tierColorMap = {
     hoverShadow: 'hover:shadow-[0_0_30px_rgba(0,115,255,0.15)]',
     glow: 'from-immix-blue/10 via-transparent to-transparent',
   },
-  amber: {
-    icon: 'bg-amber-500/20 text-amber-400',
-    highlight: 'text-amber-400',
-    accent: 'from-amber-500 to-amber-400',
-    hoverShadow: 'hover:shadow-[0_0_30px_rgba(245,158,11,0.15)]',
-    glow: 'from-amber-400/10 via-transparent to-transparent',
-  },
 };
 
-function PricingCard({ tier }: { tier: typeof pricingTiers[number] }) {
+function PricingCard({ tier }: { tier: (typeof coreTiers)[number] }) {
   const Icon = tier.icon;
   const colors = tierColorMap[tier.tierColor];
 
@@ -193,9 +160,7 @@ function PricingCard({ tier }: { tier: typeof pricingTiers[number] }) {
           <a
             href="#"
             className={`w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium transition-all duration-200 group/btn ${
-              tier.tierColor === 'amber'
-                ? 'border border-amber-500/40 text-amber-400 hover:border-amber-400 hover:bg-amber-500/10'
-                : tier.highlighted
+              tier.highlighted
                 ? 'bg-immix-blue/15 border border-immix-blue/40 text-immix-blue hover:bg-immix-blue/25 hover:border-immix-blue/60'
                 : 'border border-white/15 text-white/70 hover:border-white/30 hover:text-white/90'
             }`}
@@ -209,20 +174,20 @@ function PricingCard({ tier }: { tier: typeof pricingTiers[number] }) {
   );
 }
 
-const PRICING_DEFAULT_INDEX = 2;
-const PRICING_CARD_WIDTH_MOBILE = 260;
-const PRICING_CARD_WIDTH_DESKTOP = 315;
-const PRICING_SWIPE_THRESHOLD = 50;
+const CAROUSEL_CARD_WIDTH_MOBILE = 260;
+const CAROUSEL_CARD_WIDTH_TABLET = 315;
+const CAROUSEL_SWIPE_THRESHOLD = 50;
+const CAROUSEL_DEFAULT_INDEX = 1;
 
 function useCardWidth() {
   const [width, setWidth] = useState(
     typeof window !== 'undefined' && window.innerWidth >= 768
-      ? PRICING_CARD_WIDTH_DESKTOP
-      : PRICING_CARD_WIDTH_MOBILE
+      ? CAROUSEL_CARD_WIDTH_TABLET
+      : CAROUSEL_CARD_WIDTH_MOBILE
   );
 
   const handleResize = useCallback(() => {
-    setWidth(window.innerWidth >= 768 ? PRICING_CARD_WIDTH_DESKTOP : PRICING_CARD_WIDTH_MOBILE);
+    setWidth(window.innerWidth >= 768 ? CAROUSEL_CARD_WIDTH_TABLET : CAROUSEL_CARD_WIDTH_MOBILE);
   }, []);
 
   useEffect(() => {
@@ -234,7 +199,7 @@ function useCardWidth() {
 }
 
 function PricingCarousel() {
-  const [activeIndex, setActiveIndex] = useState(PRICING_DEFAULT_INDEX);
+  const [activeIndex, setActiveIndex] = useState(CAROUSEL_DEFAULT_INDEX);
   const startX = useRef(0);
   const deltaX = useRef(0);
   const [dragOffset, setDragOffset] = useState(0);
@@ -259,8 +224,8 @@ function PricingCarousel() {
     isDragging.current = false;
     const delta = deltaX.current;
 
-    if (Math.abs(delta) > PRICING_SWIPE_THRESHOLD) {
-      if (delta < 0 && activeIndex < pricingTiers.length - 1) {
+    if (Math.abs(delta) > CAROUSEL_SWIPE_THRESHOLD) {
+      if (delta < 0 && activeIndex < coreTiers.length - 1) {
         setActiveIndex(activeIndex + 1);
       } else if (delta > 0 && activeIndex > 0) {
         setActiveIndex(activeIndex - 1);
@@ -296,7 +261,7 @@ function PricingCarousel() {
     if (isDragging.current) endDrag();
   }, [endDrag]);
 
-  const containerHeight = cardWidth === PRICING_CARD_WIDTH_DESKTOP ? 620 : 720;
+  const containerHeight = cardWidth === CAROUSEL_CARD_WIDTH_TABLET ? 620 : 720;
 
   return (
     <div>
@@ -312,7 +277,7 @@ function PricingCarousel() {
         onMouseLeave={handleMouseLeave}
       >
         <div className="absolute inset-0 flex items-start justify-center pt-4">
-          {pricingTiers.map((tier, i) => {
+          {coreTiers.map((tier, i) => {
             const offset = i - activeIndex;
             const absOffset = Math.abs(offset);
             const baseTranslateX = offset * spacing + dragOffset;
@@ -363,12 +328,12 @@ function PricingCarousel() {
         >
           <ChevronLeft size={14} className="text-white/50" />
           <span className="text-xs font-mono text-white/50 uppercase tracking-wider">
-            {activeIndex > 0 ? pricingTiers[activeIndex - 1].name : ''}
+            {activeIndex > 0 ? coreTiers[activeIndex - 1].name : ''}
           </span>
         </button>
 
         <div className="flex items-center gap-1.5">
-          {pricingTiers.map((_, i) => (
+          {coreTiers.map((_, i) => (
             <button
               key={i}
               onClick={() => setActiveIndex(i)}
@@ -377,24 +342,36 @@ function PricingCarousel() {
                   ? 'w-6 h-1.5 bg-[#0073FF]/80'
                   : 'w-1.5 h-1.5 bg-white/15 hover:bg-white/30'
               }`}
-              aria-label={`Go to ${pricingTiers[i].name}`}
+              aria-label={`Go to ${coreTiers[i].name}`}
             />
           ))}
         </div>
 
         <button
-          onClick={() => activeIndex < pricingTiers.length - 1 && setActiveIndex(activeIndex + 1)}
+          onClick={() => activeIndex < coreTiers.length - 1 && setActiveIndex(activeIndex + 1)}
           className={`flex items-center gap-1.5 transition-all duration-200 min-w-[80px] justify-end ${
-            activeIndex < pricingTiers.length - 1 ? 'opacity-50 hover:opacity-80' : 'opacity-0 pointer-events-none'
+            activeIndex < coreTiers.length - 1 ? 'opacity-50 hover:opacity-80' : 'opacity-0 pointer-events-none'
           }`}
           aria-label="Next tier"
         >
           <span className="text-xs font-mono text-white/50 uppercase tracking-wider">
-            {activeIndex < pricingTiers.length - 1 ? pricingTiers[activeIndex + 1].name : ''}
+            {activeIndex < coreTiers.length - 1 ? coreTiers[activeIndex + 1].name : ''}
           </span>
           <ChevronRight size={14} className="text-white/50" />
         </button>
       </div>
+    </div>
+  );
+}
+
+function PricingDesktopGrid() {
+  return (
+    <div className="grid grid-cols-3 gap-6">
+      {coreTiers.map((tier) => (
+        <div key={tier.name} className={tier.highlighted ? 'pt-4' : 'pt-4'}>
+          <PricingCard tier={tier} />
+        </div>
+      ))}
     </div>
   );
 }
@@ -445,20 +422,33 @@ export const Pricing = () => {
           </div>
         </AnimatedElement>
 
-        <div className="min-h-[600px]">
+        <div>
           {activeTab === 'tiers' && (
-            <div className="space-y-8">
-              <PricingCarousel />
+            <div className="space-y-10">
+              <div className="hidden lg:block">
+                <PricingDesktopGrid />
+              </div>
+
+              <div className="lg:hidden">
+                <PricingCarousel />
+              </div>
 
               <div className="flex items-center gap-4">
                 <div className="flex-1 h-px bg-gradient-to-r from-transparent to-white/10" />
                 <p className="text-white/35 text-sm text-center px-2 max-w-md">
-                  Early-stage? Build on institutional-grade infrastructure risk-free
+                  Need custom scale or early-stage support?
                 </p>
                 <div className="flex-1 h-px bg-gradient-to-l from-transparent to-white/10" />
               </div>
 
-              <StartupCreditsBanner />
+              <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                <div className="lg:col-span-3">
+                  <EnterpriseBanner />
+                </div>
+                <div className="lg:col-span-2">
+                  <StartupCreditsBanner />
+                </div>
+              </div>
             </div>
           )}
 
