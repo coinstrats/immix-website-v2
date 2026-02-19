@@ -373,7 +373,7 @@ function DesktopCarousel({
   setActiveIndex: (i: number) => void;
 }) {
   return (
-    <div className="hidden lg:block relative" style={{ height: 540 }}>
+    <div className="hidden lg:block relative" style={{ height: 460 }}>
       <div className="absolute inset-0 flex items-start justify-center">
         {products.map((product, i) => {
           const offset = i - activeIndex;
@@ -451,7 +451,7 @@ function MobileCarousel({
     <div className="lg:hidden">
       <div
         className="relative overflow-hidden"
-        style={{ height: 470 }}
+        style={{ height: 455 }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
