@@ -28,6 +28,7 @@ interface Product {
   name: string;
   icon: React.ElementType;
   tagline: string;
+  clientType: string;
   capabilities: string[];
   integrations: IntegrationLevel[];
   accentColor: string;
@@ -41,7 +42,8 @@ const products: Product[] = [
     id: 'connect',
     name: 'Connect',
     icon: Link,
-    tagline: 'One API to the full digital asset ecosystem \u2014 crypto, tokenized commodities, stocks, ETFs, and money market funds.',
+    tagline: 'One API to the full digital asset ecosystem — crypto, tokenized commodities, stocks, ETFs, and money market funds.',
+    clientType: 'Developers & Integration Teams',
     capabilities: [
       'REST, WebSocket & FIX protocols',
       'Crypto & tokenized RWAs',
@@ -58,7 +60,8 @@ const products: Product[] = [
     id: 'trade',
     name: 'Trade',
     icon: ArrowRightLeft,
-    tagline: 'Advanced order types and algos across CeFi, DeFi and RWAs \u2014 from multi-leg spreads to continuous hedging.',
+    tagline: 'Advanced order types and algos across CeFi, DeFi and RWAs — from multi-leg spreads to continuous hedging.',
+    clientType: 'Traders & Fund Managers',
     capabilities: [
       'Multi-leg spreads & portfolio rebalancing',
       'Market making & smart order routing',
@@ -76,6 +79,7 @@ const products: Product[] = [
     name: 'Earn',
     icon: TrendingUp,
     tagline: 'Yield-bearing strategies exploiting secondary market dislocations for USD stablecoins.',
+    clientType: 'Treasuries & Asset Allocators',
     capabilities: [
       'Continuous yield strategies',
       'Stablecoin dislocation capture',
@@ -93,6 +97,7 @@ const products: Product[] = [
     name: 'Lab',
     icon: FlaskConical,
     tagline: '360-degree insight to all messages in a deterministic, real-time, fault-tolerant ordered stream.',
+    clientType: 'Analysts & Data Teams',
     capabilities: [
       'Market data, risk & trading feeds',
       'Internal analytics streams',
@@ -110,6 +115,7 @@ const products: Product[] = [
     name: 'Markets',
     icon: BarChart3,
     tagline: 'Analytics across the derivative term structure, funding rates, and arbitrage opportunities.',
+    clientType: 'Researchers & Strategists',
     capabilities: [
       'Term structure analytics',
       'Funding rate monitoring',
@@ -127,6 +133,7 @@ const products: Product[] = [
     name: 'Pay',
     icon: CreditCard,
     tagline: 'Configurable payment corridors for cross-border settlement via stablecoin transport with minimal slippage.',
+    clientType: 'Payment Operators & CFOs',
     capabilities: [
       'Any source-to-target fiat corridor',
       'Stablecoin cross-border transport',
@@ -162,71 +169,136 @@ const integrationModes = [
   },
 ];
 
-const DEFAULT_CENTER = 1;
-const CARD_WIDTH_DESKTOP = 340;
 const CARD_WIDTH_MOBILE = 300;
-const CARD_SPACING = 360;
 const SWIPE_THRESHOLD = 50;
 
 function getCardStyle(offset: number) {
   const absOffset = Math.abs(offset);
 
   if (absOffset === 0) {
-    return {
-      scale: 1,
-      opacity: 1,
-      zIndex: 30,
-      blur: 0,
-      translateX: 0,
-    };
+    return { scale: 1, opacity: 1, zIndex: 30, blur: 0, translateX: 0 };
   }
   if (absOffset === 1) {
-    return {
-      scale: 0.88,
-      opacity: 0.55,
-      zIndex: 20,
-      blur: 0,
-      translateX: offset * CARD_SPACING,
-    };
+    return { scale: 0.88, opacity: 0.55, zIndex: 20, blur: 0, translateX: offset * 360 };
   }
   if (absOffset === 2) {
-    return {
-      scale: 0.78,
-      opacity: 0.35,
-      zIndex: 10,
-      blur: 1,
-      translateX: offset * CARD_SPACING,
-    };
+    return { scale: 0.78, opacity: 0.35, zIndex: 10, blur: 1, translateX: offset * 360 };
   }
-  return {
-    scale: 0.7,
-    opacity: 0.15,
-    zIndex: 5,
-    blur: 2,
-    translateX: offset * CARD_SPACING,
-  };
+  return { scale: 0.7, opacity: 0.15, zIndex: 5, blur: 2, translateX: offset * 360 };
 }
 
-function ProductCard({
+function GridProductCard({ product }: { product: Product }) {
+  const Icon = product.icon;
+  const Visual = product.visual;
+
+  return (
+    <div className="group h-full">
+      <div
+        className={`
+          relative h-full rounded-xl border backdrop-blur-sm
+          transition-all duration-300
+          overflow-hidden
+          border-white/[0.08] bg-white/[0.02]
+          hover:border-white/[0.18] hover:bg-white/[0.04]
+          hover:shadow-[0_0_24px_rgba(0,115,255,0.08)]
+        `}
+      >
+        <div
+          className={`absolute top-0 left-0 right-0 h-px ${
+            product.accentBorder.replace('border-', 'bg-').replace('/30', '/50')
+          }`}
+        />
+
+        <div className="p-4 lg:p-5 flex flex-col gap-3">
+          <div className="flex items-center gap-3">
+            <div className={`w-9 h-9 rounded-lg ${product.accentBg} flex items-center justify-center`}>
+              <Icon size={18} className={product.accentColor} />
+            </div>
+            <div className="flex flex-col">
+              <h3 className="text-lg font-bold text-white leading-tight">{product.name}</h3>
+              <span className={`text-[11px] font-medium ${product.accentColor} opacity-60 leading-tight`}>
+                {product.clientType}
+              </span>
+            </div>
+          </div>
+
+          <p className="text-xs text-white/45 leading-relaxed min-h-[2.25rem]">
+            {product.tagline}
+          </p>
+
+          <div className="space-y-1.5">
+            {product.capabilities.map((cap) => (
+              <div key={cap} className="flex items-start gap-2">
+                <Check size={12} className={`${product.accentColor} mt-0.5 flex-shrink-0 opacity-60`} />
+                <span className="text-xs text-white/60 leading-snug">{cap}</span>
+              </div>
+            ))}
+          </div>
+
+          <div
+            className={`
+              relative h-[120px] rounded-lg bg-white/[0.02] border border-white/[0.06]
+              overflow-hidden
+              transition-all duration-300 group-hover:border-white/[0.1]
+            `}
+          >
+            <div className={`absolute inset-0 bg-gradient-to-br ${product.accentBg} opacity-20`} />
+            <div className="relative z-10 w-full h-full">
+              <Visual />
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-[#0a0a0a]/60 to-transparent z-20 pointer-events-none" />
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            {(['ui', 'sdk', 'api'] as IntegrationLevel[]).map((level) => {
+              const supported = product.integrations.includes(level);
+              return (
+                <span
+                  key={level}
+                  className={`
+                    px-2.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider
+                    transition-colors duration-200
+                    ${supported
+                      ? `${product.accentBg} ${product.accentColor}`
+                      : 'bg-white/[0.03] text-white/15'
+                    }
+                  `}
+                >
+                  {level}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DesktopProductGrid() {
+  return (
+    <div className="hidden lg:grid grid-cols-3 gap-5">
+      {products.map((product) => (
+        <GridProductCard key={product.id} product={product} />
+      ))}
+    </div>
+  );
+}
+
+function MobileProductCard({
   product,
   isActive,
   onClick,
-  cardWidth,
 }: {
   product: Product;
   isActive: boolean;
   onClick: () => void;
-  cardWidth: number;
 }) {
   const Icon = product.icon;
   const Visual = product.visual;
 
   return (
-    <div
-      className="group"
-      onClick={onClick}
-      style={{ width: cardWidth }}
-    >
+    <div className="group" onClick={onClick} style={{ width: CARD_WIDTH_MOBILE }}>
       <div
         className={`
           relative h-full rounded-xl border backdrop-blur-sm
@@ -239,25 +311,33 @@ function ProductCard({
         `}
       >
         {isActive && (
-          <div className="absolute inset-0 rounded-xl pointer-events-none"
+          <div
+            className="absolute inset-0 rounded-xl pointer-events-none"
             style={{
               background: 'radial-gradient(ellipse at 50% 0%, rgba(0,115,255,0.08) 0%, transparent 60%)',
             }}
           />
         )}
 
-        <div className={`absolute top-0 left-0 right-0 h-px transition-colors duration-500 ${
-          isActive
-            ? 'bg-[#0073FF]/60'
-            : product.accentBorder.replace('border-', 'bg-').replace('/30', '/50')
-        }`} />
+        <div
+          className={`absolute top-0 left-0 right-0 h-px transition-colors duration-500 ${
+            isActive
+              ? 'bg-[#0073FF]/60'
+              : product.accentBorder.replace('border-', 'bg-').replace('/30', '/50')
+          }`}
+        />
 
-        <div className="p-5 lg:p-6 flex flex-col gap-4 lg:gap-5">
+        <div className="p-5 flex flex-col gap-4">
           <div className="flex items-center gap-3.5">
             <div className={`w-10 h-10 rounded-lg ${product.accentBg} flex items-center justify-center`}>
               <Icon size={20} className={product.accentColor} />
             </div>
-            <h3 className="text-xl font-bold text-white">{product.name}</h3>
+            <div className="flex flex-col">
+              <h3 className="text-xl font-bold text-white">{product.name}</h3>
+              <span className={`text-[11px] font-medium ${product.accentColor} opacity-60`}>
+                {product.clientType}
+              </span>
+            </div>
           </div>
 
           <p className="text-sm text-white/50 leading-relaxed min-h-[3rem]">
@@ -273,11 +353,13 @@ function ProductCard({
             ))}
           </div>
 
-          <div className={`
-            relative h-[140px] lg:h-[160px] rounded-lg bg-white/[0.02] border border-white/[0.06]
-            overflow-hidden
-            transition-all duration-300 group-hover:border-white/[0.1]
-          `}>
+          <div
+            className={`
+              relative h-[140px] rounded-lg bg-white/[0.02] border border-white/[0.06]
+              overflow-hidden
+              transition-all duration-300 group-hover:border-white/[0.1]
+            `}
+          >
             <div className={`absolute inset-0 bg-gradient-to-br ${product.accentBg} opacity-20`} />
             <div className="relative z-10 w-full h-full">
               <Visual />
@@ -365,47 +447,6 @@ function CarouselNavLabels<T extends { name?: string; label?: string }>({
   );
 }
 
-function DesktopCarousel({
-  activeIndex,
-  setActiveIndex,
-}: {
-  activeIndex: number;
-  setActiveIndex: (i: number) => void;
-}) {
-  return (
-    <div className="hidden lg:block relative" style={{ height: 540 }}>
-      <div className="absolute inset-0 flex items-start justify-center">
-        {products.map((product, i) => {
-          const offset = i - activeIndex;
-          const style = getCardStyle(offset);
-
-          return (
-            <div
-              key={product.id}
-              className="absolute"
-              style={{
-                transform: `translateX(${style.translateX}px) scale(${style.scale})`,
-                opacity: style.opacity,
-                zIndex: style.zIndex,
-                filter: style.blur > 0 ? `blur(${style.blur}px)` : 'none',
-                transition: 'all 500ms cubic-bezier(0.4, 0, 0.2, 1)',
-                pointerEvents: Math.abs(offset) > 2 ? 'none' : 'auto',
-              }}
-            >
-              <ProductCard
-                product={product}
-                isActive={i === activeIndex}
-                onClick={() => setActiveIndex(i)}
-                cardWidth={CARD_WIDTH_DESKTOP}
-              />
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
 function MobileCarousel({
   activeIndex,
   setActiveIndex,
@@ -475,11 +516,10 @@ function MobileCarousel({
                   pointerEvents: Math.abs(offset) > 2 ? 'none' : 'auto',
                 }}
               >
-                <ProductCard
+                <MobileProductCard
                   product={product}
                   isActive={i === activeIndex}
                   onClick={() => setActiveIndex(i)}
-                  cardWidth={CARD_WIDTH_MOBILE}
                 />
               </div>
             );
@@ -493,7 +533,7 @@ function MobileCarousel({
 }
 
 export const ProductSolutions = () => {
-  const [activeIndex, setActiveIndex] = useState(DEFAULT_CENTER);
+  const [activeIndex, setActiveIndex] = useState(1);
 
   return (
     <section id="solutions" className="section-wrapper lg:pt-24 overflow-hidden">
@@ -507,7 +547,7 @@ export const ProductSolutions = () => {
           </AnimatedElement>
           <AnimatedElement type="fadeInUp" delay={0.1}>
             <p className="text-lg text-white/50 max-w-2xl mx-auto">
-              From no-code configuration to full programmatic control — every product meets you where you are.
+              Six products spanning every workflow. From analysts to institutions — via UI, SDK, or API.
             </p>
           </AnimatedElement>
         </div>
@@ -531,46 +571,9 @@ export const ProductSolutions = () => {
           </div>
         </AnimatedElement>
 
-        <AnimatedElement type="fadeInUp" delay={0.2} className="lg:-mx-8 lg:mt-8">
-          <DesktopCarousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
+        <AnimatedElement type="fadeInUp" delay={0.2} className="lg:mt-8">
+          <DesktopProductGrid />
           <MobileCarousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-
-          <div className="hidden lg:flex justify-center items-center gap-3 mt-6">
-            <button
-              onClick={() => activeIndex > 0 && setActiveIndex(activeIndex - 1)}
-              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
-                activeIndex > 0 ? 'opacity-50 hover:opacity-80' : 'opacity-10 pointer-events-none'
-              }`}
-              aria-label="Previous card"
-            >
-              <ChevronLeft size={16} className="text-white/60" />
-            </button>
-
-            <div className="flex items-center gap-1.5">
-              {products.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveIndex(i)}
-                  className={`rounded-full transition-all duration-300 ${
-                    i === activeIndex
-                      ? 'w-6 h-1.5 bg-[#0073FF]/80'
-                      : 'w-1.5 h-1.5 bg-white/15 hover:bg-white/30'
-                  }`}
-                  aria-label={`Go to ${products[i].name}`}
-                />
-              ))}
-            </div>
-
-            <button
-              onClick={() => activeIndex < products.length - 1 && setActiveIndex(activeIndex + 1)}
-              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 ${
-                activeIndex < products.length - 1 ? 'opacity-50 hover:opacity-80' : 'opacity-10 pointer-events-none'
-              }`}
-              aria-label="Next card"
-            >
-              <ChevronRight size={16} className="text-white/60" />
-            </button>
-          </div>
         </AnimatedElement>
       </div>
     </section>
