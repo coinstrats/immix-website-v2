@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navigation, Footer } from './components/layout';
-import { HomePage, CustomersPage, PlaceholderPage } from './pages';
+import { HomePage, CustomersPage, PlaceholderPage, AboutPage } from './pages';
 
 const CAREERS_URL = 'https://immix.notion.site/Careers-8a8e66223c1c4c8cbae9495f99d66840';
 
@@ -21,15 +21,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/customers" element={<CustomersPage />} />
-            <Route
-              path="/about"
-              element={
-                <PlaceholderPage
-                  title="About Us"
-                  description="Learn more about IMMIX and our mission to revolutionize digital asset infrastructure."
-                />
-              }
-            />
+            <Route path="/about" element={<AboutPage />} />
             <Route
               path="/careers"
               element={<ExternalRedirect url={CAREERS_URL} />}
