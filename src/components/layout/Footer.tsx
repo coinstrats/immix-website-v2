@@ -1,7 +1,7 @@
 export const Footer = () => {
   const footerLinks = {
     Product: ['Documentation', 'API Status', 'Changelog'],
-    Company: ['Careers', 'Blog', 'Partners'],
+    Company: ['Careers', 'Partners'],
     Legal: ['Privacy', 'Terms', 'Security'],
   };
 

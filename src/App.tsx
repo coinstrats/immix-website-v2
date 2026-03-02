@@ -22,15 +22,6 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/customers" element={<CustomersPage />} />
             <Route
-              path="/blog"
-              element={
-                <PlaceholderPage
-                  title="Blog"
-                  description="Insights and updates from the IMMIX team. Coming soon."
-                />
-              }
-            />
-            <Route
               path="/about"
               element={
                 <PlaceholderPage

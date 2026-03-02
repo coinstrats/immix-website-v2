@@ -7,7 +7,6 @@ import { Button } from '../ui';
 const CAREERS_URL = 'https://immix.notion.site/Careers-8a8e66223c1c4c8cbae9495f99d66840';
 
 const companyDropdownItems = [
-  { label: 'Blog', href: '/blog' },
   { label: 'About', href: '/about' },
   { label: 'Careers', href: CAREERS_URL, external: true },
   { label: 'Contact', href: '/contact' },
