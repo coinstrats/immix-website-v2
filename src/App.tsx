@@ -1,6 +1,16 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navigation, Footer } from './components/layout';
 import { HomePage, CustomersPage, PlaceholderPage } from './pages';
+
+const CAREERS_URL = 'https://immix.notion.site/Careers-8a8e66223c1c4c8cbae9495f99d66840';
+
+function ExternalRedirect({ url }: { url: string }) {
+  useEffect(() => {
+    window.location.replace(url);
+  }, [url]);
+  return null;
+}
 
 function App() {
   return (
@@ -31,12 +41,7 @@ function App() {
             />
             <Route
               path="/careers"
-              element={
-                <PlaceholderPage
-                  title="Careers"
-                  description="Join our team and help build the future of programmable finance."
-                />
-              }
+              element={<ExternalRedirect url={CAREERS_URL} />}
             />
             <Route
               path="/contact"

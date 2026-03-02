@@ -21,16 +21,28 @@ export const Footer = () => {
               <div key={category}>
                 <h5 className="font-semibold mb-4">{category}</h5>
                 <ul className="space-y-2">
-                  {links.map((link) => (
-                    <li key={link}>
-                      <a
-                        href={category === 'Product' && link === 'Documentation' ? 'https://docs.immix.xyz/core/introduction' : '#'}
-                        className="text-white/60 hover:text-immix-blue transition-colors text-sm"
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
+                  {links.map((link) => {
+                    const isExternal =
+                      (category === 'Product' && link === 'Documentation') ||
+                      (category === 'Company' && link === 'Careers');
+                    const href =
+                      category === 'Product' && link === 'Documentation'
+                        ? 'https://docs.immix.xyz/core/introduction'
+                        : category === 'Company' && link === 'Careers'
+                          ? 'https://immix.notion.site/Careers-8a8e66223c1c4c8cbae9495f99d66840'
+                          : '#';
+                    return (
+                      <li key={link}>
+                        <a
+                          href={href}
+                          {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
+                          className="text-white/60 hover:text-immix-blue transition-colors text-sm"
+                        >
+                          {link}
+                        </a>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ))}

@@ -4,10 +4,12 @@ import { Menu, X, ChevronDown } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '../ui';
 
+const CAREERS_URL = 'https://immix.notion.site/Careers-8a8e66223c1c4c8cbae9495f99d66840';
+
 const companyDropdownItems = [
   { label: 'Blog', href: '/blog' },
   { label: 'About', href: '/about' },
-  { label: 'Careers', href: '/careers' },
+  { label: 'Careers', href: CAREERS_URL, external: true },
   { label: 'Contact', href: '/contact' },
 ];
 
@@ -117,16 +119,29 @@ export const Navigation = () => {
                   transition={{ duration: 0.15 }}
                   className="absolute top-full left-0 mt-2 w-40 py-2 bg-immix-dark/95 backdrop-blur-xl border border-white/10 rounded-lg shadow-xl"
                 >
-                  {companyDropdownItems.map((item) => (
-                    <Link
-                      key={item.label}
-                      to={item.href}
-                      className="block px-4 py-2 text-sm text-white/70 hover:text-immix-blue hover:bg-white/5 transition-colors"
-                      onClick={() => setCompanyOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
+                  {companyDropdownItems.map((item) =>
+                    item.external ? (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block px-4 py-2 text-sm text-white/70 hover:text-immix-blue hover:bg-white/5 transition-colors"
+                        onClick={() => setCompanyOpen(false)}
+                      >
+                        {item.label}
+                      </a>
+                    ) : (
+                      <Link
+                        key={item.label}
+                        to={item.href}
+                        className="block px-4 py-2 text-sm text-white/70 hover:text-immix-blue hover:bg-white/5 transition-colors"
+                        onClick={() => setCompanyOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    )
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -203,16 +218,29 @@ export const Navigation = () => {
                       exit={{ opacity: 0, height: 0 }}
                       className="pl-4 space-y-1 overflow-hidden"
                     >
-                      {companyDropdownItems.map((item) => (
-                        <Link
-                          key={item.label}
-                          to={item.href}
-                          className="block text-sm text-white/60 hover:text-immix-blue py-2"
-                          onClick={() => setIsOpen(false)}
-                        >
-                          {item.label}
-                        </Link>
-                      ))}
+                      {companyDropdownItems.map((item) =>
+                        item.external ? (
+                          <a
+                            key={item.label}
+                            href={item.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block text-sm text-white/60 hover:text-immix-blue py-2"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            {item.label}
+                          </a>
+                        ) : (
+                          <Link
+                            key={item.label}
+                            to={item.href}
+                            className="block text-sm text-white/60 hover:text-immix-blue py-2"
+                            onClick={() => setIsOpen(false)}
+                          >
+                            {item.label}
+                          </Link>
+                        )
+                      )}
                     </motion.div>
                   )}
                 </AnimatePresence>
