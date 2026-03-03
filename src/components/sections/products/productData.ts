@@ -17,6 +17,7 @@ import { EarnVisual } from '../../ui/EarnVisual';
 import { LabVisual } from '../../ui/LabVisual';
 
 export type IntegrationLevel = 'ui' | 'sdk' | 'api';
+export type ProductStatus = 'live' | 'coming-soon';
 
 export interface Product {
   id: string;
@@ -29,7 +30,10 @@ export interface Product {
   accentColor: string;
   accentBg: string;
   accentBorder: string;
+  accentHex: string;
   visual: React.ComponentType;
+  status: ProductStatus;
+  videoSrc?: string;
 }
 
 export interface JourneyStage {
@@ -57,7 +61,10 @@ const markets: Product = {
   accentColor: 'text-blue-400',
   accentBg: 'bg-blue-500/10',
   accentBorder: 'border-blue-500/30',
+  accentHex: '#60a5fa',
   visual: MarketsVisual,
+  status: 'live',
+  videoSrc: '/market-analytics-showcase.mp4',
 };
 
 const connect: Product = {
@@ -76,7 +83,9 @@ const connect: Product = {
   accentColor: 'text-cyan-400',
   accentBg: 'bg-cyan-500/10',
   accentBorder: 'border-cyan-500/30',
+  accentHex: '#22d3ee',
   visual: ConnectVisual,
+  status: 'coming-soon',
 };
 
 const trade: Product = {
@@ -95,7 +104,10 @@ const trade: Product = {
   accentColor: 'text-emerald-400',
   accentBg: 'bg-emerald-500/10',
   accentBorder: 'border-emerald-500/30',
+  accentHex: '#34d399',
   visual: TradeVisual,
+  status: 'live',
+  videoSrc: '/trading-workspace-tutorial.mp4',
 };
 
 const earn: Product = {
@@ -114,7 +126,9 @@ const earn: Product = {
   accentColor: 'text-sky-400',
   accentBg: 'bg-sky-500/10',
   accentBorder: 'border-sky-500/30',
+  accentHex: '#38bdf8',
   visual: EarnVisual,
+  status: 'coming-soon',
 };
 
 const lab: Product = {
@@ -133,7 +147,9 @@ const lab: Product = {
   accentColor: 'text-blue-300',
   accentBg: 'bg-blue-400/10',
   accentBorder: 'border-blue-400/30',
+  accentHex: '#93c5fd',
   visual: LabVisual,
+  status: 'coming-soon',
 };
 
 const transfers: Product = {
@@ -152,7 +168,9 @@ const transfers: Product = {
   accentColor: 'text-teal-400',
   accentBg: 'bg-teal-500/10',
   accentBorder: 'border-teal-500/30',
+  accentHex: '#2dd4bf',
   visual: PayVisual,
+  status: 'coming-soon',
 };
 
 export const journeyStages: JourneyStage[] = [
@@ -183,6 +201,9 @@ export const journeyStages: JourneyStage[] = [
 ];
 
 export const allProducts: Product[] = journeyStages.flatMap((s) => s.products);
+
+export const featuredProducts: Product[] = [markets, trade];
+export const secondaryProducts: Product[] = [connect, earn, transfers, lab];
 
 export const integrationModes = [
   {

@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { AnimatedElement } from '../ui';
-import { journeyStages, type IntegrationLevel } from './products/productData';
+import {
+  featuredProducts,
+  secondaryProducts,
+  type IntegrationLevel,
+} from './products/productData';
 import { IntegrationFilter } from './products/IntegrationFilter';
-import { JourneyStageSection } from './products/JourneyStageSection';
-import { MobileProductStages } from './products/MobileProductStages';
+import { ProductShowcase } from './products/ProductShowcase';
+import { SecondaryProductCard } from './products/SecondaryProductCard';
 
 export const ProductSolutions = () => {
   const [activeFilter, setActiveFilter] = useState<IntegrationLevel | null>(null);
@@ -32,7 +36,7 @@ export const ProductSolutions = () => {
         </div>
 
         <AnimatedElement type="fadeInUp" delay={0.15}>
-          <div className="mb-20 lg:mb-28 max-w-4xl mx-auto">
+          <div className="mb-20 lg:mb-24 max-w-4xl mx-auto">
             <p className="text-xs font-mono text-white/25 tracking-wider uppercase mb-4 text-center">
               Choose how you build
             </p>
@@ -43,21 +47,54 @@ export const ProductSolutions = () => {
           </div>
         </AnimatedElement>
 
-        <div className="hidden lg:block space-y-28 xl:space-y-36">
-          {journeyStages.map((stage, stageIndex) => (
-            <JourneyStageSection
-              key={stage.id}
-              stage={stage}
-              stageIndex={stageIndex}
-              activeFilter={activeFilter}
-            />
-          ))}
+        <div className="mb-20 lg:mb-28">
+          <AnimatedElement type="fadeInUp" delay={0.05}>
+            <div className="flex items-center gap-4 mb-8 lg:mb-10">
+              <span className="text-xs font-mono text-white/20 tracking-widest uppercase">01</span>
+              <span className="text-xs font-semibold text-[#0073FF]/60 tracking-wider uppercase">
+                Available Now
+              </span>
+              <div className="flex-1 h-px bg-gradient-to-r from-white/[0.06] to-transparent" />
+            </div>
+          </AnimatedElement>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
+            {featuredProducts.map((product, index) => {
+              const dimmed = activeFilter !== null && !product.integrations.includes(activeFilter);
+              return (
+                <AnimatedElement key={product.id} type="fadeInUp" delay={0.1 + index * 0.1}>
+                  <ProductShowcase product={product} dimmed={dimmed} />
+                </AnimatedElement>
+              );
+            })}
+          </div>
         </div>
 
-        <MobileProductStages activeFilter={activeFilter} />
+        <div className="mb-20 lg:mb-28">
+          <AnimatedElement type="fadeInUp" delay={0.05}>
+            <div className="flex items-center gap-4 mb-8 lg:mb-10">
+              <span className="text-xs font-mono text-white/20 tracking-widest uppercase">02</span>
+              <span className="text-xs font-semibold text-[#0073FF]/60 tracking-wider uppercase">
+                On the Roadmap
+              </span>
+              <div className="flex-1 h-px bg-gradient-to-r from-white/[0.06] to-transparent" />
+            </div>
+          </AnimatedElement>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+            {secondaryProducts.map((product, index) => {
+              const dimmed = activeFilter !== null && !product.integrations.includes(activeFilter);
+              return (
+                <AnimatedElement key={product.id} type="fadeInUp" delay={0.05 + index * 0.07}>
+                  <SecondaryProductCard product={product} dimmed={dimmed} />
+                </AnimatedElement>
+              );
+            })}
+          </div>
+        </div>
 
         <AnimatedElement type="fadeInUp" delay={0.1}>
-          <div className="mt-24 lg:mt-36 pt-16 border-t border-white/[0.06]">
+          <div className="pt-16 border-t border-white/[0.06]">
             <div className="text-center space-y-6 max-w-xl mx-auto">
               <h3 className="text-2xl lg:text-3xl font-bold text-white">
                 Ready to build?
