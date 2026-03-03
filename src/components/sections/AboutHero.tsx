@@ -12,7 +12,7 @@ export const AboutHero = () => {
 
         <AnimatedElement type="fadeInUp" delay={0.2}>
           <h1 className="text-4xl lg:text-6xl font-bold leading-tight mb-8">
-            The API for{' '}
+            Unifying{' '}
             <span className="gradient-text">tokenized markets</span>
           </h1>
         </AnimatedElement>
