@@ -1,579 +1,97 @@
-import { useRef, useState, useCallback } from 'react';
-import {
-  BarChart3,
-  Link,
-  ArrowRightLeft,
-  CreditCard,
-  TrendingUp,
-  FlaskConical,
-  ChevronLeft,
-  ChevronRight,
-  Check,
-  LayoutDashboard,
-  Code,
-  Terminal,
-} from 'lucide-react';
+import { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
 import { AnimatedElement } from '../ui';
-import { MarketsVisual } from '../ui/MarketsVisual';
-import { ConnectVisual } from '../ui/ConnectVisual';
-import { TradeVisual } from '../ui/TradeVisual';
-import { PayVisual } from '../ui/PayVisual';
-import { EarnVisual } from '../ui/EarnVisual';
-import { LabVisual } from '../ui/LabVisual';
-
-type IntegrationLevel = 'ui' | 'sdk' | 'api';
-
-interface Product {
-  id: string;
-  name: string;
-  icon: React.ElementType;
-  tagline: string;
-  clientType: string;
-  capabilities: string[];
-  integrations: IntegrationLevel[];
-  accentColor: string;
-  accentBg: string;
-  accentBorder: string;
-  visual: React.ComponentType;
-}
-
-const products: Product[] = [
-  {
-    id: 'connect',
-    name: 'Connect',
-    icon: Link,
-    tagline: 'One API to the full digital asset ecosystem — crypto, tokenized commodities, stocks, ETFs, and money market funds.',
-    clientType: 'Developers & Integration Teams',
-    capabilities: [
-      'REST, WebSocket & FIX protocols',
-      'Crypto & tokenized RWAs',
-      'Tokenized ETFs & money markets',
-      'Unified streaming & trading',
-    ],
-    integrations: ['sdk', 'api'],
-    accentColor: 'text-cyan-400',
-    accentBg: 'bg-cyan-500/10',
-    accentBorder: 'border-cyan-500/30',
-    visual: ConnectVisual,
-  },
-  {
-    id: 'trade',
-    name: 'Trade',
-    icon: ArrowRightLeft,
-    tagline: 'Advanced order types and algos across CeFi, DeFi and RWAs — from multi-leg spreads to continuous hedging.',
-    clientType: 'Traders & Fund Managers',
-    capabilities: [
-      'Multi-leg spreads & portfolio rebalancing',
-      'Market making & smart order routing',
-      'Continuous hedging of staking rewards',
-      'CeFi, DeFi & RWA execution',
-    ],
-    integrations: ['ui', 'sdk', 'api'],
-    accentColor: 'text-emerald-400',
-    accentBg: 'bg-emerald-500/10',
-    accentBorder: 'border-emerald-500/30',
-    visual: TradeVisual,
-  },
-  {
-    id: 'earn',
-    name: 'Earn',
-    icon: TrendingUp,
-    tagline: 'Yield-bearing strategies exploiting secondary market dislocations for USD stablecoins.',
-    clientType: 'Treasuries & Asset Allocators',
-    capabilities: [
-      'Continuous yield strategies',
-      'Stablecoin dislocation capture',
-      'BTC, ETH & XRP yield coming soon',
-      'Automated position management',
-    ],
-    integrations: ['ui', 'api'],
-    accentColor: 'text-sky-400',
-    accentBg: 'bg-sky-500/10',
-    accentBorder: 'border-sky-500/30',
-    visual: EarnVisual,
-  },
-  {
-    id: 'lab',
-    name: 'Lab',
-    icon: FlaskConical,
-    tagline: '360-degree insight to all messages in a deterministic, real-time, fault-tolerant ordered stream.',
-    clientType: 'Analysts & Data Teams',
-    capabilities: [
-      'Market data, risk & trading feeds',
-      'Internal analytics streams',
-      'Deterministic message ordering',
-      'Real-time fault-tolerant replay',
-    ],
-    integrations: ['ui', 'api'],
-    accentColor: 'text-blue-300',
-    accentBg: 'bg-blue-400/10',
-    accentBorder: 'border-blue-400/30',
-    visual: LabVisual,
-  },
-  {
-    id: 'markets',
-    name: 'Markets',
-    icon: BarChart3,
-    tagline: 'Analytics across the derivative term structure, funding rates, and arbitrage opportunities.',
-    clientType: 'Researchers & Strategists',
-    capabilities: [
-      'Term structure analytics',
-      'Funding rate monitoring',
-      'Arbitrage opportunity detection',
-      'Market-wide insights dashboard',
-    ],
-    integrations: ['ui', 'api'],
-    accentColor: 'text-blue-400',
-    accentBg: 'bg-blue-500/10',
-    accentBorder: 'border-blue-500/30',
-    visual: MarketsVisual,
-  },
-  {
-    id: 'pay',
-    name: 'Pay',
-    icon: CreditCard,
-    tagline: 'Configurable payment corridors for cross-border settlement via stablecoin transport with minimal slippage.',
-    clientType: 'Payment Operators & CFOs',
-    capabilities: [
-      'Any source-to-target fiat corridor',
-      'Stablecoin cross-border transport',
-      'Smart order router for speed',
-      'Configurable payment workflows',
-    ],
-    integrations: ['ui', 'sdk', 'api'],
-    accentColor: 'text-teal-400',
-    accentBg: 'bg-teal-500/10',
-    accentBorder: 'border-teal-500/30',
-    visual: PayVisual,
-  },
-];
-
-const integrationModes = [
-  {
-    key: 'ui' as IntegrationLevel,
-    label: 'No-Code',
-    icon: LayoutDashboard,
-    description: 'Point and click. Configure in the UI.',
-  },
-  {
-    key: 'sdk' as IntegrationLevel,
-    label: 'SDK',
-    icon: Code,
-    description: 'Python, Java, Rust & C++ libraries.',
-  },
-  {
-    key: 'api' as IntegrationLevel,
-    label: 'API',
-    icon: Terminal,
-    description: 'REST, WebSocket & FIX protocols.',
-  },
-];
-
-const CARD_WIDTH_MOBILE = 300;
-const SWIPE_THRESHOLD = 50;
-
-function getCardStyle(offset: number) {
-  const absOffset = Math.abs(offset);
-
-  if (absOffset === 0) {
-    return { scale: 1, opacity: 1, zIndex: 30, blur: 0, translateX: 0 };
-  }
-  if (absOffset === 1) {
-    return { scale: 0.88, opacity: 0.55, zIndex: 20, blur: 0, translateX: offset * 360 };
-  }
-  if (absOffset === 2) {
-    return { scale: 0.78, opacity: 0.35, zIndex: 10, blur: 1, translateX: offset * 360 };
-  }
-  return { scale: 0.7, opacity: 0.15, zIndex: 5, blur: 2, translateX: offset * 360 };
-}
-
-function GridProductCard({ product }: { product: Product }) {
-  const Icon = product.icon;
-  const Visual = product.visual;
-
-  return (
-    <div className="group h-full">
-      <div
-        className={`
-          relative h-full rounded-xl border backdrop-blur-sm
-          transition-all duration-300
-          overflow-hidden
-          border-white/[0.08] bg-white/[0.02]
-          hover:border-white/[0.18] hover:bg-white/[0.04]
-          hover:shadow-[0_0_24px_rgba(0,115,255,0.08)]
-        `}
-      >
-        <div
-          className={`absolute top-0 left-0 right-0 h-px ${
-            product.accentBorder.replace('border-', 'bg-').replace('/30', '/50')
-          }`}
-        />
-
-        <div className="p-4 lg:p-5 flex flex-col gap-3">
-          <div className="flex items-center gap-3">
-            <div className={`w-9 h-9 rounded-lg ${product.accentBg} flex items-center justify-center`}>
-              <Icon size={18} className={product.accentColor} />
-            </div>
-            <div className="flex flex-col">
-              <h3 className="text-lg font-bold text-white leading-tight">{product.name}</h3>
-              <span className={`text-[11px] font-medium ${product.accentColor} opacity-60 leading-tight`}>
-                {product.clientType}
-              </span>
-            </div>
-          </div>
-
-          <p className="text-xs text-white/45 leading-relaxed min-h-[2.25rem]">
-            {product.tagline}
-          </p>
-
-          <div className="space-y-1.5">
-            {product.capabilities.map((cap) => (
-              <div key={cap} className="flex items-start gap-2">
-                <Check size={12} className={`${product.accentColor} mt-0.5 flex-shrink-0 opacity-60`} />
-                <span className="text-xs text-white/60 leading-snug">{cap}</span>
-              </div>
-            ))}
-          </div>
-
-          <div
-            className={`
-              relative h-[120px] rounded-lg bg-white/[0.02] border border-white/[0.06]
-              overflow-hidden
-              transition-all duration-300 group-hover:border-white/[0.1]
-            `}
-          >
-            <div className={`absolute inset-0 bg-gradient-to-br ${product.accentBg} opacity-20`} />
-            <div className="relative z-10 w-full h-full">
-              <Visual />
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-[#0a0a0a]/60 to-transparent z-20 pointer-events-none" />
-          </div>
-
-          <div className="flex items-center gap-1.5">
-            {(['ui', 'sdk', 'api'] as IntegrationLevel[]).map((level) => {
-              const supported = product.integrations.includes(level);
-              return (
-                <span
-                  key={level}
-                  className={`
-                    px-2.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider
-                    transition-colors duration-200
-                    ${supported
-                      ? `${product.accentBg} ${product.accentColor}`
-                      : 'bg-white/[0.03] text-white/15'
-                    }
-                  `}
-                >
-                  {level}
-                </span>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function DesktopProductGrid() {
-  return (
-    <div className="hidden lg:grid grid-cols-3 gap-5">
-      {products.map((product) => (
-        <GridProductCard key={product.id} product={product} />
-      ))}
-    </div>
-  );
-}
-
-function MobileProductCard({
-  product,
-  isActive,
-  onClick,
-}: {
-  product: Product;
-  isActive: boolean;
-  onClick: () => void;
-}) {
-  const Icon = product.icon;
-  const Visual = product.visual;
-
-  return (
-    <div className="group" onClick={onClick} style={{ width: CARD_WIDTH_MOBILE }}>
-      <div
-        className={`
-          relative h-full rounded-xl border backdrop-blur-sm
-          transition-all duration-500
-          overflow-hidden
-          ${isActive
-            ? 'border-[#0073FF]/40 bg-white/[0.04] shadow-[0_0_30px_rgba(0,115,255,0.25),0_0_60px_rgba(0,115,255,0.1)]'
-            : 'border-white/[0.08] bg-white/[0.02] cursor-pointer hover:border-white/[0.15] hover:bg-white/[0.04]'
-          }
-        `}
-      >
-        {isActive && (
-          <div
-            className="absolute inset-0 rounded-xl pointer-events-none"
-            style={{
-              background: 'radial-gradient(ellipse at 50% 0%, rgba(0,115,255,0.08) 0%, transparent 60%)',
-            }}
-          />
-        )}
-
-        <div
-          className={`absolute top-0 left-0 right-0 h-px transition-colors duration-500 ${
-            isActive
-              ? 'bg-[#0073FF]/60'
-              : product.accentBorder.replace('border-', 'bg-').replace('/30', '/50')
-          }`}
-        />
-
-        <div className="p-5 flex flex-col gap-4">
-          <div className="flex items-center gap-3.5">
-            <div className={`w-10 h-10 rounded-lg ${product.accentBg} flex items-center justify-center`}>
-              <Icon size={20} className={product.accentColor} />
-            </div>
-            <div className="flex flex-col">
-              <h3 className="text-xl font-bold text-white">{product.name}</h3>
-              <span className={`text-[11px] font-medium ${product.accentColor} opacity-60`}>
-                {product.clientType}
-              </span>
-            </div>
-          </div>
-
-          <p className="text-sm text-white/50 leading-relaxed min-h-[3rem]">
-            {product.tagline}
-          </p>
-
-          <div className="space-y-2.5">
-            {product.capabilities.map((cap) => (
-              <div key={cap} className="flex items-start gap-2.5">
-                <Check size={14} className={`${product.accentColor} mt-0.5 flex-shrink-0 opacity-60`} />
-                <span className="text-sm text-white/65 leading-snug">{cap}</span>
-              </div>
-            ))}
-          </div>
-
-          <div
-            className={`
-              relative h-[140px] rounded-lg bg-white/[0.02] border border-white/[0.06]
-              overflow-hidden
-              transition-all duration-300 group-hover:border-white/[0.1]
-            `}
-          >
-            <div className={`absolute inset-0 bg-gradient-to-br ${product.accentBg} opacity-20`} />
-            <div className="relative z-10 w-full h-full">
-              <Visual />
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-[#0a0a0a]/60 to-transparent z-20 pointer-events-none" />
-          </div>
-
-          <div className="flex items-center gap-2 pt-1">
-            {(['ui', 'sdk', 'api'] as IntegrationLevel[]).map((level) => {
-              const supported = product.integrations.includes(level);
-              return (
-                <span
-                  key={level}
-                  className={`
-                    px-3 py-1 rounded text-xs font-semibold uppercase tracking-wider
-                    transition-colors duration-200
-                    ${supported
-                      ? `${product.accentBg} ${product.accentColor}`
-                      : 'bg-white/[0.03] text-white/15'
-                    }
-                  `}
-                >
-                  {level}
-                </span>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function CarouselNavLabels<T extends { name?: string; label?: string }>({
-  items,
-  activeIndex,
-  setActiveIndex,
-}: {
-  items: T[];
-  activeIndex: number;
-  setActiveIndex: (i: number) => void;
-}) {
-  const prevName = activeIndex > 0 ? (items[activeIndex - 1].name || items[activeIndex - 1].label) : null;
-  const nextName = activeIndex < items.length - 1 ? (items[activeIndex + 1].name || items[activeIndex + 1].label) : null;
-
-  return (
-    <div className="flex justify-between items-center px-4 mt-4">
-      <button
-        onClick={() => activeIndex > 0 && setActiveIndex(activeIndex - 1)}
-        className={`flex items-center gap-1.5 transition-all duration-200 min-w-[80px] ${
-          prevName ? 'opacity-50 hover:opacity-80' : 'opacity-0 pointer-events-none'
-        }`}
-        aria-label="Previous"
-      >
-        <ChevronLeft size={14} className="text-white/50" />
-        <span className="text-xs font-mono text-white/50 uppercase tracking-wider">{prevName}</span>
-      </button>
-
-      <div className="flex items-center gap-1.5">
-        {items.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => setActiveIndex(i)}
-            className={`rounded-full transition-all duration-300 ${
-              i === activeIndex
-                ? 'w-6 h-1.5 bg-[#0073FF]/80'
-                : 'w-1.5 h-1.5 bg-white/15 hover:bg-white/30'
-            }`}
-            aria-label={`Go to item ${i + 1}`}
-          />
-        ))}
-      </div>
-
-      <button
-        onClick={() => activeIndex < items.length - 1 && setActiveIndex(activeIndex + 1)}
-        className={`flex items-center gap-1.5 transition-all duration-200 min-w-[80px] justify-end ${
-          nextName ? 'opacity-50 hover:opacity-80' : 'opacity-0 pointer-events-none'
-        }`}
-        aria-label="Next"
-      >
-        <span className="text-xs font-mono text-white/50 uppercase tracking-wider">{nextName}</span>
-        <ChevronRight size={14} className="text-white/50" />
-      </button>
-    </div>
-  );
-}
-
-function MobileCarousel({
-  activeIndex,
-  setActiveIndex,
-}: {
-  activeIndex: number;
-  setActiveIndex: (i: number) => void;
-}) {
-  const touchStartX = useRef(0);
-  const touchDeltaX = useRef(0);
-  const [dragOffset, setDragOffset] = useState(0);
-  const isDragging = useRef(false);
-
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-    isDragging.current = true;
-    setDragOffset(0);
-  }, []);
-
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!isDragging.current) return;
-    const delta = e.touches[0].clientX - touchStartX.current;
-    touchDeltaX.current = delta;
-    setDragOffset(delta * 0.4);
-  }, []);
-
-  const handleTouchEnd = useCallback(() => {
-    isDragging.current = false;
-    const delta = touchDeltaX.current;
-
-    if (Math.abs(delta) > SWIPE_THRESHOLD) {
-      if (delta < 0 && activeIndex < products.length - 1) {
-        setActiveIndex(activeIndex + 1);
-      } else if (delta > 0 && activeIndex > 0) {
-        setActiveIndex(activeIndex - 1);
-      }
-    }
-
-    touchDeltaX.current = 0;
-    setDragOffset(0);
-  }, [activeIndex, setActiveIndex]);
-
-  return (
-    <div className="lg:hidden">
-      <div
-        className="relative overflow-hidden"
-        style={{ height: 560 }}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        <div className="absolute inset-0 flex items-start justify-center">
-          {products.map((product, i) => {
-            const offset = i - activeIndex;
-            const style = getCardStyle(offset);
-            const translateX = style.translateX + dragOffset;
-
-            return (
-              <div
-                key={product.id}
-                className="absolute"
-                style={{
-                  transform: `translateX(${translateX}px) scale(${style.scale})`,
-                  opacity: style.opacity,
-                  zIndex: style.zIndex,
-                  filter: style.blur > 0 ? `blur(${style.blur}px)` : 'none',
-                  transition: isDragging.current ? 'none' : 'all 500ms cubic-bezier(0.4, 0, 0.2, 1)',
-                  pointerEvents: Math.abs(offset) > 2 ? 'none' : 'auto',
-                }}
-              >
-                <MobileProductCard
-                  product={product}
-                  isActive={i === activeIndex}
-                  onClick={() => setActiveIndex(i)}
-                />
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <CarouselNavLabels items={products} activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
-    </div>
-  );
-}
+import { journeyStages, type IntegrationLevel } from './products/productData';
+import { IntegrationFilter } from './products/IntegrationFilter';
+import { JourneyStageSection } from './products/JourneyStageSection';
+import { MobileProductStages } from './products/MobileProductStages';
 
 export const ProductSolutions = () => {
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeFilter, setActiveFilter] = useState<IntegrationLevel | null>(null);
 
   return (
-    <section id="solutions" className="section-wrapper lg:pt-24 overflow-hidden">
-      <div className="container-max space-y-8 lg:space-y-10">
-        <div className="text-center space-y-4">
+    <section id="solutions" className="py-16 px-5 md:px-12 lg:px-16 lg:py-28 overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center space-y-5 mb-16 lg:mb-20">
           <AnimatedElement type="fadeInUp">
-            <h2 className="text-4xl md:text-5xl font-bold">
-              The full stack for digital assets.
+            <p className="text-xs font-mono text-[#0073FF]/50 tracking-[0.2em] uppercase mb-4">
+              Land &middot; Expand &middot; Embed
+            </p>
+            <h2 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold leading-tight">
+              From data to execution
+              <br className="hidden sm:block" />
+              <span className="text-white/40"> to settlement.</span>
             </h2>
-            <div className="mt-4 mx-auto w-16 h-[2px] bg-gradient-to-r from-transparent via-immix-blue to-transparent" />
           </AnimatedElement>
           <AnimatedElement type="fadeInUp" delay={0.1}>
-            <p className="text-lg text-white/50 max-w-2xl mx-auto">
-              Six products spanning every workflow. From analysts to institutions — via UI, SDK, or API.
+            <p className="text-base lg:text-lg text-white/45 max-w-2xl mx-auto leading-relaxed">
+              Six products spanning the full digital asset lifecycle — accessible
+              via dashboard, SDK, or API.
             </p>
           </AnimatedElement>
         </div>
 
         <AnimatedElement type="fadeInUp" delay={0.15}>
-          <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-8">
-            {integrationModes.map((mode) => {
-              const ModeIcon = mode.icon;
-              return (
-                <div key={mode.key} className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-white/[0.05] border border-white/[0.08] flex items-center justify-center">
-                    <ModeIcon size={16} className="text-white/40" />
-                  </div>
-                  <div>
-                    <span className="text-sm font-semibold text-white/80">{mode.label}</span>
-                    <p className="text-xs text-white/35">{mode.description}</p>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="mb-20 lg:mb-28 max-w-4xl mx-auto">
+            <p className="text-xs font-mono text-white/25 tracking-wider uppercase mb-4 text-center">
+              Choose how you build
+            </p>
+            <IntegrationFilter
+              activeFilter={activeFilter}
+              onFilterChange={setActiveFilter}
+            />
           </div>
         </AnimatedElement>
 
-        <AnimatedElement type="fadeInUp" delay={0.2} className="lg:mt-8">
-          <DesktopProductGrid />
-          <MobileCarousel activeIndex={activeIndex} setActiveIndex={setActiveIndex} />
+        <div className="hidden lg:block space-y-28 xl:space-y-36">
+          {journeyStages.map((stage, stageIndex) => (
+            <JourneyStageSection
+              key={stage.id}
+              stage={stage}
+              stageIndex={stageIndex}
+              activeFilter={activeFilter}
+            />
+          ))}
+        </div>
+
+        <MobileProductStages activeFilter={activeFilter} />
+
+        <AnimatedElement type="fadeInUp" delay={0.1}>
+          <div className="mt-24 lg:mt-36 pt-16 border-t border-white/[0.06]">
+            <div className="text-center space-y-6 max-w-xl mx-auto">
+              <h3 className="text-2xl lg:text-3xl font-bold text-white">
+                Ready to build?
+              </h3>
+              <p className="text-sm text-white/40 leading-relaxed">
+                Get API keys in minutes, or talk to our team about enterprise integration.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+                <a
+                  href="#contact"
+                  className="
+                    inline-flex items-center gap-2 px-7 py-3.5
+                    bg-[#0073FF] text-white text-sm font-semibold rounded-lg
+                    hover:shadow-[0_0_30px_rgba(0,115,255,0.4)]
+                    transition-all duration-300 hover:scale-[1.02]
+                  "
+                >
+                  Get Started
+                  <ArrowRight size={16} />
+                </a>
+                <a
+                  href="#contact"
+                  className="
+                    inline-flex items-center gap-2 px-7 py-3.5
+                    border border-white/[0.12] text-white/70 text-sm font-semibold rounded-lg
+                    hover:border-white/[0.25] hover:text-white
+                    transition-all duration-300
+                  "
+                >
+                  Talk to Sales
+                </a>
+              </div>
+            </div>
+          </div>
         </AnimatedElement>
       </div>
     </section>
