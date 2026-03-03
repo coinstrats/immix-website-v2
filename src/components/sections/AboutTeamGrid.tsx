@@ -10,13 +10,13 @@ interface TeamMember {
 
 const founders: TeamMember[] = [
   {
-    name: 'Andrew Mann',
+    name: 'Andrew Mann, PhD.',
     role: 'Co-Founder',
     bio: 'Andrew worked at several institutions and quantitative hedge funds including Morgan Stanley, Matrix8J, and Virtu Financial as a front office quantitative researcher & strategist before founding IMMIX. He holds degrees in Mechanical Engineering (BEng Hons.), Quantitative Finance (MSc), Computational Finance (MRes) and a PhD from the Computer Science department at UCL.',
     linkedin: 'https://www.linkedin.com/in/andrew-mann-912a4449/',
   },
   {
-    name: 'David Twomey',
+    name: 'David Twomey, PhD.',
     role: 'Co-Founder',
     bio: 'David started his career at JP Morgan and has since worked as a consultant for several hedge funds & asset managers. Within crypto, he has worked on everything from corporate due-diligence, forensic analysis and trading. David holds degrees in Mathematics with Computer Science (BSc Hons.), Finance Risk (MSc), Computational Finance (MRes) and a PhD from the Computer Science department at UCL.',
     linkedin: 'https://www.linkedin.com/in/david-twomey-82860785/',
@@ -28,19 +28,16 @@ const team: TeamMember[] = [
     name: 'Vaishal Parmar',
     role: 'Founding Engineer',
     bio: 'Vaishal is a senior software engineer that leads the product development of IMMIX client applications. He has over a decade of experience building performant and robust web applications across multiple industries.',
-    linkedin: 'https://www.linkedin.com/in/vaishalparmar/',
   },
   {
     name: 'Jose Chittilappilly',
     role: 'Senior Software Engineer',
     bio: 'Jose is a passionate technologist with over two decades of experience in the finance industry, specialising in high frequency trading platforms. Before joining IMMIX, he worked across several leadership and core development roles at Adaptive Financial, Instinet, Lehman Brothers, and ICE.',
-    linkedin: 'https://www.linkedin.com/in/jose-chittilappilly-8389071/',
   },
   {
     name: 'Keith Liu',
     role: 'Senior Software Engineer',
     bio: 'Keith specialises in developing low-latency, scalable trading systems for cryptocurrencies, equities, and futures. He brings over 15 years of experience from top firms like BAML, JPMC, UBS, HSBC, and CLSA.',
-    linkedin: 'https://www.linkedin.com/in/keith-liu-913780a0/',
   },
   {
     name: 'Wenzhe Hu',
@@ -56,7 +53,6 @@ const team: TeamMember[] = [
     name: 'Modestas Gujis',
     role: 'Software Engineer',
     bio: 'Modestas is a recent UCL Computer Science graduate with extensive software engineering experience through multiple international olympiads in informatics and a previous role developing Ocado Technology\'s smart platform.',
-    linkedin: 'https://www.linkedin.com/in/modestas-gujis/',
   },
 ];
 
