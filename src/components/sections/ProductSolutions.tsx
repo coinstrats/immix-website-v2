@@ -11,7 +11,7 @@ export const ProductSolutions = () => {
         <div className="text-center space-y-5 mb-16 lg:mb-20">
           <AnimatedElement type="fadeInUp">
             <p className="text-xs font-mono text-[#0073FF]/50 tracking-[0.2em] uppercase mb-4">
-              Infrastructure
+              Solutions
             </p>
             <h2 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold leading-tight">
               Modular by design.
