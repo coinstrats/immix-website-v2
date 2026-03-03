@@ -1,5 +1,4 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import {
   Check,
   Eye,
@@ -11,7 +10,6 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { AnimatedElement } from '../ui';
-import { FeatureComparisonGrid } from './FeatureComparisonGrid';
 import { StartupCreditsBanner } from './StartupCreditsBanner';
 import { EnterpriseBanner } from './EnterpriseBanner';
 
@@ -73,13 +71,6 @@ const coreTiers = [
     highlighted: true,
     tierColor: 'blue' as const,
   },
-];
-
-type TabId = 'tiers' | 'compare';
-
-const tabs: { id: TabId; label: string }[] = [
-  { id: 'tiers', label: 'Pricing Tiers' },
-  { id: 'compare', label: 'Compare Features' },
 ];
 
 const tierColorMap = {
@@ -377,8 +368,6 @@ function PricingDesktopGrid() {
 }
 
 export const Pricing = () => {
-  const [activeTab, setActiveTab] = useState<TabId>('tiers');
-
   return (
     <section id="pricing" className="section-wrapper">
       <div className="container-max space-y-12">
@@ -395,68 +384,33 @@ export const Pricing = () => {
           </AnimatedElement>
         </div>
 
-        <AnimatedElement type="fadeInUp" delay={0.2}>
-          <div className="flex justify-center">
-            <div className="relative inline-flex bg-immix-dark/60 border border-white/10 rounded-full p-1">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`relative z-10 px-6 py-2.5 text-sm font-medium rounded-full transition-colors duration-300 ${
-                    activeTab === tab.id
-                      ? 'text-white'
-                      : 'text-white/60 hover:text-white'
-                  }`}
-                >
-                  {activeTab === tab.id && (
-                    <motion.div
-                      layoutId="pricing-tab-indicator"
-                      className="absolute inset-0 bg-immix-blue rounded-full"
-                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                    />
-                  )}
-                  <span className="relative z-10">{tab.label}</span>
-                </button>
-              ))}
+        <div>
+          <div className="space-y-10">
+            <div className="hidden lg:block">
+              <PricingDesktopGrid />
+            </div>
+
+            <div className="lg:hidden">
+              <PricingCarousel />
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent to-white/10" />
+              <p className="text-white/35 text-sm text-center px-2 max-w-md">
+                Need custom scale or early-stage support?
+              </p>
+              <div className="flex-1 h-px bg-gradient-to-l from-transparent to-white/10" />
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+              <div className="lg:col-span-3">
+                <EnterpriseBanner />
+              </div>
+              <div className="lg:col-span-2">
+                <StartupCreditsBanner />
+              </div>
             </div>
           </div>
-        </AnimatedElement>
-
-        <div>
-          {activeTab === 'tiers' && (
-            <div className="space-y-10">
-              <div className="hidden lg:block">
-                <PricingDesktopGrid />
-              </div>
-
-              <div className="lg:hidden">
-                <PricingCarousel />
-              </div>
-
-              <div className="flex items-center gap-4">
-                <div className="flex-1 h-px bg-gradient-to-r from-transparent to-white/10" />
-                <p className="text-white/35 text-sm text-center px-2 max-w-md">
-                  Need custom scale or early-stage support?
-                </p>
-                <div className="flex-1 h-px bg-gradient-to-l from-transparent to-white/10" />
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-                <div className="lg:col-span-3">
-                  <EnterpriseBanner />
-                </div>
-                <div className="lg:col-span-2">
-                  <StartupCreditsBanner />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'compare' && (
-            <div className="bg-immix-dark/60 border border-white/10">
-              <FeatureComparisonGrid />
-            </div>
-          )}
         </div>
 
         <div className="text-center pt-4 lg:pt-8">
