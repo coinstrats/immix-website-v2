@@ -164,7 +164,7 @@ export function ProductShowcase({ product, dimmed }: ProductShowcaseProps) {
             </div>
 
             <a
-              href="#contact"
+              href="https://app.immix.xyz"
               className="inline-flex items-center gap-1.5 text-sm font-medium transition-all duration-200 group/link opacity-70 hover:opacity-100"
               style={{ color: product.accentHex }}
             >

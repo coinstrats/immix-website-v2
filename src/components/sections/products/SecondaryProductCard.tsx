@@ -1,4 +1,4 @@
-import { Check, ArrowRight, Clock } from 'lucide-react';
+import { Check, ArrowRight } from 'lucide-react';
 import type { Product, IntegrationLevel } from './productData';
 
 interface SecondaryProductCardProps {
@@ -53,12 +53,6 @@ export function SecondaryProductCard({ product, dimmed }: SecondaryProductCardPr
             </div>
           </div>
 
-          {product.status === 'coming-soon' && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/[0.05] text-[10px] font-medium text-white/40 uppercase tracking-wider flex-shrink-0">
-              <Clock size={8} />
-              Soon
-            </span>
-          )}
         </div>
 
         <p className="text-sm text-white/45 leading-relaxed line-clamp-2">
@@ -101,7 +95,7 @@ export function SecondaryProductCard({ product, dimmed }: SecondaryProductCardPr
           </div>
 
           <a
-            href="#contact"
+            href="https://app.immix.xyz"
             className="inline-flex items-center gap-1 text-xs font-medium transition-all duration-200 group/link opacity-60 hover:opacity-100"
             style={{ color: product.accentHex }}
           >

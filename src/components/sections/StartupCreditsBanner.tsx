@@ -44,7 +44,7 @@ export const StartupCreditsBanner = () => {
 
         <div className="mt-auto pt-5">
           <a
-            href="#"
+            href="https://app.immix.xyz"
             className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-medium border border-teal-500/40 text-teal-400 hover:border-teal-400 hover:bg-teal-500/10 transition-all duration-200 group/btn"
           >
             <span>Apply Now</span>

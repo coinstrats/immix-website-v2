@@ -121,7 +121,7 @@ export const CaseStudies = () => {
           className="text-center pt-8"
         >
           <p className="text-white/60 mb-6">Ready to build your own success story?</p>
-          <Button variant="primary" size="lg">
+          <Button variant="primary" size="lg" href="https://app.immix.xyz">
             Schedule a Demo
           </Button>
         </div>

@@ -158,7 +158,7 @@ function PricingCard({ tier }: { tier: (typeof coreTiers)[number] }) {
 
         <div className="mt-auto pt-5">
           <a
-            href="#"
+            href="https://app.immix.xyz"
             className={`w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 text-sm font-medium transition-all duration-200 group/btn ${
               tier.highlighted
                 ? 'bg-immix-blue/15 border border-immix-blue/40 text-immix-blue hover:bg-immix-blue/25 hover:border-immix-blue/60'
@@ -467,7 +467,7 @@ export const Pricing = () => {
             Startup credits subject to approval and valid for 6 months from activation.
             <br />
             Volume discounts available for high-frequency traders.{' '}
-            <a href="#" className="text-immix-blue font-medium hover:underline">
+            <a href="https://app.immix.xyz" className="text-immix-blue font-medium hover:underline">
               Contact us
             </a>{' '}
             for custom requirements.
