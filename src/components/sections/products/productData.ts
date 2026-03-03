@@ -211,20 +211,20 @@ export const integrationModes = [
     tier: 'UI',
     label: 'No Code',
     icon: LayoutDashboard,
-    description: 'Point-and-click. Configure and deploy directly from the dashboard.',
+    description: 'Point-and-click configuration. Compose workflows and deploy directly from the dashboard.',
   },
   {
     key: 'sdk' as IntegrationLevel,
     tier: 'SDK',
     label: 'Low Code',
     icon: Code,
-    description: 'Pre-built libraries in Python, Java, Rust, and C++. Import and build.',
+    description: 'Composable libraries in Python, Java, Rust, and C++. Import modules, chain them together, ship faster.',
   },
   {
     key: 'api' as IntegrationLevel,
     tier: 'API',
     label: 'Full Code',
     icon: Terminal,
-    description: 'REST, WebSocket, and FIX endpoints. Complete protocol-level control.',
+    description: 'REST, WebSocket, and FIX endpoints. Fully programmable, protocol-level control.',
   },
 ];

@@ -21,8 +21,8 @@ export const ProductSolutions = () => {
           </AnimatedElement>
           <AnimatedElement type="fadeInUp" delay={0.1}>
             <p className="text-base lg:text-lg text-white/45 max-w-2xl mx-auto leading-relaxed">
-              High-performance infrastructure for digital asset markets — connect, trade,
-              earn, and settle through independent modules that work together.
+              Composable, programmable infrastructure for digital asset markets — assemble
+              only the modules you need and control every layer through the interface of your choice.
             </p>
           </AnimatedElement>
 
@@ -78,7 +78,7 @@ export const ProductSolutions = () => {
           <AnimatedElement type="fadeInUp" delay={0.05}>
             <div className="flex items-center gap-4 mb-8 lg:mb-10">
               <span className="text-xs font-semibold text-[#0073FF]/60 tracking-wider uppercase">
-                Core Products
+                Core Platform
               </span>
               <div className="flex-1 h-px bg-gradient-to-r from-white/[0.06] to-transparent" />
             </div>
@@ -93,11 +93,17 @@ export const ProductSolutions = () => {
           </div>
         </div>
 
+        <AnimatedElement type="fadeInUp" delay={0.05}>
+          <p className="text-sm text-white/30 text-center mb-16 lg:mb-20">
+            Extend your stack with composable, purpose-built modules. Activate only what you need.
+          </p>
+        </AnimatedElement>
+
         <div className="mb-20 lg:mb-28">
           <AnimatedElement type="fadeInUp" delay={0.05}>
             <div className="flex items-center gap-4 mb-8 lg:mb-10">
               <span className="text-xs font-semibold text-[#0073FF]/60 tracking-wider uppercase">
-                Specialized Products
+                Specialized Modules
               </span>
               <div className="flex-1 h-px bg-gradient-to-r from-white/[0.06] to-transparent" />
             </div>
