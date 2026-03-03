@@ -46,8 +46,10 @@ export const Hero = () => {
             </AnimatedElement>
 
             <AnimatedElement type="fadeInUp" delay={0.3}>
-              <p className="text-xl text-white/70 leading-relaxed max-w-lg">
-                Unify custodians, venues, and business logic into fault-tolerant trading, treasury, and payment workflows—accessible via high-performance APIs ready for your AI agents
+              <p className="text-xl text-white/70 leading-relaxed">
+                APIs and SDKs for tokenized markets.
+                <br />
+                Unify trading, treasury, and payment workflows.
               </p>
             </AnimatedElement>
 
