@@ -20,7 +20,7 @@ export const ProductSolutions = () => {
             </h2>
           </AnimatedElement>
           <AnimatedElement type="fadeInUp" delay={0.1}>
-            <p className="text-base lg:text-lg text-white/45 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base lg:text-lg text-white/45 max-w-3xl mx-auto leading-relaxed">
               Composable, programmable infrastructure for digital asset markets — assemble
               only the modules you need and control every layer through the interface of your choice.
             </p>
