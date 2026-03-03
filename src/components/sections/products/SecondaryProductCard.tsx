@@ -3,23 +3,15 @@ import type { Product, IntegrationLevel } from './productData';
 
 interface SecondaryProductCardProps {
   product: Product;
-  dimmed: boolean;
 }
 
-export function SecondaryProductCard({ product, dimmed }: SecondaryProductCardProps) {
+export function SecondaryProductCard({ product }: SecondaryProductCardProps) {
   const Icon = product.icon;
   const Visual = product.visual;
 
   return (
     <div
-      className={`
-        relative group rounded-xl border overflow-hidden h-full flex flex-col
-        transition-all duration-500
-        ${dimmed
-          ? 'opacity-25 scale-[0.98] border-white/[0.04] bg-white/[0.01]'
-          : 'border-white/[0.08] bg-white/[0.02] hover:border-white/[0.14] hover:bg-white/[0.03]'
-        }
-      `}
+      className="relative group border overflow-hidden h-full flex flex-col transition-all duration-500 border-white/[0.08] bg-white/[0.02] hover:border-white/[0.14] hover:bg-white/[0.03]"
     >
       <div
         className="absolute top-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
@@ -40,7 +32,7 @@ export function SecondaryProductCard({ product, dimmed }: SecondaryProductCardPr
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div
-              className="w-10 h-10 rounded-lg flex items-center justify-center"
+              className="w-10 h-10 flex items-center justify-center"
               style={{ background: `${product.accentHex}12` }}
             >
               <Icon size={20} style={{ color: product.accentHex }} />
@@ -80,7 +72,7 @@ export function SecondaryProductCard({ product, dimmed }: SecondaryProductCardPr
                 <span
                   key={level}
                   className={`
-                    px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider
+                    px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider
                     ${supported ? '' : 'bg-white/[0.03] text-white/15'}
                   `}
                   style={supported ? {

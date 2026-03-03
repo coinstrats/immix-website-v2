@@ -1,18 +1,16 @@
-import { useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { LayoutDashboard, Code, Terminal, ArrowRight } from 'lucide-react';
 import { AnimatedElement } from '../ui';
-import {
-  featuredProducts,
-  secondaryProducts,
-  type IntegrationLevel,
-} from './products/productData';
-import { IntegrationFilter } from './products/IntegrationFilter';
+import { featuredProducts, secondaryProducts } from './products/productData';
 import { ProductShowcase } from './products/ProductShowcase';
 import { SecondaryProductCard } from './products/SecondaryProductCard';
 
-export const ProductSolutions = () => {
-  const [activeFilter, setActiveFilter] = useState<IntegrationLevel | null>(null);
+const accessModes = [
+  { label: 'Dashboard', icon: LayoutDashboard },
+  { label: 'SDK', icon: Code },
+  { label: 'API', icon: Terminal },
+];
 
+export const ProductSolutions = () => {
   return (
     <section id="solutions" className="py-16 px-5 md:px-12 lg:px-16 lg:py-28 overflow-hidden">
       <div className="max-w-7xl mx-auto">
@@ -33,19 +31,24 @@ export const ProductSolutions = () => {
               via dashboard, SDK, or API.
             </p>
           </AnimatedElement>
-        </div>
 
-        <AnimatedElement type="fadeInUp" delay={0.15}>
-          <div className="mb-20 lg:mb-24 max-w-4xl mx-auto">
-            <p className="text-xs font-mono text-white/25 tracking-wider uppercase mb-4 text-center">
-              Choose how you build
-            </p>
-            <IntegrationFilter
-              activeFilter={activeFilter}
-              onFilterChange={setActiveFilter}
-            />
-          </div>
-        </AnimatedElement>
+          <AnimatedElement type="fadeInUp" delay={0.15}>
+            <div className="flex items-center justify-center gap-3 pt-4">
+              {accessModes.map((mode) => {
+                const ModeIcon = mode.icon;
+                return (
+                  <span
+                    key={mode.label}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-white/[0.08] bg-white/[0.03] text-[11px] font-semibold uppercase tracking-wider text-white/50"
+                  >
+                    <ModeIcon size={12} className="text-[#0073FF]/60" />
+                    {mode.label}
+                  </span>
+                );
+              })}
+            </div>
+          </AnimatedElement>
+        </div>
 
         <div className="mb-20 lg:mb-28">
           <AnimatedElement type="fadeInUp" delay={0.05}>
@@ -58,14 +61,11 @@ export const ProductSolutions = () => {
           </AnimatedElement>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6">
-            {featuredProducts.map((product, index) => {
-              const dimmed = activeFilter !== null && !product.integrations.includes(activeFilter);
-              return (
-                <AnimatedElement key={product.id} type="fadeInUp" delay={0.1 + index * 0.1}>
-                  <ProductShowcase product={product} dimmed={dimmed} />
-                </AnimatedElement>
-              );
-            })}
+            {featuredProducts.map((product, index) => (
+              <AnimatedElement key={product.id} type="fadeInUp" delay={0.1 + index * 0.1}>
+                <ProductShowcase product={product} />
+              </AnimatedElement>
+            ))}
           </div>
         </div>
 
@@ -80,31 +80,26 @@ export const ProductSolutions = () => {
           </AnimatedElement>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
-            {secondaryProducts.map((product, index) => {
-              const dimmed = activeFilter !== null && !product.integrations.includes(activeFilter);
-              return (
-                <AnimatedElement key={product.id} type="fadeInUp" delay={0.05 + index * 0.07}>
-                  <SecondaryProductCard product={product} dimmed={dimmed} />
-                </AnimatedElement>
-              );
-            })}
+            {secondaryProducts.map((product, index) => (
+              <AnimatedElement key={product.id} type="fadeInUp" delay={0.05 + index * 0.07}>
+                <SecondaryProductCard product={product} />
+              </AnimatedElement>
+            ))}
           </div>
         </div>
 
         <AnimatedElement type="fadeInUp" delay={0.1}>
           <div className="pt-10 border-t border-white/[0.06]">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <p className="text-sm text-white/40">
-                Find a plan that fits your build.
+            <div className="flex flex-col items-center gap-4 text-center">
+              <p className="text-lg font-semibold text-white/80">
+                Ready to build?
+              </p>
+              <p className="text-sm text-white/40 max-w-md">
+                Generate your API keys in minutes and start integrating.
               </p>
               <a
                 href="#pricing"
-                className="
-                  inline-flex items-center gap-2 px-5 py-2.5
-                  bg-[#0073FF] text-white text-sm font-semibold rounded-lg
-                  hover:shadow-[0_0_30px_rgba(0,115,255,0.4)]
-                  transition-all duration-300 hover:scale-[1.02]
-                "
+                className="button-primary inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold transition-all duration-300 hover:scale-[1.02]"
               >
                 View Pricing
                 <ArrowRight size={14} />

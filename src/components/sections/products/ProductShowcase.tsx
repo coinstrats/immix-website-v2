@@ -1,13 +1,12 @@
 import { useRef, useEffect, useState } from 'react';
-import { Check, ArrowRight, Radio } from 'lucide-react';
+import { Check, ArrowRight } from 'lucide-react';
 import type { Product, IntegrationLevel } from './productData';
 
 interface ProductShowcaseProps {
   product: Product;
-  dimmed: boolean;
 }
 
-export function ProductShowcase({ product, dimmed }: ProductShowcaseProps) {
+export function ProductShowcase({ product }: ProductShowcaseProps) {
   const Icon = product.icon;
   const Visual = product.visual;
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -40,17 +39,10 @@ export function ProductShowcase({ product, dimmed }: ProductShowcaseProps) {
   return (
     <div
       ref={containerRef}
-      className={`
-        relative group rounded-2xl border overflow-hidden h-full
-        transition-all duration-500
-        ${dimmed
-          ? 'opacity-25 scale-[0.99] border-white/[0.04] bg-white/[0.01]'
-          : 'border-white/[0.08] bg-white/[0.02] hover:border-white/[0.14]'
-        }
-      `}
-      style={!dimmed ? {
+      className="relative group border overflow-hidden h-full transition-all duration-500 border-white/[0.08] bg-white/[0.02] hover:border-white/[0.14]"
+      style={{
         boxShadow: `0 0 0 1px ${product.accentHex}08, 0 4px 40px ${product.accentHex}06`,
-      } : undefined}
+      }}
     >
       <div
         className="absolute top-0 left-0 right-0 h-px"
@@ -95,32 +87,19 @@ export function ProductShowcase({ product, dimmed }: ProductShowcaseProps) {
 
         <div className="p-6 lg:p-7 flex flex-col flex-1">
           <div className="space-y-5 flex-1">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-11 h-11 rounded-xl flex items-center justify-center"
-                  style={{ background: `${product.accentHex}15` }}
-                >
-                  <Icon size={22} style={{ color: product.accentHex }} />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-white">{product.name}</h3>
-                  <span className="text-[11px] font-medium opacity-60" style={{ color: product.accentHex }}>
-                    {product.clientType}
-                  </span>
-                </div>
-              </div>
-
-              <span
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider flex-shrink-0"
-                style={{
-                  background: `${product.accentHex}15`,
-                  color: product.accentHex,
-                }}
+            <div className="flex items-center gap-3">
+              <div
+                className="w-11 h-11 flex items-center justify-center"
+                style={{ background: `${product.accentHex}15` }}
               >
-                <Radio size={8} className="animate-pulse" />
-                Live
-              </span>
+                <Icon size={22} style={{ color: product.accentHex }} />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white">{product.name}</h3>
+                <span className="text-[11px] font-medium opacity-60" style={{ color: product.accentHex }}>
+                  {product.clientType}
+                </span>
+              </div>
             </div>
 
             <p className="text-sm text-white/50 leading-relaxed">
@@ -149,7 +128,7 @@ export function ProductShowcase({ product, dimmed }: ProductShowcaseProps) {
                   <span
                     key={level}
                     className={`
-                      px-2.5 py-1 rounded text-[10px] font-semibold uppercase tracking-wider
+                      px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider
                       ${supported ? '' : 'bg-white/[0.03] text-white/15'}
                     `}
                     style={supported ? {
