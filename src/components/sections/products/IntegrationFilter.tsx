@@ -20,11 +20,9 @@ export function IntegrationFilter({ activeFilter, onFilterChange }: IntegrationF
       </div>
 
       <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-        {integrationModes.map((mode, index) => {
+        {integrationModes.map((mode) => {
           const ModeIcon = mode.icon;
           const isActive = activeFilter === mode.key;
-          const tierLabels = ['No-Code', 'Low-Code', 'Full-Code'];
-
           return (
             <button
               key={mode.key}
@@ -79,7 +77,7 @@ export function IntegrationFilter({ activeFilter, onFilterChange }: IntegrationF
                       ${isActive ? 'text-[#0073FF]/60' : 'text-white/20'}
                     `}
                   >
-                    {tierLabels[index]}
+                    {mode.tier}
                   </span>
                 </div>
 

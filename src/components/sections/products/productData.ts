@@ -208,20 +208,23 @@ export const secondaryProducts: Product[] = [connect, earn, transfers, lab];
 export const integrationModes = [
   {
     key: 'ui' as IntegrationLevel,
-    label: 'No-Code',
+    tier: 'UI',
+    label: 'No Code',
     icon: LayoutDashboard,
-    description: 'Point-and-click configuration. Deploy from the IMMIX dashboard without writing a line of code.',
+    description: 'Point-and-click. Configure and deploy directly from the dashboard.',
   },
   {
     key: 'sdk' as IntegrationLevel,
-    label: 'SDK',
+    tier: 'SDK',
+    label: 'Low Code',
     icon: Code,
-    description: 'Python, Java, Rust, and C++ libraries. Import and build with type-safe abstractions.',
+    description: 'Pre-built libraries in Python, Java, Rust, and C++. Import and build.',
   },
   {
     key: 'api' as IntegrationLevel,
-    label: 'API',
+    tier: 'API',
+    label: 'Full Code',
     icon: Terminal,
-    description: 'REST, WebSocket, and FIX. Full protocol-level control for maximum flexibility.',
+    description: 'REST, WebSocket, and FIX endpoints. Complete protocol-level control.',
   },
 ];

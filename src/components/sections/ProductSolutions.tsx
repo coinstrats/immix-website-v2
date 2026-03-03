@@ -1,14 +1,8 @@
-import { LayoutDashboard, Code, Terminal, ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronRight } from 'lucide-react';
 import { AnimatedElement } from '../ui';
-import { featuredProducts, secondaryProducts } from './products/productData';
+import { featuredProducts, secondaryProducts, integrationModes } from './products/productData';
 import { ProductShowcase } from './products/ProductShowcase';
 import { SecondaryProductCard } from './products/SecondaryProductCard';
-
-const accessModes = [
-  { label: 'Dashboard', icon: LayoutDashboard },
-  { label: 'SDK', icon: Code },
-  { label: 'API', icon: Terminal },
-];
 
 export const ProductSolutions = () => {
   return (
@@ -17,35 +11,65 @@ export const ProductSolutions = () => {
         <div className="text-center space-y-5 mb-16 lg:mb-20">
           <AnimatedElement type="fadeInUp">
             <p className="text-xs font-mono text-[#0073FF]/50 tracking-[0.2em] uppercase mb-4">
-              The Platform
+              Infrastructure
             </p>
             <h2 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold leading-tight">
-              From data to execution
+              Modular by design.
               <br className="hidden sm:block" />
-              <span className="text-white/40"> to settlement.</span>
+              <span className="text-white/40"> Built for speed.</span>
             </h2>
           </AnimatedElement>
           <AnimatedElement type="fadeInUp" delay={0.1}>
             <p className="text-base lg:text-lg text-white/45 max-w-2xl mx-auto leading-relaxed">
-              Six products spanning the full digital asset lifecycle — accessible
-              via dashboard, SDK, or API.
+              High-performance infrastructure for digital asset markets — connect, trade,
+              earn, and settle through independent modules that work together.
             </p>
           </AnimatedElement>
 
           <AnimatedElement type="fadeInUp" delay={0.15}>
-            <div className="flex items-center justify-center gap-3 pt-4">
-              {accessModes.map((mode) => {
-                const ModeIcon = mode.icon;
-                return (
-                  <span
-                    key={mode.label}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-white/[0.08] bg-white/[0.03] text-[11px] font-semibold uppercase tracking-wider text-white/50"
-                  >
-                    <ModeIcon size={12} className="text-[#0073FF]/60" />
-                    {mode.label}
-                  </span>
-                );
-              })}
+            <p className="text-[10px] font-mono text-white/25 tracking-[0.25em] uppercase pt-6 mb-4">
+              Choose How You Build
+            </p>
+            <div className="relative max-w-3xl mx-auto">
+              <div className="hidden sm:block absolute top-1/2 left-0 right-0 -translate-y-1/2 z-0 pointer-events-none">
+                <div className="mx-auto max-w-[75%] flex items-center">
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-white/[0.08]" />
+                  <ChevronRight size={10} className="text-white/10 mx-0.5" />
+                  <div className="flex-1 h-px bg-white/[0.08]" />
+                  <ChevronRight size={10} className="text-white/10 mx-0.5" />
+                  <div className="flex-1 h-px bg-gradient-to-r from-white/[0.08] via-white/[0.06] to-transparent" />
+                </div>
+              </div>
+
+              <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                {integrationModes.map((mode) => {
+                  const ModeIcon = mode.icon;
+                  return (
+                    <div
+                      key={mode.key}
+                      className="relative text-left rounded-xl border border-white/[0.08] bg-white/[0.02] p-5 sm:p-6 group hover:border-white/[0.15] hover:bg-white/[0.03] transition-all duration-300"
+                    >
+                      <div className="absolute top-0 left-0 right-0 h-px bg-white/[0.06]" />
+                      <div className="relative">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 bg-white/[0.05] group-hover:bg-white/[0.08] transition-colors duration-300">
+                            <ModeIcon size={18} className="text-white/40 group-hover:text-white/60 transition-colors duration-300" />
+                          </div>
+                          <span className="text-[10px] font-mono uppercase tracking-widest text-white/20">
+                            {mode.tier}
+                          </span>
+                        </div>
+                        <span className="text-sm font-semibold text-white/70 group-hover:text-white/90 transition-colors duration-300 block mb-1.5">
+                          {mode.label}
+                        </span>
+                        <p className="text-xs text-white/35 leading-relaxed">
+                          {mode.description}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </AnimatedElement>
         </div>
