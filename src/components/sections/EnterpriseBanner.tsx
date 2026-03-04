@@ -33,6 +33,8 @@ export const EnterpriseBanner = () => {
 
           <a
             href="https://app.immix.xyz"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-medium border border-amber-500/40 text-amber-400 hover:border-amber-400 hover:bg-amber-500/10 transition-all duration-200 group/btn flex-shrink-0 self-start"
           >
             <span>Talk to Sales</span>

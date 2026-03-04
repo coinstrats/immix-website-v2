@@ -88,6 +88,8 @@ export function SecondaryProductCard({ product }: SecondaryProductCardProps) {
 
           <a
             href="https://app.immix.xyz"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-1 text-xs font-medium transition-all duration-200 group/link opacity-60 hover:opacity-100"
             style={{ color: product.accentHex }}
           >
