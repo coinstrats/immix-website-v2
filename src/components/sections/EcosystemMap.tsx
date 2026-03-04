@@ -563,23 +563,38 @@ const VideoAndConferences = () => (
 
       <div className="text-center space-y-6">
         <p className="text-xs font-mono text-white/50 uppercase tracking-[0.25em]">Presented At</p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8">
-          {CONFERENCES.map((conf) => (
-            <a
-              key={conf.name}
-              href={conf.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center gap-4 px-6 py-4 border border-white/10 bg-immix-dark/40 backdrop-blur hover:border-immix-blue/30 hover:bg-immix-blue/5 transition-all duration-400"
-            >
-              <div className="w-12 h-12 border border-white/20 bg-white/5 flex items-center justify-center text-sm font-mono font-bold text-white/60 group-hover:text-immix-blue group-hover:border-immix-blue/40 group-hover:bg-immix-blue/10 transition-all duration-300">
-                {conf.short}
-              </div>
-              <span className="text-sm font-mono text-white/60 group-hover:text-white/90 transition-colors whitespace-nowrap">
-                {conf.name}
-              </span>
-            </a>
-          ))}
+        <div className="flex flex-col items-center gap-4">
+          <a
+            href={CONFERENCES[1].url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center gap-4 px-6 py-4 border border-white/10 bg-immix-dark/40 backdrop-blur hover:border-immix-blue/30 hover:bg-immix-blue/5 transition-all duration-300 w-full sm:w-auto"
+          >
+            <div className="px-3 py-2 border border-white/20 bg-white/5 flex items-center justify-center text-xs font-mono font-bold text-white/60 group-hover:text-immix-blue group-hover:border-immix-blue/40 group-hover:bg-immix-blue/10 transition-all duration-300 whitespace-nowrap">
+              {CONFERENCES[1].short}
+            </div>
+            <span className="text-sm font-mono text-white/60 group-hover:text-white/90 transition-colors whitespace-nowrap">
+              {CONFERENCES[1].name}
+            </span>
+          </a>
+          <div className="flex flex-col sm:flex-row items-center gap-4">
+            {[CONFERENCES[0], CONFERENCES[2]].map((conf) => (
+              <a
+                key={conf.name}
+                href={conf.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-4 px-6 py-4 border border-white/10 bg-immix-dark/40 backdrop-blur hover:border-immix-blue/30 hover:bg-immix-blue/5 transition-all duration-300 w-full sm:w-auto"
+              >
+                <div className="w-12 h-12 border border-white/20 bg-white/5 flex items-center justify-center text-sm font-mono font-bold text-white/60 group-hover:text-immix-blue group-hover:border-immix-blue/40 group-hover:bg-immix-blue/10 transition-all duration-300">
+                  {conf.short}
+                </div>
+                <span className="text-sm font-mono text-white/60 group-hover:text-white/90 transition-colors whitespace-nowrap">
+                  {conf.name}
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </div>
