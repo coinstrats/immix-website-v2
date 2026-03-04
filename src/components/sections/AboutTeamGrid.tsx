@@ -45,6 +45,11 @@ const team: TeamMember[] = [
     bio: 'Wenzhe is a specialist in designing ultra-low latency trading systems. His interests lie in crafting HFT strategies and bespoke infrastructures. Before joining IMMIX, he worked with major investment banks such as UBS and the top cryptocurrency exchange Crypto.com.',
   },
   {
+    name: 'Vasily Shelkov',
+    role: 'Senior Frontend Engineer',
+    bio: 'Vasily is a senior product-focused frontend engineer who architects and builds the client-facing experiences at IMMIX. With over a decade of experience delivering complex web platforms that prioritise clarity, performance, and reliability at scale. He has a strong bias toward pragmatic decision-making, and building systems that translate sophisticated infrastructure into intuitive user experiences.',
+  },
+  {
     name: 'David Fellah',
     role: 'Quantitative Research',
     bio: 'David specializes in designing and refining algorithmic trading strategies using advanced mathematical and statistical techniques. He has developed predictive models for leading financial institutions, honing his expertise in market microstructure and risk management.',
