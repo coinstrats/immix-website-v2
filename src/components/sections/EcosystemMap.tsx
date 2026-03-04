@@ -561,21 +561,21 @@ const VideoAndConferences = () => (
         </a>
       </div>
 
-      <div className="text-center space-y-5">
-        <p className="text-[10px] font-mono text-white/30 uppercase tracking-[0.2em]">Presented At</p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-10">
+      <div className="text-center space-y-6">
+        <p className="text-xs font-mono text-white/50 uppercase tracking-[0.25em]">Presented At</p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8">
           {CONFERENCES.map((conf) => (
             <a
               key={conf.name}
               href={conf.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2 px-4 py-2 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-500"
+              className="group flex items-center gap-4 px-6 py-4 border border-white/10 bg-immix-dark/40 backdrop-blur hover:border-immix-blue/30 hover:bg-immix-blue/5 transition-all duration-400"
             >
-              <div className="w-8 h-8 border border-white/20 bg-white/5 flex items-center justify-center text-xs font-mono font-bold text-white/40 group-hover:text-white/80 group-hover:border-white/40 transition-all">
-                {conf.short.charAt(0)}
+              <div className="w-12 h-12 border border-white/20 bg-white/5 flex items-center justify-center text-sm font-mono font-bold text-white/60 group-hover:text-immix-blue group-hover:border-immix-blue/40 group-hover:bg-immix-blue/10 transition-all duration-300">
+                {conf.short}
               </div>
-              <span className="text-xs font-mono text-white/40 group-hover:text-white/70 transition-colors whitespace-nowrap">
+              <span className="text-sm font-mono text-white/60 group-hover:text-white/90 transition-colors whitespace-nowrap">
                 {conf.name}
               </span>
             </a>
