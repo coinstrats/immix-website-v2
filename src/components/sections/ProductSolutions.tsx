@@ -8,19 +8,16 @@ export const ProductSolutions = () => {
   return (
     <section id="solutions" className="py-16 px-5 md:px-12 lg:px-16 lg:py-28 overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center space-y-5 mb-16 lg:mb-20">
+        <div className="text-center space-y-4 mb-16 lg:mb-20">
           <AnimatedElement type="fadeInUp">
             <p className="text-xs font-mono text-[#0073FF]/50 tracking-[0.2em] uppercase mb-4">
               Solutions
             </p>
-            <h2 className="text-4xl md:text-5xl lg:text-[3.5rem] font-bold leading-tight">
-              Modular by design.
-              <br className="hidden sm:block" />
-              <span className="text-white/40"> Built for speed.</span>
-            </h2>
+            <h2 className="text-4xl md:text-5xl font-bold">Modular by design. Built for speed.</h2>
+            <div className="mt-4 mx-auto w-16 h-[2px] bg-gradient-to-r from-transparent via-immix-blue to-transparent" />
           </AnimatedElement>
           <AnimatedElement type="fadeInUp" delay={0.1}>
-            <p className="text-base lg:text-lg text-white/45 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg text-white/60 max-w-3xl mx-auto leading-relaxed">
               Composable, programmable infrastructure for digital asset markets — assemble
               only the modules you need and control every layer through the interface of your choice.
             </p>
