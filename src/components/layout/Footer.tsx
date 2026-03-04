@@ -1,15 +1,14 @@
 export const Footer = () => {
   const footerLinks = {
-    Product: ['Documentation', 'API Status', 'Changelog'],
-    Company: ['Careers', 'Partners'],
-    Legal: ['Privacy', 'Terms', 'Security'],
+    Product: ['Documentation'],
+    Company: ['Careers'],
   };
 
   return (
     <footer className="bg-immix-darker border-t border-white/10">
       <div className="section-wrapper">
         <div className="container-max space-y-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             <div>
               <h4 className="text-lg font-bold mb-4 text-white">IMMIX</h4>
               <p className="text-white/60 text-sm">
