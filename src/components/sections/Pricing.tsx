@@ -8,6 +8,7 @@ import {
   Sparkles,
   ChevronLeft,
   ChevronRight,
+  Tag,
 } from 'lucide-react';
 import { AnimatedElement } from '../ui';
 import { StartupCreditsBanner } from './StartupCreditsBanner';
@@ -18,7 +19,7 @@ const coreTiers = [
     name: 'Lite',
     icon: Eye,
     price: 'From $500',
-    period: 'avg/month',
+    period: '/month',
     description: 'For analysts and teams needing view-only access to markets and data',
     features: [
       'Markets analytics dashboard',
@@ -37,7 +38,7 @@ const coreTiers = [
     name: 'Pro',
     icon: TrendingUp,
     price: 'From $2,500',
-    period: 'avg/month',
+    period: '/month',
     description: 'For traders and funds ready to execute with algorithmic strategies',
     features: [
       'Everything in Lite, plus:',
@@ -56,7 +57,7 @@ const coreTiers = [
     name: 'Ultra',
     icon: ArrowLeftRight,
     price: 'From $5,000',
-    period: 'avg/month',
+    period: '/month',
     description: 'For institutions needing transfers, yield, and advanced automation',
     features: [
       'Everything in Pro, plus:',
@@ -134,6 +135,10 @@ function PricingCard({ tier }: { tier: (typeof coreTiers)[number] }) {
           <div className="flex items-baseline gap-2">
             <span className="text-3xl font-bold">{tier.price}</span>
             <span className="text-white/60 text-sm">{tier.period}</span>
+          </div>
+          <div className="mt-2 inline-flex items-center gap-1.5 px-2 py-0.5 bg-amber-500/10 border border-amber-500/20 rounded-sm">
+            <Tag size={10} className="text-amber-400" />
+            <span className="text-[11px] font-medium text-amber-300/90">Promo rate</span>
           </div>
           <p className="mt-3 text-sm text-white/60 leading-relaxed">{tier.description}</p>
         </div>
@@ -382,6 +387,16 @@ export const Pricing = () => {
               volume — not market luck.
             </p>
           </AnimatedElement>
+          <AnimatedElement type="fadeInUp" delay={0.15}>
+            <div className="flex justify-center mt-2">
+              <div className="inline-flex items-center gap-2.5 px-5 py-2 bg-amber-500/8 border border-amber-500/20 rounded-full">
+                <Tag size={14} className="text-amber-400 flex-shrink-0" />
+                <span className="text-sm text-amber-200/90">
+                  Flat promotional pricing on all tiers through <span className="font-semibold text-amber-300">June 30, 2026</span>
+                </span>
+              </div>
+            </div>
+          </AnimatedElement>
         </div>
 
         <div>
@@ -417,6 +432,8 @@ export const Pricing = () => {
           <p className="text-white/40 text-sm">
             All plans include 24/7 infrastructure monitoring, automatic failover, and regular
             security audits.
+            <br />
+            Promotional flat pricing available through June 30, 2026. Standard usage-based pricing applies thereafter.
             <br />
             Startup credits subject to approval and valid for 6 months from activation.
             <br />
