@@ -13,7 +13,7 @@ export const ProductSolutions = () => {
             <p className="text-xs font-mono text-[#0073FF]/50 tracking-[0.2em] uppercase mb-4">
               Solutions
             </p>
-            <h2 className="text-4xl md:text-5xl font-bold">Modular by design. Built for speed.</h2>
+            <h2 className="text-4xl md:text-5xl font-bold">One platform, infinite configurations.</h2>
             <div className="mt-4 mx-auto w-16 h-[2px] bg-gradient-to-r from-transparent via-immix-blue to-transparent" />
           </AnimatedElement>
           <AnimatedElement type="fadeInUp" delay={0.1}>
