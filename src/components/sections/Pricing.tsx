@@ -378,6 +378,9 @@ export const Pricing = () => {
       <div className="container-max space-y-12">
         <div className="text-center space-y-4">
           <AnimatedElement type="fadeInUp">
+            <p className="text-xs font-mono text-[#0073FF]/50 tracking-[0.2em] uppercase mb-4">
+              Pricing
+            </p>
             <h2 className="text-4xl md:text-5xl font-bold">Infrastructure pricing.</h2>
             <div className="mt-4 mx-auto w-16 h-[2px] bg-gradient-to-r from-transparent via-immix-blue to-transparent" />
           </AnimatedElement>
