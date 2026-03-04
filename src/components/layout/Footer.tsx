@@ -50,13 +50,10 @@ export const Footer = () => {
           <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between text-sm text-white/60">
             <p>&copy; 2026 IMMIX. All rights reserved.</p>
             <div className="flex gap-6 mt-4 md:mt-0">
-              <a href="#" className="hover:text-immix-blue transition-colors">
+              <a href="https://x.com/immix_xyz" target="_blank" rel="noopener noreferrer" className="hover:text-immix-blue transition-colors">
                 Twitter
               </a>
-              <a href="#" className="hover:text-immix-blue transition-colors">
-                Discord
-              </a>
-              <a href="#" className="hover:text-immix-blue transition-colors">
+              <a href="https://github.com/coinstrats" target="_blank" rel="noopener noreferrer" className="hover:text-immix-blue transition-colors">
                 GitHub
               </a>
             </div>
