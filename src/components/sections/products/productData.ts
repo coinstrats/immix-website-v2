@@ -92,7 +92,7 @@ const trade: Product = {
   id: 'trade',
   name: 'Trade',
   icon: ArrowRightLeft,
-  tagline: 'Advanced order types and algos across CeFi, DeFi and RWAs — from multi-leg spreads to continuous hedging.',
+  tagline: 'Highly configurable workspaces with advanced order types and algos across CeFi, DeFi and RWAs — from multi-leg spreads to continuous hedging.',
   clientType: 'Traders & Fund Managers',
   capabilities: [
     'Multi-leg spreads & portfolio rebalancing',
