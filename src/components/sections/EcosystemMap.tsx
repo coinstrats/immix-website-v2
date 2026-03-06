@@ -535,7 +535,7 @@ const MobileLayout = () => {
         </button>
       </div>
 
-      <div className="mt-12">
+      <div className="mt-24">
         <MobileGatewayCard />
       </div>
     </div>
@@ -544,7 +544,7 @@ const MobileLayout = () => {
 
 const VideoAndConferences = () => (
   <AnimatedElement type="fadeInUp" delay={0.15}>
-    <div className="pt-20 lg:pt-24 pb-16 lg:pb-12 space-y-14 lg:space-y-16">
+    <div className="pt-4 lg:pt-24 pb-16 lg:pb-12 space-y-14 lg:space-y-16">
       <div className="flex justify-center">
         <a
           href="https://www.youtube.com/watch?v=dqQvHgqOuc4"
