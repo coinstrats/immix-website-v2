@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { Copy, Check } from 'lucide-react';
+
 const pythonCode = `from immix import Client
 client = Client(api_key="your_key")
 
@@ -70,7 +73,18 @@ const highlightLine = (line: string) => {
 };
 
 export const HeroCodeCard = () => {
+  const [copied, setCopied] = useState(false);
   const lines = pythonCode.split('\n');
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(pythonCode);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard unavailable */
+    }
+  };
 
   return (
     <div
@@ -83,7 +97,14 @@ export const HeroCodeCard = () => {
         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
       }}
     >
-      <div className="px-4 py-3">
+      <div className="relative px-4 py-3">
+        <button
+          onClick={handleCopy}
+          className="absolute top-2.5 right-2.5 z-10 p-1 rounded transition-all duration-200 text-white/30 hover:text-white/70 hover:bg-white/[0.06] cursor-pointer"
+          aria-label="Copy code"
+        >
+          {copied ? <Check size={13} className="text-emerald-400/80" /> : <Copy size={13} />}
+        </button>
         <pre className="text-[10.5px] leading-[1.6]">
           <code className="font-mono text-white/85">
             {lines.map((line, i) => (
