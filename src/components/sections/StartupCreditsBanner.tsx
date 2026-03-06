@@ -16,7 +16,7 @@ export const StartupCreditsBanner = () => {
         <div className="flex items-start justify-between gap-6 flex-wrap">
           <div className="space-y-3">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 bg-teal-500/20 text-teal-400 border border-teal-500/20">
+              <div className="p-2.5 bg-teal-500/20 text-teal-400">
                 <Rocket size={20} />
               </div>
               <div>

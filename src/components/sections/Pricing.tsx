@@ -420,11 +420,11 @@ export const Pricing = () => {
               <div className="flex-1 h-px bg-gradient-to-l from-transparent to-white/10" />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-              <div className="lg:col-span-3">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div>
                 <EnterpriseBanner />
               </div>
-              <div className="lg:col-span-2">
+              <div>
                 <StartupCreditsBanner />
               </div>
             </div>
