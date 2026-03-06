@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { monoFontFamily } from './fontFamily';
 
 const nodes = [
   { x: 60, y: 55, label: 'CME' },
@@ -164,7 +165,7 @@ export const ConnectVisual = () => {
                 fill="white"
                 fillOpacity="0.5"
                 fontSize="9"
-                fontFamily="monospace"
+                fontFamily={monoFontFamily}
               >
                 {node.label}
               </text>

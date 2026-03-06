@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { monoFontFamily } from './fontFamily';
 
 const gridLines = [0.2, 0.4, 0.6, 0.8];
 
@@ -83,7 +84,7 @@ export const MarketsVisual = () => {
             fill="white"
             fillOpacity="0.35"
             fontSize="5"
-            fontFamily="monospace"
+            fontFamily={monoFontFamily}
           >
             {item.label}
           </text>

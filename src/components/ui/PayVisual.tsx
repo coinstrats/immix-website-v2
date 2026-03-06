@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { monoFontFamily } from './fontFamily';
 
 const stages = [
   { x: 45, label: 'BUY' },
@@ -83,7 +84,7 @@ export const PayVisual = () => {
               fill="rgb(45,212,191)"
               fillOpacity="0.8"
               fontSize="7"
-              fontFamily="monospace"
+              fontFamily={monoFontFamily}
               fontWeight="bold"
             >
               {stage.label}
@@ -108,7 +109,7 @@ export const PayVisual = () => {
           fill="rgb(45,212,191)"
           fillOpacity="0.6"
           fontSize="8"
-          fontFamily="monospace"
+          fontFamily={monoFontFamily}
           fontWeight="bold"
         >
           $
@@ -209,7 +210,7 @@ export const PayVisual = () => {
           fill="rgb(45,212,191)"
           fillOpacity="0.35"
           fontSize="5"
-          fontFamily="monospace"
+          fontFamily={monoFontFamily}
         >
           SOR
         </text>

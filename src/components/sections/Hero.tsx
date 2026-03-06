@@ -53,10 +53,10 @@ export const Hero = () => {
             <AnimatedElement type="fadeInUp" delay={0.3}>
               <div className="space-y-1">
                 <p className="text-2xl lg:text-3xl font-semibold text-white/90 tracking-tight">
-                  APIs and SDKs for tokenized markets.
+                  Unified APIs and SDKs for tokenized markets.
                 </p>
                 <p className="text-lg lg:text-xl text-white/50 leading-relaxed">
-                  Unify trading, treasury, and payment workflows.
+                   Orchestrate your trading, treasury, and payment workflows.
                 </p>
               </div>
             </AnimatedElement>

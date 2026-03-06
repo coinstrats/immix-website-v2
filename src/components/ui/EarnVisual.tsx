@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { monoFontFamily } from './fontFamily';
 
 const curvePath = 'M 30 90 C 60 88 90 82 120 72 C 150 62 180 48 210 38 C 240 28 270 20 300 14 C 320 10 335 8 345 6';
 const fillPath = `${curvePath} L 345 95 L 30 95 Z`;
@@ -99,7 +100,7 @@ export const EarnVisual = () => {
               fill="rgb(56,189,248)"
               fillOpacity="0.6"
               fontSize="6"
-              fontFamily="monospace"
+              fontFamily={monoFontFamily}
               fontWeight="bold"
             >
               +
@@ -127,7 +128,7 @@ export const EarnVisual = () => {
           fill="white"
           fillOpacity="0.3"
           fontSize="5"
-          fontFamily="monospace"
+          fontFamily={monoFontFamily}
           transform="rotate(-90, 15, 52)"
         >
           %
@@ -139,7 +140,7 @@ export const EarnVisual = () => {
           fill="white"
           fillOpacity="0.25"
           fontSize="5"
-          fontFamily="monospace"
+          fontFamily={monoFontFamily}
         >
           t
         </text>
