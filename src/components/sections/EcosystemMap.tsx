@@ -544,7 +544,7 @@ const MobileLayout = () => {
 
 const VideoAndConferences = () => (
   <AnimatedElement type="fadeInUp" delay={0.15}>
-    <div className="pt-16 lg:pt-24 pb-8 lg:pb-12 space-y-12 lg:space-y-16">
+    <div className="pt-20 lg:pt-24 pb-16 lg:pb-12 space-y-14 lg:space-y-16">
       <div className="flex justify-center">
         <a
           href="https://www.youtube.com/watch?v=dqQvHgqOuc4"
@@ -561,9 +561,9 @@ const VideoAndConferences = () => (
         </a>
       </div>
 
-      <div className="text-center space-y-6">
+      <div className="text-center space-y-8 lg:space-y-6">
         <p className="text-xs font-mono text-white/50 uppercase tracking-[0.25em]">Presented At</p>
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-5 lg:gap-4">
           <a
             href={CONFERENCES[1].url}
             target="_blank"
@@ -618,7 +618,7 @@ export const EcosystemMap = () => {
         </svg>
       </div>
 
-      <div className="container-max space-y-10 lg:space-y-12 relative z-10">
+      <div className="container-max space-y-16 lg:space-y-12 relative z-10">
         <div className="text-center space-y-4">
           <AnimatedElement type="fadeInUp">
             <p className="text-xs font-mono text-[#0073FF]/50 tracking-[0.2em] uppercase mb-4">
