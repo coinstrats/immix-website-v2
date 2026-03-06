@@ -397,7 +397,7 @@ export const Pricing = () => {
               <div className="inline-flex items-center gap-2.5 px-5 py-2 bg-amber-500/8 border border-amber-500/20 rounded-full">
                 <Tag size={14} className="text-amber-400 flex-shrink-0" />
                 <span className="text-sm text-amber-200/90">
-                  Flat promotional pricing on all tiers through <span className="font-semibold text-amber-300">June 30, 2026</span>
+                  Flat promotional rates through <span className="font-semibold text-amber-300">June 30, 2026</span> — flexible usage-based pricing from <span className="font-semibold text-amber-300">July 2026</span>, pay only for what you use
                 </span>
               </div>
             </div>
@@ -438,7 +438,7 @@ export const Pricing = () => {
             All plans include 24/7 infrastructure monitoring, automatic failover, and regular security audits.
           </p>
           <p className="text-white/40 text-sm">
-            Promotional flat pricing available through June 30, 2026. Standard usage-based pricing applies thereafter.
+            Flat promotional pricing available through June 30, 2026. From July 2026, enjoy flexible usage-based pricing — pay only for what you use.
             <br />
             Startup credits subject to approval and valid for 6 months from activation.
           </p>
