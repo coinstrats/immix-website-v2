@@ -1,7 +1,8 @@
-import { Shield, ArrowRight, Server, Code2, Database, Headphones, Lock, Gauge } from 'lucide-react';
+import { Shield, ArrowRight, Server, Code2, Database, Headphones, Lock, Gauge, TrendingUp } from 'lucide-react';
 
 const highlights = [
   { icon: Code2, label: 'Unlimited continuous workflows' },
+  { icon: TrendingUp, label: 'Earn access ($10M limit)' },
   { icon: Database, label: 'Data Lab (ClickHouse)' },
   { icon: Lock, label: 'Dedicated connectivity' },
   { icon: Gauge, label: 'Low Latency SDKs' },
