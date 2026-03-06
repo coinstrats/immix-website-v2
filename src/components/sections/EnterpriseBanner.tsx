@@ -1,9 +1,10 @@
-import { Shield, ArrowRight, Server, Code2, Database, Headphones, Lock } from 'lucide-react';
+import { Shield, ArrowRight, Server, Code2, Database, Headphones, Lock, Gauge } from 'lucide-react';
 
 const highlights = [
-  { icon: Code2, label: 'Unlimited Strategies' },
+  { icon: Code2, label: 'Unlimited continuous workflows' },
   { icon: Database, label: 'Data Lab (ClickHouse)' },
-  { icon: Lock, label: 'Private Connectivity' },
+  { icon: Lock, label: 'Dedicated connectivity' },
+  { icon: Gauge, label: 'Low Latency SDKs' },
   { icon: Server, label: 'White Label' },
   { icon: Headphones, label: 'Dedicated Success Manager' },
 ];
@@ -59,7 +60,7 @@ export const EnterpriseBanner = () => {
 
         <div className="mt-auto pt-4">
           <p className="text-[11px] text-white/30">
-            Includes everything in Ultra plus $10M+ Earn allocation, Java/Rust/C++ SDKs, full historical archive, and 1h SLA.
+            Includes everything in Ultra plus $10M+ Earn allocation, Java/Rust/C++ SDKs, full historical archive.
           </p>
         </div>
       </div>
