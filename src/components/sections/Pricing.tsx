@@ -395,7 +395,7 @@ export const Pricing = () => {
               <div className="inline-flex items-center gap-2.5 px-5 py-2 bg-amber-500/8 border border-amber-500/20 rounded-full">
                 <Tag size={14} className="text-amber-400 flex-shrink-0" />
                 <span className="text-sm text-amber-200/90">
-                  Flat promotional rates through <span className="font-semibold text-amber-300">June 30, 2026</span> — flexible usage-based pricing from <span className="font-semibold text-amber-300">July 2026</span>, pay only for what you use
+                  Flat promotional rates through <span className="font-semibold text-amber-300">June 30, 2026</span> — unified flexible token-based pricing thereafter
                 </span>
               </div>
             </div>
