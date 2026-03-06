@@ -122,11 +122,11 @@ export const HeroCodeCard = () => {
           href="https://edge.immix.xyz/settings/api-clients"
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-center justify-center gap-2 w-full px-3 py-2 text-[10.5px] font-medium tracking-wide text-immix-blue-light/50 hover:text-immix-blue-light/90 transition-all duration-300 cursor-pointer"
+          className="group flex items-center justify-center gap-2 w-full px-3 py-2 text-[10.5px] font-medium tracking-wide text-white/30 hover:text-white/70 transition-all duration-300 cursor-pointer"
         >
-          <KeyRound size={11} className="opacity-50 group-hover:opacity-80 transition-opacity duration-300" />
+          <KeyRound size={11} className="transition-opacity duration-300" />
           <span>Generate Your API Key</span>
-          <ArrowUpRight size={10} className="opacity-40 group-hover:opacity-70 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
+          <ArrowUpRight size={10} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
         </a>
       </div>
     </div>
