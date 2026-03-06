@@ -544,7 +544,7 @@ const MobileLayout = () => {
 
 const VideoAndConferences = () => (
   <AnimatedElement type="fadeInUp" delay={0.15}>
-    <div className="pt-8 lg:pt-12 space-y-8">
+    <div className="pt-16 lg:pt-24 pb-8 lg:pb-12 space-y-12 lg:space-y-16">
       <div className="flex justify-center">
         <a
           href="https://www.youtube.com/watch?v=dqQvHgqOuc4"
