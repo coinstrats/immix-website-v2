@@ -413,6 +413,7 @@ const MobileLayout = () => {
   ];
 
   return (
+  <>
     <div className="lg:hidden space-y-4">
       <div className="flex flex-wrap justify-center gap-3">
         {STATS.slice(0, 3).map((stat, i) => (
@@ -534,17 +535,18 @@ const MobileLayout = () => {
           <ChevronRight size={14} className="text-white/50" />
         </button>
       </div>
-
-      <div className="mt-24">
-        <MobileGatewayCard />
-      </div>
     </div>
+
+    <div className="lg:hidden mt-16">
+      <MobileGatewayCard />
+    </div>
+  </>
   );
 };
 
 const VideoAndConferences = () => (
   <AnimatedElement type="fadeInUp" delay={0.15}>
-    <div className="pt-4 lg:pt-24 pb-16 lg:pb-12 space-y-14 lg:space-y-16">
+    <div className="pt-8 lg:pt-24 pb-16 lg:pb-12 space-y-14 lg:space-y-16">
       <div className="flex justify-center">
         <a
           href="https://www.youtube.com/watch?v=dqQvHgqOuc4"
