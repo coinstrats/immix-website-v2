@@ -116,13 +116,13 @@ export const HeroCodeCard = () => {
         </pre>
       </div>
 
-      <div className="px-3 pb-2.5">
-        <div className="border-t border-white/[0.06] mb-1.5" />
+      <div className="px-3 pb-1.5">
+        <div className="border-t border-white/[0.06]" />
         <a
           href="https://edge.immix.xyz/settings/api-clients"
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-center justify-center gap-2 w-full px-3 py-1 text-[10.5px] font-medium tracking-wide text-[rgba(0,115,255,0.55)] hover:text-[rgba(0,115,255,0.85)] transition-all duration-300 cursor-pointer"
+          className="group flex items-center justify-center gap-2 w-full px-3 py-0.5 text-[10.5px] font-medium tracking-wide text-immix-blue-light/50 hover:text-immix-blue-light/90 transition-all duration-300 cursor-pointer"
         >
           <KeyRound size={11} className="opacity-50 group-hover:opacity-80 transition-opacity duration-300" />
           <span>Generate Your API Key</span>
