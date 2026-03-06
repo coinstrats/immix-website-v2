@@ -218,7 +218,7 @@ export const integrationModes = [
     tier: 'SDK',
     label: 'Low Code',
     icon: Code,
-    description: 'Composable libraries in Python, Java, Rust, and C++. Import modules, chain them together, ship faster.',
+    description: 'SDK libraries in Python, Java, Rust, and C++. Import modules, chain them together, ship faster.',
   },
   {
     key: 'api' as IntegrationLevel,

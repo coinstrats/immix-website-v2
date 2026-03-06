@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { monoFontFamily } from './fontFamily';
 
 interface Instrument {
   pair: string;
@@ -106,7 +107,7 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
               fill="white"
               fillOpacity="0"
               fontSize="7.5"
-              fontFamily="monospace"
+              fontFamily={monoFontFamily}
               animate={{ fillOpacity: 0.4 }}
               transition={{ duration: 0.3, delay: 0.2 + i * 0.04 }}
             >
@@ -158,7 +159,7 @@ const OrderBookContent = ({ instrument, cycle }: { instrument: Instrument; cycle
               fill="white"
               fillOpacity="0"
               fontSize="7.5"
-              fontFamily="monospace"
+              fontFamily={monoFontFamily}
               animate={{ fillOpacity: 0.4 }}
               transition={{ duration: 0.3, delay: 0.2 + i * 0.04 }}
             >
