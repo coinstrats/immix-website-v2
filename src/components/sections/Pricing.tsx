@@ -433,17 +433,18 @@ export const Pricing = () => {
           </div>
         </div>
 
-        <div className="text-center pt-4 lg:pt-8">
+        <div className="text-center pt-4 lg:pt-8 space-y-3">
           <p className="text-white/40 text-sm">
-            All plans include 24/7 infrastructure monitoring, automatic failover, and regular
-            security audits.
-            <br />
+            All plans include 24/7 infrastructure monitoring, automatic failover, and regular security audits.
+          </p>
+          <p className="text-white/40 text-sm">
             Promotional flat pricing available through June 30, 2026. Standard usage-based pricing applies thereafter.
             <br />
             Startup credits subject to approval and valid for 6 months from activation.
-            <br />
+          </p>
+          <p className="text-white/40 text-sm">
             Volume discounts available for high-frequency traders.{' '}
-            <a href="https://app.immix.xyz" target="_blank" rel="noopener noreferrer" className="text-immix-blue font-medium hover:underline">
+            <a href="mailto:sales@immix.xyz" className="text-immix-blue font-medium hover:underline">
               Contact us
             </a>{' '}
             for custom requirements.
