@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Copy, Check } from 'lucide-react';
+import { Copy, Check, KeyRound, ArrowUpRight } from 'lucide-react';
 
 const pythonCode = `from immix import Client
 client = Client(api_key="your_key")
@@ -114,6 +114,34 @@ export const HeroCodeCard = () => {
             ))}
           </code>
         </pre>
+      </div>
+
+      <div className="px-3 pb-3">
+        <a
+          href="https://edge.immix.xyz/settings/api-clients"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center justify-center gap-2 w-full px-3 py-2 rounded-lg text-[11px] font-semibold tracking-wide transition-all duration-300 cursor-pointer"
+          style={{
+            background: 'rgba(0, 115, 255, 0.12)',
+            border: '1px solid rgba(0, 115, 255, 0.3)',
+            color: 'rgba(0, 115, 255, 1)',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = 'rgba(0, 115, 255, 0.22)';
+            e.currentTarget.style.borderColor = 'rgba(0, 115, 255, 0.5)';
+            e.currentTarget.style.boxShadow = '0 0 20px rgba(0, 115, 255, 0.15)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = 'rgba(0, 115, 255, 0.12)';
+            e.currentTarget.style.borderColor = 'rgba(0, 115, 255, 0.3)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
+        >
+          <KeyRound size={12} className="opacity-80" />
+          <span>Generate Your API Key</span>
+          <ArrowUpRight size={11} className="opacity-60 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </a>
       </div>
     </div>
   );
