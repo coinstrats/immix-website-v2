@@ -9,7 +9,7 @@ const CAREERS_URL = 'https://immix.notion.site/Careers-8a8e66223c1c4c8cbae9495f9
 const companyDropdownItems = [
   { label: 'About', href: '/about' },
   { label: 'Careers', href: CAREERS_URL, external: true },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Contact', href: 'mailto:sales@immix.xyz', external: true },
 ];
 
 export const Navigation = () => {
