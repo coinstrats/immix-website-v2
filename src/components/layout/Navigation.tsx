@@ -123,8 +123,7 @@ export const Navigation = () => {
                       <a
                         key={item.label}
                         href={item.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        {...(!item.href.startsWith('mailto:') && { target: '_blank', rel: 'noopener noreferrer' })}
                         className="block px-4 py-2 text-sm text-white/70 hover:text-immix-blue hover:bg-white/5 transition-colors"
                         onClick={() => setCompanyOpen(false)}
                       >
@@ -222,8 +221,7 @@ export const Navigation = () => {
                           <a
                             key={item.label}
                             href={item.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            {...(!item.href.startsWith('mailto:') && { target: '_blank', rel: 'noopener noreferrer' })}
                             className="block text-sm text-white/60 hover:text-immix-blue py-2"
                             onClick={() => setIsOpen(false)}
                           >
