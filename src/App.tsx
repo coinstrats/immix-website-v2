@@ -1,7 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navigation, Footer } from './components/layout';
-import { HomePage, CustomersPage, AboutPage } from './pages';
+
+const HomePage = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })));
+const CustomersPage = lazy(() => import('./pages/CustomersPage').then(m => ({ default: m.CustomersPage })));
+const AboutPage = lazy(() => import('./pages/AboutPage').then(m => ({ default: m.AboutPage })));
 
 const CAREERS_URL = 'https://immix.notion.site/Careers-8a8e66223c1c4c8cbae9495f99d66840';
 
@@ -18,15 +21,17 @@ function App() {
       <div className="min-h-screen bg-immix-darker text-white overflow-x-hidden">
         <Navigation />
         <main>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/customers" element={<CustomersPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route
-              path="/careers"
-              element={<ExternalRedirect url={CAREERS_URL} />}
-            />
-          </Routes>
+          <Suspense fallback={<div className="min-h-screen bg-immix-darker" />}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/customers" element={<CustomersPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route
+                path="/careers"
+                element={<ExternalRedirect url={CAREERS_URL} />}
+              />
+            </Routes>
+          </Suspense>
         </main>
         <Footer />
       </div>
