@@ -79,6 +79,13 @@ export const Navigation = () => {
             Solutions
           </a>
 
+          <Link
+            to="/use-cases"
+            className="nav-link text-sm font-medium"
+          >
+            Use Cases
+          </Link>
+
           <a
             href={location.pathname === '/' ? '#architecture' : '/#architecture'}
             onClick={() => handleNavClick('#architecture')}
@@ -183,6 +190,13 @@ export const Navigation = () => {
               >
                 Solutions
               </a>
+              <Link
+                to="/use-cases"
+                className="block nav-link text-sm font-medium py-3"
+                onClick={() => setIsOpen(false)}
+              >
+                Use Cases
+              </Link>
               <a
                 href={location.pathname === '/' ? '#architecture' : '/#architecture'}
                 className="block nav-link text-sm font-medium py-3"
