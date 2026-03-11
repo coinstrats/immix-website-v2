@@ -1,7 +1,41 @@
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, BookOpen } from 'lucide-react';
 import { Button, AnimatedElement } from '../ui';
 import { HeroCodeCard } from '../ui/HeroCodeCard';
+
+const DeferredVideo = ({ className, style }: { className: string; style?: React.CSSProperties }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [ready, setReady] = useState(false);
+
+  const handleCanPlay = useCallback(() => setReady(true), []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.src = '/hero-moving-trading-workspace.mp4';
+    video.load();
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      poster="/hero-platform-showcase.png"
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="none"
+      onCanPlayThrough={handleCanPlay}
+      className={className}
+      style={{
+        ...style,
+        opacity: ready ? (style?.opacity ?? 1) : 0,
+        transition: 'opacity 0.6s ease-in',
+      }}
+    />
+  );
+};
 
 export const Hero = () => {
   return (
@@ -26,15 +60,14 @@ export const Hero = () => {
       </div>
 
       <div className="absolute top-10 left-0 right-0 bottom-0 lg:hidden pointer-events-none overflow-hidden">
-        <video
-          src="/hero-moving-trading-workspace.mp4"
-          poster="/hero-platform-showcase.png"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
+        <img
+          src="/hero-platform-showcase.png"
+          alt=""
           className="w-[210%] max-w-none h-auto opacity-[0.28] -translate-x-[15%]"
+        />
+        <DeferredVideo
+          className="absolute inset-0 w-[210%] max-w-none h-auto -translate-x-[15%]"
+          style={{ opacity: 0.28 }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0a0a]/35 to-[#0a0a0a]" />
       </div>
@@ -94,15 +127,14 @@ export const Hero = () => {
 
           <div className="relative hidden lg:block overflow-visible">
             <div className="relative w-[160%]">
-              <video
-                src="/hero-moving-trading-workspace.mp4"
-                poster="/hero-platform-showcase.png"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
+              <img
+                src="/hero-platform-showcase.png"
+                alt=""
                 className="w-full h-auto block rounded-lg"
+                style={{ boxShadow: '0 0 80px 20px rgba(0, 115, 255, 0.08), 0 25px 50px -12px rgba(0, 0, 0, 0.6)' }}
+              />
+              <DeferredVideo
+                className="absolute inset-0 w-full h-auto block rounded-lg"
                 style={{ boxShadow: '0 0 80px 20px rgba(0, 115, 255, 0.08), 0 25px 50px -12px rgba(0, 0, 0, 0.6)' }}
               />
 
