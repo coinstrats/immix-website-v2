@@ -5,7 +5,7 @@ export const AboutHero = () => {
     <section className="relative pt-32 pb-12 lg:pb-16 px-5 md:px-12">
       <div className="max-w-4xl mx-auto relative z-10">
         <AnimatedElement type="fadeInUp" delay={0.1}>
-          <p className="text-immix-blue font-mono text-sm uppercase tracking-widest mb-6">
+          <p className="text-xs font-mono text-[#0073FF]/50 tracking-[0.2em] uppercase mb-6">
             Our Team
           </p>
         </AnimatedElement>

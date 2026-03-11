@@ -10,7 +10,7 @@ export const ProductSolutions = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center space-y-4 mb-16 lg:mb-20">
           <AnimatedElement type="fadeInUp">
-            <p className="text-sm font-mono text-[#0073FF]/50 tracking-[0.14em] uppercase mb-4">
+            <p className="text-xs font-mono text-[#0073FF]/50 tracking-[0.2em] uppercase mb-4">
               Solutions
             </p>
             <h2 className="text-4xl md:text-5xl font-bold">One platform, infinite configurations.</h2>

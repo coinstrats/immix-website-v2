@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '../ui';
 
 const CAREERS_URL = 'https://immix.notion.site/Careers-8a8e66223c1c4c8cbae9495f99d66840';
@@ -19,6 +19,7 @@ export const Navigation = () => {
   const [mobileCompanyOpen, setMobileCompanyOpen] = useState(false);
   const companyRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,15 +44,15 @@ export const Navigation = () => {
     setMobileCompanyOpen(false);
   }, [location]);
 
-  const handleNavClick = (href: string) => {
-    if (href.startsWith('#')) {
-      if (location.pathname !== '/') {
-        return;
-      }
-      const element = document.querySelector(href);
+  const handleNavClick = (e: React.MouseEvent, hash: string) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      const element = document.querySelector(hash);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
+    } else {
+      navigate('/' + hash);
     }
   };
 
@@ -72,24 +73,31 @@ export const Navigation = () => {
 
         <div className="hidden md:flex items-center gap-8">
           <a
-            href={location.pathname === '/' ? '#solutions' : '/#solutions'}
-            onClick={() => handleNavClick('#solutions')}
+            href="/#solutions"
+            onClick={(e) => handleNavClick(e, '#solutions')}
             className="nav-link text-sm font-medium"
           >
             Solutions
           </a>
 
+          <Link
+            to="/use-cases"
+            className="nav-link text-sm font-medium"
+          >
+            Use Cases
+          </Link>
+
           <a
-            href={location.pathname === '/' ? '#architecture' : '/#architecture'}
-            onClick={() => handleNavClick('#architecture')}
+            href="/#architecture"
+            onClick={(e) => handleNavClick(e, '#architecture')}
             className="nav-link text-sm font-medium"
           >
             Infrastructure
           </a>
 
           <a
-            href={location.pathname === '/' ? '#pricing' : '/#pricing'}
-            onClick={() => handleNavClick('#pricing')}
+            href="/#pricing"
+            onClick={(e) => handleNavClick(e, '#pricing')}
             className="nav-link text-sm font-medium"
           >
             Pricing
@@ -177,23 +185,30 @@ export const Navigation = () => {
           >
             <div className="px-6 py-4 space-y-1">
               <a
-                href={location.pathname === '/' ? '#solutions' : '/#solutions'}
+                href="/#solutions"
                 className="block nav-link text-sm font-medium py-3"
-                onClick={() => setIsOpen(false)}
+                onClick={(e) => { handleNavClick(e, '#solutions'); setIsOpen(false); }}
               >
                 Solutions
               </a>
-              <a
-                href={location.pathname === '/' ? '#architecture' : '/#architecture'}
+              <Link
+                to="/use-cases"
                 className="block nav-link text-sm font-medium py-3"
                 onClick={() => setIsOpen(false)}
+              >
+                Use Cases
+              </Link>
+              <a
+                href="/#architecture"
+                className="block nav-link text-sm font-medium py-3"
+                onClick={(e) => { handleNavClick(e, '#architecture'); setIsOpen(false); }}
               >
                 Infrastructure
               </a>
               <a
-                href={location.pathname === '/' ? '#pricing' : '/#pricing'}
+                href="/#pricing"
                 className="block nav-link text-sm font-medium py-3"
-                onClick={() => setIsOpen(false)}
+                onClick={(e) => { handleNavClick(e, '#pricing'); setIsOpen(false); }}
               >
                 Pricing
               </a>

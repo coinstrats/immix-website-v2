@@ -5,3 +5,4 @@ export { Pricing } from './Pricing';
 export { AboutHero } from './AboutHero';
 export { AboutTeamGrid } from './AboutTeamGrid';
 export { AboutCTA } from './AboutCTA';
+export { UseCasesPreview } from './UseCasesPreview';
