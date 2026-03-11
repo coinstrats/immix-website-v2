@@ -172,27 +172,26 @@ export const billingMeters: BillingMeter[] = [
 export const workloadProfiles: WorkloadProfile[] = [
   {
     eyebrow: 'Typical workload',
-    title: 'Lite',
+    title: 'Analyst',
     pricingNote: 'From $500 / month during founding period',
     description:
-      'For analysts and teams needing view-heavy access to markets and data.',
+      'For teams needing view-heavy access to markets, treasury flows, and payment data.',
     bullets: [
       'Markets analytics dashboard',
       'View-focused trade workspaces',
       'Read-only market data API',
       'Python SDK',
       'Real-time data streaming',
-      '7-day historical data',
     ],
-    badge: 'Read-heavy',
+    badge: 'Data & monitoring',
     tierColor: 'slate',
   },
   {
     eyebrow: 'Typical workload',
-    title: 'Pro',
+    title: 'Operator',
     pricingNote: 'From $2,500 / month during founding period',
     description:
-      'For traders and funds running active execution and managed strategies.',
+      'For teams running active execution across trading, treasury, and payment operations.',
     bullets: [
       'Simple order types',
       'Advanced multi-instrument order types',
@@ -200,15 +199,15 @@ export const workloadProfiles: WorkloadProfile[] = [
       'Post-trade analytics',
       'Managed execution workflows',
     ],
-    badge: 'Execution-heavy',
+    badge: 'Active execution',
     tierColor: 'emerald',
   },
   {
     eyebrow: 'Typical workload',
-    title: 'Ultra',
+    title: 'Architect',
     pricingNote: 'From $5,000 / month during founding period',
     description:
-      'For institutions running continuous workflows, automation, and advanced operations.',
+      'For teams running continuous workflows, automation, and advanced operations across markets and payments.',
     bullets: [
       'Continuous workflows',
       'Full risk API access',

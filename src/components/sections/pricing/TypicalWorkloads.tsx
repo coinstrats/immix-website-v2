@@ -11,7 +11,7 @@ export function TypicalWorkloads() {
             Typical workloads
           </p>
           <h3 className="text-2xl md:text-3xl font-bold mt-2">
-            Start with Core. Scale by workload.
+            Start with Core. Scale by role.
           </h3>
         </AnimatedElement>
         <AnimatedElement type="fadeInUp" delay={0.05}>
