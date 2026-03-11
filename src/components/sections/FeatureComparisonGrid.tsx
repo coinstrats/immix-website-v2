@@ -7,9 +7,9 @@ interface Feature {
   name: string;
   tooltip?: string;
   startup: FeatureValue;
-  lite: FeatureValue;
-  pro: FeatureValue;
-  ultra: FeatureValue;
+  analyst: FeatureValue;
+  operator: FeatureValue;
+  architect: FeatureValue;
   enterprise: FeatureValue;
   comingSoon?: boolean;
 }
@@ -23,64 +23,64 @@ const featureData: FeatureCategory[] = [
   {
     category: 'Products',
     features: [
-      { name: 'Markets (Analytics)', startup: 'Full access', lite: 'View-only', pro: 'View-only', ultra: 'Full access', enterprise: 'Full access' },
-      { name: 'Trade Workspaces', startup: 'Full access', lite: 'View-only', pro: 'Full access', ultra: 'Full access', enterprise: 'Full access' },
-      { name: 'Trading Execution', tooltip: 'Limit, Market, Peg, Ice, SOR, AutoSpreader', startup: true, lite: false, pro: true, ultra: true, enterprise: true },
-      { name: 'Transfers', tooltip: 'Cross-chain and fiat movements', startup: true, lite: false, pro: false, ultra: true, enterprise: true },
-      { name: 'Earn', tooltip: 'Yield generation product', startup: '$100K limit', lite: false, pro: '$10K limit', ultra: '$100K limit', enterprise: '$10M limit' },
-      { name: 'White Label', tooltip: 'Offer IMMIX infrastructure under your own brand', startup: false, lite: false, pro: false, ultra: false, enterprise: true },
+      { name: 'Markets (Analytics)', startup: 'Full access', analyst: 'View-only', operator: 'View-only', architect: 'Full access', enterprise: 'Full access' },
+      { name: 'Trade Workspaces', startup: 'Full access', analyst: 'View-only', operator: 'Full access', architect: 'Full access', enterprise: 'Full access' },
+      { name: 'Trading Execution', tooltip: 'Limit, Market, Peg, Ice, SOR, AutoSpreader', startup: true, analyst: false, operator: true, architect: true, enterprise: true },
+      { name: 'Transfers', tooltip: 'Cross-chain and fiat movements', startup: true, analyst: false, operator: false, architect: true, enterprise: true },
+      { name: 'Earn', tooltip: 'Yield generation product', startup: '$100K limit', analyst: false, operator: '$10K limit', architect: '$100K limit', enterprise: '$10M limit' },
+      { name: 'White Label', tooltip: 'Offer IMMIX infrastructure under your own brand', startup: false, analyst: false, operator: false, architect: false, enterprise: true },
     ],
   },
   {
     category: 'Strategies',
     features: [
-      { name: 'Pre-built workflows', startup: true, lite: false, pro: true, ultra: true, enterprise: true },
-      { name: 'Configurable strategies', startup: '2 strategies', lite: false, pro: '1 strategy', ultra: '2 strategies', enterprise: 'Unlimited' },
-      { name: 'Custom strategy development', startup: false, lite: false, pro: false, ultra: false, enterprise: true },
+      { name: 'Pre-built workflows', startup: true, analyst: false, operator: true, architect: true, enterprise: true },
+      { name: 'Configurable strategies', startup: '2 strategies', analyst: false, operator: '1 strategy', architect: '2 strategies', enterprise: 'Unlimited' },
+      { name: 'Custom strategy development', startup: false, analyst: false, operator: false, architect: false, enterprise: true },
     ],
   },
   {
     category: 'SDKs & APIs',
     features: [
-      { name: 'REST API', startup: true, lite: 'Read-only', pro: true, ultra: true, enterprise: true },
-      { name: 'WebSocket streams', startup: true, lite: true, pro: true, ultra: true, enterprise: true },
-      { name: 'Python SDK', startup: true, lite: true, pro: true, ultra: true, enterprise: true },
-      { name: 'Java SDK', startup: false, lite: false, pro: false, ultra: false, enterprise: true },
-      { name: 'FIX protocol', startup: true, lite: false, pro: false, ultra: true, enterprise: true },
-      { name: 'Rust SDK', startup: false, lite: false, pro: false, ultra: false, enterprise: true, comingSoon: true },
-      { name: 'C++ SDK', startup: false, lite: false, pro: false, ultra: false, enterprise: true, comingSoon: true },
+      { name: 'REST API', startup: true, analyst: 'Read-only', operator: true, architect: true, enterprise: true },
+      { name: 'WebSocket streams', startup: true, analyst: true, operator: true, architect: true, enterprise: true },
+      { name: 'Python SDK', startup: true, analyst: true, operator: true, architect: true, enterprise: true },
+      { name: 'Java SDK', startup: false, analyst: false, operator: false, architect: false, enterprise: true },
+      { name: 'FIX protocol', startup: true, analyst: false, operator: false, architect: true, enterprise: true },
+      { name: 'Rust SDK', startup: false, analyst: false, operator: false, architect: false, enterprise: true, comingSoon: true },
+      { name: 'C++ SDK', startup: false, analyst: false, operator: false, architect: false, enterprise: true, comingSoon: true },
     ],
   },
   {
     category: 'Infrastructure',
     features: [
-      { name: 'Message pricing', startup: 'Credits', lite: '$0.00002/msg', pro: '$0.000015/msg', ultra: '$0.00001/msg', enterprise: 'Volume discount' },
-      { name: 'Bandwidth pricing', startup: 'Credits', lite: '$0.10/GB', pro: '$0.08/GB', ultra: '$0.05/GB', enterprise: 'Volume discount' },
-      { name: 'Sequencer cluster', startup: 'Dedicated', lite: 'Shared', pro: 'Shared', ultra: 'Dedicated', enterprise: 'Isolated' },
-      { name: 'Private Connectivity', tooltip: 'AWS Direct Connect to major venues', startup: false, lite: false, pro: false, ultra: 'Add-on', enterprise: true },
-      { name: 'Latency SLA', startup: '<5ms p99', lite: '<15ms p99', pro: '<10ms p99', ultra: '<5ms p99', enterprise: '<1ms p99' },
-      { name: 'Uptime guarantee', startup: '99.95%', lite: '99.9%', pro: '99.9%', ultra: '99.95%', enterprise: '99.999%' },
+      { name: 'Message pricing', startup: 'Credits', analyst: '$0.00002/msg', operator: '$0.000015/msg', architect: '$0.00001/msg', enterprise: 'Volume discount' },
+      { name: 'Bandwidth pricing', startup: 'Credits', analyst: '$0.10/GB', operator: '$0.08/GB', architect: '$0.05/GB', enterprise: 'Volume discount' },
+      { name: 'Sequencer cluster', startup: 'Dedicated', analyst: 'Shared', operator: 'Shared', architect: 'Dedicated', enterprise: 'Isolated' },
+      { name: 'Private Connectivity', tooltip: 'AWS Direct Connect to major venues', startup: false, analyst: false, operator: false, architect: 'Add-on', enterprise: true },
+      { name: 'Latency SLA', startup: '<5ms p99', analyst: '<15ms p99', operator: '<10ms p99', architect: '<5ms p99', enterprise: '<1ms p99' },
+      { name: 'Uptime guarantee', startup: '99.95%', analyst: '99.9%', operator: '99.9%', architect: '99.95%', enterprise: '99.999%' },
     ],
   },
   {
     category: 'Data & Analytics',
     features: [
-      { name: 'Real-time market data', startup: true, lite: true, pro: true, ultra: true, enterprise: true },
-      { name: 'Historical data access', startup: '6 months', lite: '7 days', pro: '30 days', ultra: '1 year', enterprise: 'Full history' },
-      { name: 'Post-trade analytics', startup: true, lite: false, pro: true, ultra: true, enterprise: true },
-      { name: 'Custom dashboards', startup: true, lite: false, pro: false, ultra: true, enterprise: true },
-      { name: 'Data Lab (ClickHouse)', startup: false, lite: false, pro: false, ultra: 'Add-on', enterprise: true },
+      { name: 'Real-time market data', startup: true, analyst: true, operator: true, architect: true, enterprise: true },
+      { name: 'Historical data access', startup: '6 months', analyst: false, operator: '30 days', architect: '1 year', enterprise: 'Full history' },
+      { name: 'Post-trade analytics', startup: true, analyst: false, operator: true, architect: true, enterprise: true },
+      { name: 'Custom dashboards', startup: true, analyst: false, operator: false, architect: true, enterprise: true },
+      { name: 'Data Lab (ClickHouse)', startup: false, analyst: false, operator: false, architect: 'Add-on', enterprise: true },
     ],
   },
   {
     category: 'Support',
     features: [
-      { name: 'Documentation access', startup: true, lite: true, pro: true, ultra: true, enterprise: true },
-      { name: 'Community support', startup: true, lite: true, pro: true, ultra: true, enterprise: true },
-      { name: 'Email support', startup: true, lite: true, pro: true, ultra: true, enterprise: true },
-      { name: 'Priority support', startup: true, lite: false, pro: true, ultra: true, enterprise: true },
-      { name: 'SLA response time', startup: '4h', lite: '48h', pro: '8h', ultra: '4h', enterprise: '1h' },
-      { name: 'Dedicated success manager', startup: false, lite: false, pro: false, ultra: false, enterprise: true },
+      { name: 'Documentation access', startup: true, analyst: true, operator: true, architect: true, enterprise: true },
+      { name: 'Community support', startup: true, analyst: true, operator: true, architect: true, enterprise: true },
+      { name: 'Email support', startup: true, analyst: true, operator: true, architect: true, enterprise: true },
+      { name: 'Priority support', startup: true, analyst: false, operator: true, architect: true, enterprise: true },
+      { name: 'SLA response time', startup: '4h', analyst: '48h', operator: '8h', architect: '4h', enterprise: '1h' },
+      { name: 'Dedicated success manager', startup: false, analyst: false, operator: false, architect: false, enterprise: true },
     ],
   },
 ];
@@ -131,19 +131,19 @@ export const FeatureComparisonGrid = () => {
             </th>
             <th className="py-4 px-3 text-center w-[15%]">
               <div className="space-y-1">
-                <div className="text-slate-300 font-bold">Lite</div>
+                <div className="text-slate-300 font-bold">Analyst</div>
                 <div className="text-white/40 text-xs font-normal">~$500/mo</div>
               </div>
             </th>
             <th className="py-4 px-3 text-center w-[15%]">
               <div className="space-y-1">
-                <div className="text-emerald-400 font-bold">Pro</div>
+                <div className="text-emerald-400 font-bold">Operator</div>
                 <div className="text-white/40 text-xs font-normal">~$2,500/mo</div>
               </div>
             </th>
             <th className="py-4 px-3 text-center w-[15%] bg-immix-blue/5 border-x border-immix-blue/20">
               <div className="space-y-1">
-                <div className="text-immix-blue font-bold">Ultra</div>
+                <div className="text-immix-blue font-bold">Architect</div>
                 <div className="text-white/40 text-xs font-normal">~$5,000/mo</div>
               </div>
             </th>
@@ -201,13 +201,13 @@ export const FeatureComparisonGrid = () => {
                       <FeatureCell value={feature.startup} />
                     </td>
                     <td className="py-3 px-3 text-center">
-                      <FeatureCell value={feature.lite} />
+                      <FeatureCell value={feature.analyst} />
                     </td>
                     <td className="py-3 px-3 text-center">
-                      <FeatureCell value={feature.pro} />
+                      <FeatureCell value={feature.operator} />
                     </td>
                     <td className="py-3 px-3 text-center bg-immix-blue/5 border-x border-immix-blue/10">
-                      <FeatureCell value={feature.ultra} />
+                      <FeatureCell value={feature.architect} />
                     </td>
                     <td className="py-3 px-3 text-center">
                       <FeatureCell value={feature.enterprise} />
