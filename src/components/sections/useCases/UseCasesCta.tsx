@@ -8,10 +8,10 @@ export const UseCasesCta = () => {
       <div className="container-max">
         <AnimatedElement type="fadeInUp">
           <div className="rounded-lg border border-white/10 bg-immix-dark/50 p-10 lg:p-16 text-center">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">
               {finalCta.headline}
             </h2>
-            <p className="text-base text-white/50 max-w-lg mx-auto mb-10">
+            <p className="text-lg text-white/60 max-w-lg mx-auto mb-10">
               {finalCta.subcopy}
             </p>
 

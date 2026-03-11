@@ -11,23 +11,23 @@ export const UseCasesPreview = () => {
   return (
     <section className="section-wrapper">
       <div className="container-max">
-        <AnimatedElement type="fadeInUp">
-          <p className="text-immix-blue font-mono text-sm uppercase tracking-widest mb-4">
-            {homepagePreviewHeader.eyebrow}
-          </p>
-        </AnimatedElement>
+        <div className="text-center space-y-4 mb-16 lg:mb-20">
+          <AnimatedElement type="fadeInUp">
+            <p className="text-xs font-mono text-[#0073FF]/50 tracking-[0.2em] uppercase mb-4">
+              {homepagePreviewHeader.eyebrow}
+            </p>
+            <h2 className="text-4xl md:text-5xl font-bold">
+              {homepagePreviewHeader.headline}
+            </h2>
+            <div className="mt-4 mx-auto w-16 h-[2px] bg-gradient-to-r from-transparent via-immix-blue to-transparent" />
+          </AnimatedElement>
 
-        <AnimatedElement type="fadeInUp" delay={0.1}>
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-            {homepagePreviewHeader.headline}
-          </h2>
-        </AnimatedElement>
-
-        <AnimatedElement type="fadeInUp" delay={0.15}>
-          <p className="text-base text-white/50 max-w-2xl mb-14">
-            {homepagePreviewHeader.subcopy}
-          </p>
-        </AnimatedElement>
+          <AnimatedElement type="fadeInUp" delay={0.1}>
+            <p className="text-xl text-white/60 max-w-3xl mx-auto">
+              {homepagePreviewHeader.subcopy}
+            </p>
+          </AnimatedElement>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           {homepagePreviewCards.map((card, idx) => (

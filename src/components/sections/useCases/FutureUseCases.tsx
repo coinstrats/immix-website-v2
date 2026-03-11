@@ -6,19 +6,19 @@ export const FutureUseCases = () => {
     <section id="ai-era" className="section-wrapper scroll-mt-28">
       <div className="container-max">
         <AnimatedElement type="fadeInUp">
-          <p className="text-immix-blue font-mono text-sm uppercase tracking-widest mb-4">
+          <p className="text-xs font-mono text-[#0073FF]/50 tracking-[0.2em] uppercase mb-4">
             {futureHeader.eyebrow}
           </p>
         </AnimatedElement>
 
         <AnimatedElement type="fadeInUp" delay={0.1}>
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4">
             {futureHeader.headline}
           </h2>
         </AnimatedElement>
 
         <AnimatedElement type="fadeInUp" delay={0.15}>
-          <p className="text-base text-white/50 max-w-2xl mb-14">
+          <p className="text-lg text-white/60 max-w-2xl mb-14">
             {futureHeader.subcopy}
           </p>
         </AnimatedElement>

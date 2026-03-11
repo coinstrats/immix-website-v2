@@ -48,18 +48,6 @@ export interface AudienceCard {
   icon: React.ElementType;
 }
 
-export interface MarketOpportunityStat {
-  title: string;
-  statValue: string;
-  statLabel: string;
-  description: string;
-}
-
-export interface SecondaryMarketStat {
-  label: string;
-  value: string;
-}
-
 export interface FutureTile {
   title: string;
   description: string;
@@ -285,44 +273,6 @@ export const audienceUseCases: AudienceCard[] = [
   },
 ];
 
-export const marketOpportunityHeader = {
-  eyebrow: 'MARKETS WE UNDERPIN',
-  headline:
-    'Built at the intersection of trading, treasury, and programmable money movement.',
-  subcopy:
-    'IMMIX serves revenue opportunities that already exist in market infrastructure today while positioning for the expansion of tokenized assets, treasury, and modern payments.',
-};
-
-export const marketOpportunityStats: MarketOpportunityStat[] = [
-  {
-    title: 'Financial markets infrastructure',
-    statValue: '$50B+',
-    statLabel: 'Annual revenue pool',
-    description:
-      'Execution, data, analytics, and operational tooling are already large, valuable infrastructure markets.',
-  },
-  {
-    title: 'Payments & treasury',
-    statValue: '$25B+',
-    statLabel: 'Addressable market',
-    description:
-      'Programmable value movement and treasury orchestration represent a large adjacent opportunity as digital assets mature.',
-  },
-  {
-    title: 'Tokenized assets',
-    statValue: '$16T',
-    statLabel: 'Projected by 2030',
-    description:
-      'Tokenized assets are still early, but the long-term infrastructure opportunity is substantial.',
-  },
-];
-
-export const secondaryMarketStats: SecondaryMarketStat[] = [
-  { label: 'Tokenized treasuries', value: '$6B+' },
-  { label: 'Stablecoin supply', value: '$230B+' },
-  { label: 'Adjusted onchain volume', value: '$10T+/yr' },
-];
-
 export const futureHeader = {
   eyebrow: 'BUILT FOR THE AI ERA',
   headline: 'Software-native capital operations.',
@@ -373,14 +323,14 @@ export const homepagePreviewCards: HomepagePreviewCard[] = [
     audienceLine: 'For analysts, researchers, media, and risk teams',
     shortCopy:
       'Unify fragmented market data into live dashboards, analytics streams, and research-ready infrastructure.',
-    cta: { label: 'Learn more', href: '/use-cases#analyze-markets' },
+    cta: { label: 'Learn more', href: '/use-cases' },
   },
   {
     title: 'Execute strategies',
     audienceLine: 'For traders, quant desks, hedge funds, and market makers',
     shortCopy:
       'Route, trade, hedge, and automate through one deterministic execution layer.',
-    cta: { label: 'Learn more', href: '/use-cases#execute-strategies' },
+    cta: { label: 'Learn more', href: '/use-cases' },
   },
   {
     title: 'Operate treasury',
@@ -388,7 +338,7 @@ export const homepagePreviewCards: HomepagePreviewCard[] = [
       'For asset managers, fintechs, banks, payments teams, and treasuries',
     shortCopy:
       'Transfer value, allocate capital, and access yield through programmable workflows.',
-    cta: { label: 'Learn more', href: '/use-cases#operate-treasury' },
+    cta: { label: 'Learn more', href: '/use-cases' },
   },
 ];
 

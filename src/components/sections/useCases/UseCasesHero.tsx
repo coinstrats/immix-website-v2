@@ -14,7 +14,7 @@ export const UseCasesHero = () => {
     <section className="relative pt-32 pb-16 lg:pb-20 px-5 md:px-12">
       <div className="max-w-5xl mx-auto relative z-10">
         <AnimatedElement type="fadeInUp" delay={0.1}>
-          <p className="text-immix-blue font-mono text-sm uppercase tracking-widest mb-6">
+          <p className="text-xs font-mono text-[#0073FF]/50 tracking-[0.2em] uppercase mb-6">
             {useCasesHero.eyebrow}
           </p>
         </AnimatedElement>

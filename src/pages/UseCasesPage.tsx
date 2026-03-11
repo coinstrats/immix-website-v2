@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense } from 'react';
 import { UseCasesHero } from '../components/sections/useCases';
 
 const FeaturedUseCases = lazy(() =>
@@ -14,11 +14,6 @@ const HowItWorks = lazy(() =>
 const AudienceGrid = lazy(() =>
   import('../components/sections/useCases/AudienceGrid').then((m) => ({
     default: m.AudienceGrid,
-  }))
-);
-const MarketsWeUnderpin = lazy(() =>
-  import('../components/sections/useCases/MarketsWeUnderpin').then((m) => ({
-    default: m.MarketsWeUnderpin,
   }))
 );
 const FutureUseCases = lazy(() =>
@@ -37,19 +32,6 @@ const SectionFallback = () => (
 );
 
 export const UseCasesPage = () => {
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash) {
-      const timeout = setTimeout(() => {
-        const el = document.querySelector(hash);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 300);
-      return () => clearTimeout(timeout);
-    }
-  }, []);
-
   return (
     <>
       <UseCasesHero />
@@ -61,9 +43,6 @@ export const UseCasesPage = () => {
       </Suspense>
       <Suspense fallback={<SectionFallback />}>
         <AudienceGrid />
-      </Suspense>
-      <Suspense fallback={<SectionFallback />}>
-        <MarketsWeUnderpin />
       </Suspense>
       <Suspense fallback={<SectionFallback />}>
         <FutureUseCases />
