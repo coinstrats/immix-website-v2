@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Navigation, Footer } from './components/layout';
-import { HomePage, CustomersPage, PlaceholderPage, AboutPage } from './pages';
+import { HomePage, CustomersPage, AboutPage } from './pages';
 
 const CAREERS_URL = 'https://immix.notion.site/Careers-8a8e66223c1c4c8cbae9495f99d66840';
 
@@ -25,15 +25,6 @@ function App() {
             <Route
               path="/careers"
               element={<ExternalRedirect url={CAREERS_URL} />}
-            />
-            <Route
-              path="/contact"
-              element={
-                <PlaceholderPage
-                  title="Contact"
-                  description="Get in touch with our team. We'd love to hear from you."
-                />
-              }
             />
           </Routes>
         </main>
