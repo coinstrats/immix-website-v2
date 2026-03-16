@@ -59,14 +59,14 @@ export const Hero = () => {
         />
       </div>
 
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[200%] bottom-0 lg:hidden pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 lg:hidden pointer-events-none overflow-hidden">
         <img
           src="/hero-platform-showcase.png"
           alt=""
-          className="w-full max-w-none h-auto opacity-[0.28]"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-[0.28]"
         />
         <DeferredVideo
-          className="absolute inset-0 w-full max-w-none h-auto"
+          className="absolute inset-0 w-full h-full object-cover object-center"
           style={{ opacity: 0.28 }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0a0a]/35 to-[#0a0a0a]" />
