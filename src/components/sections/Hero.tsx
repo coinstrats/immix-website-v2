@@ -39,7 +39,7 @@ const DeferredVideo = ({ className, style }: { className: string; style?: React.
 
 export const Hero = () => {
   return (
-    <section className="pt-32 pb-12 lg:pb-24 px-5 md:px-12 relative overflow-hidden">
+    <section className="pt-32 pb-12 lg:pb-24 px-5 md:px-12 lg:px-16 relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           animate={{
@@ -59,14 +59,14 @@ export const Hero = () => {
         />
       </div>
 
-      <div className="absolute top-10 left-0 right-0 bottom-0 lg:hidden pointer-events-none overflow-hidden">
+      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[200%] bottom-0 lg:hidden pointer-events-none overflow-hidden">
         <img
           src="/hero-platform-showcase.png"
           alt=""
-          className="w-[210%] max-w-none h-auto opacity-[0.28] -translate-x-[15%]"
+          className="w-full max-w-none h-auto opacity-[0.28]"
         />
         <DeferredVideo
-          className="absolute inset-0 w-[210%] max-w-none h-auto -translate-x-[15%]"
+          className="absolute inset-0 w-full max-w-none h-auto"
           style={{ opacity: 0.28 }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0a0a0a]/35 to-[#0a0a0a]" />
