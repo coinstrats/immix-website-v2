@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { TrendingUp, BookOpen } from 'lucide-react';
+import { TrendingUp, Mail } from 'lucide-react';
 import { Button, AnimatedElement } from '../ui';
-import { HeroCodeCard } from '../ui/HeroCodeCard';
 
 const DeferredVideo = ({ className, style }: { className: string; style?: React.CSSProperties }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -75,11 +74,17 @@ export const Hero = () => {
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative">
           <div className="space-y-8 relative z-10">
+            <AnimatedElement type="fadeInUp" delay={0.05}>
+              <span className="text-xs font-mono text-[#0073FF]/60 tracking-[0.25em] uppercase">
+                Digital Asset Infrastructure
+              </span>
+            </AnimatedElement>
+
             <AnimatedElement type="fadeInUp" delay={0.1}>
               <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
-                Programmable
+                Unify your
                 <br />
-                <span className="gradient-text">Digital Asset Infrastructure</span>
+                <span className="gradient-text">digital asset operations</span>
               </h1>
             </AnimatedElement>
 
@@ -89,7 +94,8 @@ export const Hero = () => {
                   Unified APIs and SDKs for tokenized markets.
                 </p>
                 <p className="text-lg lg:text-xl text-white/50 leading-relaxed">
-                   Orchestrate your trading, treasury, and payment workflows.
+                  Orchestrate your trading, treasury, and payment workflows
+                  through a single fault-tolerant platform.
                 </p>
               </div>
             </AnimatedElement>
@@ -99,8 +105,8 @@ export const Hero = () => {
                 <Button variant="primary" size="sm" icon={<TrendingUp size={16} />} href="https://app.immix.xyz" className="lg:!px-6 lg:!py-3 lg:!text-base">
                   Get Started
                 </Button>
-                <Button variant="secondary" size="sm" icon={<BookOpen size={16} />} href="https://docs.immix.xyz/core/introduction" className="lg:!px-6 lg:!py-3 lg:!text-base">
-                  Read the Docs
+                <Button variant="secondary" size="sm" icon={<Mail size={16} />} href="mailto:sales@immix.xyz" className="lg:!px-6 lg:!py-3 lg:!text-base">
+                  Talk to Sales
                 </Button>
               </div>
             </AnimatedElement>
@@ -140,10 +146,6 @@ export const Hero = () => {
 
               <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#050505] via-[#050505]/60 to-transparent pointer-events-none z-[1]" />
               <div className="absolute top-0 bottom-0 right-0 w-24 bg-gradient-to-l from-[#050505] to-transparent pointer-events-none z-[1]" />
-
-              <div className="absolute -bottom-8 -left-8 z-[5]">
-                <HeroCodeCard />
-              </div>
             </div>
           </div>
         </div>

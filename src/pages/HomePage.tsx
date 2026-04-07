@@ -1,10 +1,14 @@
 import { lazy, Suspense } from 'react';
 import { Hero } from '../components/sections';
 
-const ProductSolutions = lazy(() => import('../components/sections/ProductSolutions').then(m => ({ default: m.ProductSolutions })));
-const EcosystemMap = lazy(() => import('../components/sections/EcosystemMap').then(m => ({ default: m.EcosystemMap })));
-const UseCasesPreview = lazy(() => import('../components/sections/UseCasesPreview').then(m => ({ default: m.UseCasesPreview })));
+const TrustBar = lazy(() => import('../components/sections/TrustBar').then(m => ({ default: m.TrustBar })));
+const ProblemSolution = lazy(() => import('../components/sections/ProblemSolution').then(m => ({ default: m.ProblemSolution })));
+const EnginesOverview = lazy(() => import('../components/sections/EnginesOverview').then(m => ({ default: m.EnginesOverview })));
+const SolutionVerticals = lazy(() => import('../components/sections/SolutionVerticals').then(m => ({ default: m.SolutionVerticals })));
+const BusinessBenefits = lazy(() => import('../components/sections/BusinessBenefits').then(m => ({ default: m.BusinessBenefits })));
+const DeveloperSection = lazy(() => import('../components/sections/DeveloperSection').then(m => ({ default: m.DeveloperSection })));
 const Pricing = lazy(() => import('../components/sections/Pricing').then(m => ({ default: m.Pricing })));
+const FinalCta = lazy(() => import('../components/sections/FinalCta').then(m => ({ default: m.FinalCta })));
 
 const SectionFallback = () => <div className="min-h-[400px] bg-immix-darker" />;
 
@@ -13,16 +17,28 @@ export const HomePage = () => {
     <>
       <Hero />
       <Suspense fallback={<SectionFallback />}>
-        <ProductSolutions />
+        <TrustBar />
       </Suspense>
       <Suspense fallback={<SectionFallback />}>
-        <UseCasesPreview />
+        <ProblemSolution />
       </Suspense>
       <Suspense fallback={<SectionFallback />}>
-        <EcosystemMap />
+        <EnginesOverview />
+      </Suspense>
+      <Suspense fallback={<SectionFallback />}>
+        <SolutionVerticals />
+      </Suspense>
+      <Suspense fallback={<SectionFallback />}>
+        <BusinessBenefits />
+      </Suspense>
+      <Suspense fallback={<SectionFallback />}>
+        <DeveloperSection />
       </Suspense>
       <Suspense fallback={<SectionFallback />}>
         <Pricing />
+      </Suspense>
+      <Suspense fallback={<SectionFallback />}>
+        <FinalCta />
       </Suspense>
     </>
   );

@@ -6,8 +6,15 @@ import { Button } from '../ui';
 
 const CAREERS_URL = 'https://immix.notion.site/Careers-8a8e66223c1c4c8cbae9495f99d66840';
 
+const solutionsDropdownItems = [
+  { label: 'Payment Ops', href: '/solutions/payment-ops', description: 'PSPs, remittance, on/off ramps' },
+  { label: 'Trading Ops', href: '/solutions/trading-ops', description: 'Hedge funds, prop desks, market makers' },
+  { label: 'Treasury Ops', href: '/solutions/treasury-ops', description: 'Asset managers, neo-banks, fintechs' },
+];
+
 const companyDropdownItems = [
   { label: 'About', href: '/about' },
+  { label: 'Customers', href: '/customers' },
   { label: 'Careers', href: CAREERS_URL, external: true },
   { label: 'Contact', href: 'mailto:sales@immix.xyz', external: true },
 ];
@@ -15,8 +22,11 @@ const companyDropdownItems = [
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [companyOpen, setCompanyOpen] = useState(false);
+  const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false);
   const [mobileCompanyOpen, setMobileCompanyOpen] = useState(false);
+  const solutionsRef = useRef<HTMLDivElement>(null);
   const companyRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -31,6 +41,9 @@ export const Navigation = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      if (solutionsRef.current && !solutionsRef.current.contains(event.target as Node)) {
+        setSolutionsOpen(false);
+      }
       if (companyRef.current && !companyRef.current.contains(event.target as Node)) {
         setCompanyOpen(false);
       }
@@ -41,6 +54,7 @@ export const Navigation = () => {
 
   useEffect(() => {
     setIsOpen(false);
+    setMobileSolutionsOpen(false);
     setMobileCompanyOpen(false);
   }, [location]);
 
@@ -72,28 +86,56 @@ export const Navigation = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-8">
+          <div ref={solutionsRef} className="relative">
+            <button
+              onClick={() => { setSolutionsOpen(!solutionsOpen); setCompanyOpen(false); }}
+              className="nav-link text-sm font-medium flex items-center gap-1"
+            >
+              Solutions
+              <ChevronDown
+                size={14}
+                className={`transition-transform duration-200 ${solutionsOpen ? 'rotate-180' : ''}`}
+              />
+            </button>
+            <AnimatePresence>
+              {solutionsOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute top-full left-0 mt-2 w-64 py-2 bg-immix-dark/95 backdrop-blur-xl border border-white/10 rounded-lg shadow-xl"
+                >
+                  {solutionsDropdownItems.map((item) => (
+                    <Link
+                      key={item.label}
+                      to={item.href}
+                      className="block px-4 py-2.5 hover:bg-white/5 transition-colors"
+                      onClick={() => setSolutionsOpen(false)}
+                    >
+                      <span className="text-sm text-white/80 font-medium block">{item.label}</span>
+                      <span className="text-xs text-white/35">{item.description}</span>
+                    </Link>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
           <a
-            href="/#solutions"
-            onClick={(e) => handleNavClick(e, '#solutions')}
+            href="/#platform"
+            onClick={(e) => handleNavClick(e, '#platform')}
             className="nav-link text-sm font-medium"
           >
-            Solutions
+            Platform
           </a>
 
           <Link
-            to="/use-cases"
-            className="nav-link text-sm font-medium"
-          >
-            Use Cases
-          </Link>
-
-          <a
-            href="/#architecture"
-            onClick={(e) => handleNavClick(e, '#architecture')}
+            to="/infrastructure"
             className="nav-link text-sm font-medium"
           >
             Infrastructure
-          </a>
+          </Link>
 
           <a
             href="/#pricing"
@@ -103,12 +145,9 @@ export const Navigation = () => {
             Pricing
           </a>
 
-          <div
-            ref={companyRef}
-            className="relative"
-          >
+          <div ref={companyRef} className="relative">
             <button
-              onClick={() => setCompanyOpen(!companyOpen)}
+              onClick={() => { setCompanyOpen(!companyOpen); setSolutionsOpen(false); }}
               className="nav-link text-sm font-medium flex items-center gap-1"
             >
               Company
@@ -184,27 +223,56 @@ export const Navigation = () => {
             className="md:hidden glass-effect-dark border-t border-white/10"
           >
             <div className="px-6 py-4 space-y-1">
+              <div>
+                <button
+                  onClick={() => setMobileSolutionsOpen(!mobileSolutionsOpen)}
+                  className="w-full flex items-center justify-between nav-link text-sm font-medium py-3"
+                >
+                  Solutions
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform duration-200 ${mobileSolutionsOpen ? 'rotate-180' : ''}`}
+                  />
+                </button>
+                <AnimatePresence>
+                  {mobileSolutionsOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="pl-4 space-y-1 overflow-hidden"
+                    >
+                      {solutionsDropdownItems.map((item) => (
+                        <Link
+                          key={item.label}
+                          to={item.href}
+                          className="block text-sm text-white/60 hover:text-immix-blue py-2"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
               <a
-                href="/#solutions"
+                href="/#platform"
                 className="block nav-link text-sm font-medium py-3"
-                onClick={(e) => { handleNavClick(e, '#solutions'); setIsOpen(false); }}
+                onClick={(e) => { handleNavClick(e, '#platform'); setIsOpen(false); }}
               >
-                Solutions
+                Platform
               </a>
+
               <Link
-                to="/use-cases"
+                to="/infrastructure"
                 className="block nav-link text-sm font-medium py-3"
                 onClick={() => setIsOpen(false)}
               >
-                Use Cases
-              </Link>
-              <a
-                href="/#architecture"
-                className="block nav-link text-sm font-medium py-3"
-                onClick={(e) => { handleNavClick(e, '#architecture'); setIsOpen(false); }}
-              >
                 Infrastructure
-              </a>
+              </Link>
+
               <a
                 href="/#pricing"
                 className="block nav-link text-sm font-medium py-3"
@@ -212,6 +280,7 @@ export const Navigation = () => {
               >
                 Pricing
               </a>
+
               <div>
                 <button
                   onClick={() => setMobileCompanyOpen(!mobileCompanyOpen)}
@@ -257,6 +326,7 @@ export const Navigation = () => {
                   )}
                 </AnimatePresence>
               </div>
+
               <div className="pt-4 space-y-2 border-t border-white/10">
                 <Button variant="ghost" size="sm" className="w-full justify-center" href="https://app.immix.xyz">
                   Login
